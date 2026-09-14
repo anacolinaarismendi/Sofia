@@ -1,14 +1,3 @@
-cat <<EOT >> .gitignore
-# Entornos virtuales
-venv/
-env/
-# Variables de entorno (Secretos)
-.env
-# Archivos temporales de Python
-__pycache__/
-*.pyc
-.pytest_cache/
-EOT
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

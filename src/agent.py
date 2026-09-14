@@ -3,7 +3,7 @@ import logging
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from src.api_client import MedicalAPIClient
+from src.api_client import RxNavClient
 
 # Cargar variables de entorno (el archivo .env)
 load_dotenv()
@@ -18,7 +18,7 @@ class SofiaAgent:
             raise ValueError("GEMINI_API_KEY no encontrado. Asegúrate de tener el archivo .env configurado.")
 
         self.client = genai.Client(api_key=api_key)
-        self.api_client = MedicalAPIClient()
+        self.api_client = RxNavClient()
         self.model = "gemini-2.5-pro"
 
         # Definición de la herramienta de Sofía
