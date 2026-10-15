@@ -1,0 +1,2 @@
+patologia,farmaco_involucrado,tipo_alerta,descripcion,nivel_evidencia,fuente
+Trastorno Bipolar,Antidepresivos ISRS en Monoterapia,Contraindicación / Riesgo de Viraje,ALERTA: Alto riesgo de viraje maníaco y desestabilización a ciclos rápidos.,Level 1 (Daño),Guías CANMAT / ISBD

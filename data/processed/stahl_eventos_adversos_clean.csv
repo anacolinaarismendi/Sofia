@@ -1,0 +1,32 @@
+farmaco,atc_codigo,efecto_adverso,severidad,fuente
+Clozapina,N05AH02,Sedación intensa,Común / Moderado,Stahl - Prescriber's Guide
+Clozapina,N05AH02,sialorrea nocturna,Común / Moderado,Stahl - Prescriber's Guide
+Clozapina,N05AH02,aumento de peso,Común / Moderado,Stahl - Prescriber's Guide
+Clozapina,N05AH02,estreñimiento severo,Común / Moderado,Stahl - Prescriber's Guide
+Clozapina,N05AH02,taquicardia sinusal.,Común / Moderado,Stahl - Prescriber's Guide
+Clozapina,N05AH02,Agranulocitosis (neutropenia grave potencialmente mortal),Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Clozapina,N05AH02,miocarditis,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Clozapina,N05AH02,convulsiones dosis-dependiente,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Clozapina,N05AH02,íleo paralítico.,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,Disfunción sexual marcada,Común / Moderado,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,somnolencia/sedación,Común / Moderado,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,aumento de peso moderado,Común / Moderado,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,náuseas,Común / Moderado,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,boca seca por efecto anticolinérgico.,Común / Moderado,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,Síndrome de discontinuación intenso tras suspensión brusca,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Paroxetina,N06AB05,teratogenicidad (defectos septales cardíacos en primer trimestre).,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Bupropión,N06AX12,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,boca seca,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,cefalea,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,temblor,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,agitación,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,diaforesis,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,pérdida de peso.,Común / Moderado,Stahl - Prescriber's Guide
+Bupropión,N06AX12,Disminución del umbral convulsivo (crisis epilépticas en dosis altas o bulimia/anorexia).,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,mareos,Común / Moderado,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,visión borrosa,Común / Moderado,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,náuseas,Común / Moderado,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,exantema cutáneo benigno.,Común / Moderado,Stahl - Prescriber's Guide
+Lamotrigina,N03AX09,Síndrome de Stevens-Johnson / Necrólisis Epidérmica Tóxica (exantema grave potencialmente mortal).,Grave / Riesgo Vital,Stahl - Prescriber's Guide

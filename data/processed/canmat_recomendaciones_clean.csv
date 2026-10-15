@@ -1,0 +1,20 @@
+patologia,fase,linea,estrategia,farmaco,atc,nivel_evidencia,comentarios
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Citalopram,N06AB04,Level 1,ISRS de alta tolerabilidad; vigilar intervalo QTc en dosis altas (>40 mg).
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Escitalopram,N06AB10,Level 1,ISRS con menor perfil de interacciones citocromo P450.
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Sertralina,N06AB06,Level 1,ISRS seguro en pacientes con cardiopatía isquémica.
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Venlafaxina,N06AX16,Level 1,IRSN; monitorizar presión arterial sistólica en dosis elevadas.
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Duloxetina,N06AX21,Level 1,IRSN con beneficio adicional en dolor neuropático crónico.
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Bupropión,N06AX12,Level 1,IRND sin disfunción sexual asociada; contraindicado en epilepsia y bulimia.
+Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Vortioxetina,N06AX26,Level 1,Modulador multimodal con beneficio en disfunción cognitiva.
+Trastorno Depresivo Mayor (TDM),Aguda,Segunda Línea,Monoterapia,Amitriptilina,N06AA09,Level 1,Tricíclico; alta eficacia pero menor tolerabilidad por efectos anticolinérgicos y cardiotoxicidad.
+Trastorno Depresivo Mayor (TDM),Aguda,Segunda Línea,Monoterapia,Quetiapina,N05AH04,Level 2,Antipsicótico atípico con propiedades antidepresivas aprobadas.
+Trastorno Depresivo Mayor (TDM),Resistencia / Potenciación,Primera Línea,Potenciación (Add-on),Aripiprazol,N05AX12,Level 1,Añadido al antidepresivo; dosis bajas (2-5 mg).
+Trastorno Depresivo Mayor (TDM),Resistencia / Potenciación,Primera Línea,Potenciación (Add-on),Litio (Carbonato),N05AN01,Level 1,Estrategia clásica con reducción probada de riesgo suicida.
+Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Litio (Carbonato),N05AN01,Level 1,Piedra angular en manía euforica clásica; control de litemia.
+Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Divalproato de Sodio,N03AG01,Level 1,Eficaz en episodios mixtos y cicladores rápidos. Teratogénico.
+Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Quetiapina,N05AH04,Level 1,Monoterapia atípica de rápida titulación.
+Trastorno Bipolar,Manía Aguda,Primera Línea,Combinación,Litio + Antipsicótico Atípico,N/D,Level 1,Mayor tasa de respuesta en manía severa que monoterapia.
+Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Quetiapina,N05AH04,Level 1,Dosis 300 mg/día; robusta evidencia en depresión bipolar I y II.
+Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Lurasidona,N05AE05,Level 1,Bajo impacto metabólico; administrar con alimentos.
+Trastorno Bipolar,Depresión Bipolar,Primera Línea,Combinación,Litio + Lamotrigina,N/D,Level 2,Sinérgica para prevención y tratamiento de fases depresivas.
+Trastorno Bipolar,Depresión Bipolar,No Recomendado / Contraindicado,Monoterapia,Antidepresivos ISRS en Monoterapia,N06AB,Level 1 (Daño),ALERTA: Alto riesgo de viraje maníaco y desestabilización a ciclos rápidos.
