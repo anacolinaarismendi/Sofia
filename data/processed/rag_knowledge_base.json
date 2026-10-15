@@ -1,0 +1,198 @@
+[
+  {
+    "id": "farmaco_bupropión",
+    "tipo": "farmaco_monografia",
+    "titulo": "Bupropión",
+    "atc": "N06AX12",
+    "contenido": "# FICHA FARMACOLÓGICA: BUPROPIÓN\n- Código ATC (OMS): N06AX12\n- Marcas Comerciales y Laboratorios: Wellbutrin / Elontril (GSK)\n\n## Perfil Especializado y Receptores (Dr. Stephen Stahl - Guía del Prescriptor):\n- Clase Stahl: Inhibidor de la Recaptación de Noradrenalina y Dopamina (IRND)\n- Perfil de Receptores: Bloqueo débil del transportador de dopamina (DAT) y noradrenalina (NET). Antagonista nicotínico.\n- Metabolismo Citocromo P450: Metabolizado por CYP2B6. Potente inhibidor de CYP2D6.\n- Efectos Adversos Graves / Riesgo Vital: Disminución del umbral convulsivo (crisis epilépticas en dosis altas o bulimia/anorexia).\n- Perlas Clínicas de Stahl: Excelente alternativa para evitar la disfunción sexual y el aumento de peso de los ISRS. Útil en cesación tabáquica y TDAH comórbido."
+  },
+  {
+    "id": "farmaco_clozapina",
+    "tipo": "farmaco_monografia",
+    "titulo": "Clozapina",
+    "atc": "N05AH02",
+    "contenido": "# FICHA FARMACOLÓGICA: CLOZAPINA\n- Código ATC (OMS): N05AH02\n- Marcas Comerciales y Laboratorios: Clozaril (Novartis), Lapenax (Novartis)\n\n## Perfil Especializado y Receptores (Dr. Stephen Stahl - Guía del Prescriptor):\n- Clase Stahl: Antipsicótico Atípico (Segunda Generación)\n- Perfil de Receptores: Antagonista 5-HT2A > D2; alta afinidad por receptores D4, 5-HT2C, alfa-1 adrenérgicos, H1 histaminérgicos y M1 colinérgicos.\n- Metabolismo Citocromo P450: Sustrato principal de CYP1A2. Sustrato secundario de CYP2D6 y CYP3A4. Los fumadores inducen CYP1A2 y reducen sus niveles.\n- Efectos Adversos Graves / Riesgo Vital: Agranulocitosis (neutropenia grave potencialmente mortal), miocarditis, convulsiones dosis-dependiente, íleo paralítico.\n- Perlas Clínicas de Stahl: Indicado en esquizofrenia resistente y riesgo suicida recurrente. Requiere monitorización hematológica estricta con hemogramas seriados."
+  },
+  {
+    "id": "farmaco_fluoxetina",
+    "tipo": "farmaco_monografia",
+    "titulo": "Fluoxetina",
+    "atc": "N06AB03",
+    "contenido": "# FICHA FARMACOLÓGICA: FLUOXETINA\n- Código ATC (OMS): N06AB03\n- Marcas Comerciales y Laboratorios: Prozac (Eli Lilly), Foxetin (Gador)\n\n## Información Clínica (Dra. Gabriela Jufe - Psicofarmacología Práctica):\n- Clase: Inhibidor Selectivo de la Recaptación de Serotonina (ISRS)\n- Mecanismo de Acción: Bloqueo de la bomba de recaptación de serotonina. Antagonismo 5-HT2C que aporta efecto activador.\n- Posología Usual: Dosis inicial 20 mg/día matinal. Rango 20-80 mg/día.\n- Efectos Adversos Frecuentes: Ansiedad inicial, agitación, insomnio, pérdida de apetito, náuseas, disfunción eréctil.\n- Interacciones Farmacológicas: Potente inhibidor de CYP2D6 y CYP3A4. Aumenta concentraciones plasmáticas de tricíclicos, antipsicóticos y betabloqueantes. Suspender 5 semanas antes de iniciar un IMAO.\n- Poblaciones Especiales: Vida media larga (incluye metabolito norfluoxetina), útil en pacientes con baja adherencia."
+  },
+  {
+    "id": "farmaco_haloperidol",
+    "tipo": "farmaco_monografia",
+    "titulo": "Haloperidol",
+    "atc": "N05AD01",
+    "contenido": "# FICHA FARMACOLÓGICA: HALOPERIDOL\n- Código ATC (OMS): N05AD01\n- Marcas Comerciales y Laboratorios: Haldol (Janssen-Cilag)\n\n## Información Clínica (Dra. Gabriela Jufe - Psicofarmacología Práctica):\n- Clase: Antipsicótico Típico / Primera Generación (Alta Potencia)\n- Mecanismo de Acción: Bloqueo de alta afinidad de los receptores dopaminérgicos D2 en la vía mesolímbica y nigoestriada.\n- Posología Usual: 2-10 mg/día según fase aguda.\n- Efectos Adversos Frecuentes: Acatisia, distonías agudas, parkinsonismo secundario, discinesia tardía, prolongación del intervalo QTc.\n- Interacciones Farmacológicas: Efecto sinérgico con depresores del SNC. Riesgo de hipotensión con antihipertensivos. Anticolinérgicos aumentan riesgo de discinesia.\n- Poblaciones Especiales: Alto riesgo de inducir cascadas de medicación en geriatría por confusión de SEP con Parkinson idiopático."
+  },
+  {
+    "id": "farmaco_lamotrigina",
+    "tipo": "farmaco_monografia",
+    "titulo": "Lamotrigina",
+    "atc": "N03AX09",
+    "contenido": "# FICHA FARMACOLÓGICA: LAMOTRIGINA\n- Código ATC (OMS): N03AX09\n- Marcas Comerciales y Laboratorios: Lamictal (GSK), Lamotrax (Montpellier)\n\n## Perfil Especializado y Receptores (Dr. Stephen Stahl - Guía del Prescriptor):\n- Clase Stahl: Estabilizador del Ánimo / Antiepiléptico\n- Perfil de Receptores: Bloqueo de canales de sodio voltaje-dependientes; modulación de la liberación presináptica de glutamato.\n- Metabolismo Citocromo P450: Metabolismo por glucuronidación (UGT1A4). No depende fuertemente de citocromos CYP.\n- Efectos Adversos Graves / Riesgo Vital: Síndrome de Stevens-Johnson / Necrólisis Epidérmica Tóxica (exantema grave potencialmente mortal).\n- Perlas Clínicas de Stahl: Eficaz principalmente en la fase depresiva del Trastorno Bipolar. El ácido valproico duplica sus niveles (requiere reducir la dosis a la mitad); la carbamazepina reduce sus niveles a la mitad."
+  },
+  {
+    "id": "farmaco_litio (carbonato de litio)",
+    "tipo": "farmaco_monografia",
+    "titulo": "Litio (Carbonato de Litio)",
+    "atc": "N05AN01",
+    "contenido": "# FICHA FARMACOLÓGICA: LITIO (CARBONATO DE LITIO)\n- Código ATC (OMS): N05AN01\n- Marcas Comerciales y Laboratorios: Plenur (Faes Farma), Ceglution (Baliarda)\n\n## Información Clínica (Dra. Gabriela Jufe - Psicofarmacología Práctica):\n- Clase: Estabilizador del Ánimo / Catión Monovalente\n- Mecanismo de Acción: Modulación de cascadas de segundos mensajeros (vía fosfatidilinositol y GSK-3 beta).\n- Posología Usual: Ajuste por litemia plasmática (rango terapéutico estrecho: 0.6 - 1.0 mEq/L).\n- Efectos Adversos Frecuentes: Poliuria, polidipsia, temblor fino de manos, hipotiroidismo subclínico, aumento de peso, toxicidad renal a largo plazo.\n- Interacciones Farmacológicas: AINEs (ibuprofeno, naproxeno), IECA y diuréticos tiazídicos reducen la excreción renal de litio provocando toxicidad grave.\n- Poblaciones Especiales: Estricta monitorización renal y tiroidea cada 6 meses."
+  },
+  {
+    "id": "farmaco_paroxetina",
+    "tipo": "farmaco_monografia",
+    "titulo": "Paroxetina",
+    "atc": "N06AB05",
+    "contenido": "# FICHA FARMACOLÓGICA: PAROXETINA\n- Código ATC (OMS): N06AB05\n- Marcas Comerciales y Laboratorios: Paxil / Seroxat (GlaxoSmithKline (GSK)), Aropax (GSK), Psicoasten (Baliarda)\n\n## Perfil Especializado y Receptores (Dr. Stephen Stahl - Guía del Prescriptor):\n- Clase Stahl: Inhibidor Selectivo de la Recaptación de Serotonina (ISRS)\n- Perfil de Receptores: Inhibidor potente del transportador de serotonina (SERT); ligera acción anticolinérgica muscarínica (M1) y débil inhibición de recaptación de noradrenalina (NET).\n- Metabolismo Citocromo P450: Potente inhibidor del citocromo CYP2D6. Sustrato de CYP2D6.\n- Efectos Adversos Graves / Riesgo Vital: Síndrome de discontinuación intenso tras suspensión brusca, síndrome serotoninérgico, teratogenicidad (defectos septales cardíacos en primer trimestre).\n- Perlas Clínicas de Stahl: Es el ISRS más sedante y anticolinérgico. Desaconsejado en adultos mayores por riesgo de deterioro cognitivo y caídas."
+  },
+  {
+    "id": "farmaco_risperidona",
+    "tipo": "farmaco_monografia",
+    "titulo": "Risperidona",
+    "atc": "N05AX08",
+    "contenido": "# FICHA FARMACOLÓGICA: RISPERIDONA\n- Código ATC (OMS): N05AX08\n- Marcas Comerciales y Laboratorios: Risperdal (Janssen-Cilag), Sequinan (Roemmers)\n\n## Información Clínica (Dra. Gabriela Jufe - Psicofarmacología Práctica):\n- Clase: Antipsicótico Atípico / Segunda Generación\n- Mecanismo de Acción: Antagonista potente de receptores dopaminérgicos D2 y serotoninérgicos 5-HT2A.\n- Posología Usual: Inicio 1-2 mg/día. Rango usual 2-6 mg/día.\n- Efectos Adversos Frecuentes: Hiperprolactinemia (galactorrea, amenorrea), aumento de peso, sedación, síntomas extrapiramidales (SEP) a dosis mayores a 6 mg/día.\n- Interacciones Farmacológicas: Carbamazepina disminuye sus niveles plasmáticos por inducción de CYP3A4. Fluoxetina y paroxetina aumentan sus niveles por inhibición de CYP2D6.\n- Poblaciones Especiales: Precaución en ancianos con demencia (riesgo cerebrovascular aumentado)."
+  },
+  {
+    "id": "farmaco_sertralina",
+    "tipo": "farmaco_monografia",
+    "titulo": "Sertralina",
+    "atc": "N06AB06",
+    "contenido": "# FICHA FARMACOLÓGICA: SERTRALINA\n- Código ATC (OMS): N06AB06\n- Marcas Comerciales y Laboratorios: Zoloft (Pfizer), Serlift (Roemmers), Aremis (Almirall)\n\n## Información Clínica (Dra. Gabriela Jufe - Psicofarmacología Práctica):\n- Clase: Inhibidor Selectivo de la Recaptación de Serotonina (ISRS)\n- Mecanismo de Acción: Inhibición potente y selectiva de la recaptación de serotonina (5-HT). Leve inhibición de la recaptación de dopamina (DA).\n- Posología Usual: Dosis inicial 25-50 mg/día. Rango terapéutico 50-200 mg/día.\n- Efectos Adversos Frecuentes: Náuseas, diarrea, disfunción sexual (anorgasmia, disminución de la libido), insomnio, cefalea, temblor fino.\n- Interacciones Farmacológicas: Riesgo de síndrome serotoninérgico con IMAO, tramadol, triptanos. Inhibición moderada de CYP2D6. Aumenta niveles de litio.\n- Poblaciones Especiales: Buena tolerabilidad en adultos mayores. Perfil cardiovascular seguro post-infarto."
+  },
+  {
+    "id": "canmat_tra_citalopram",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Citalopram",
+    "atc": "N06AB04",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Citalopram (ATC: N06AB04)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS de alta tolerabilidad; vigilar intervalo QTc en dosis altas (>40 mg).\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_escitalopram",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Escitalopram",
+    "atc": "N06AB10",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Escitalopram (ATC: N06AB10)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS con menor perfil de interacciones citocromo P450.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_sertralina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Sertralina",
+    "atc": "N06AB06",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Sertralina (ATC: N06AB06)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS seguro en pacientes con cardiopatía isquémica.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_venlafaxina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Venlafaxina",
+    "atc": "N06AX16",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Venlafaxina (ATC: N06AX16)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRSN; monitorizar presión arterial sistólica en dosis elevadas.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_duloxetina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Duloxetina",
+    "atc": "N06AX21",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Duloxetina (ATC: N06AX21)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRSN con beneficio adicional en dolor neuropático crónico.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_bupropión",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Bupropión",
+    "atc": "N06AX12",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Bupropión (ATC: N06AX12)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRND sin disfunción sexual asociada; contraindicado en epilepsia y bulimia.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_vortioxetina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Vortioxetina",
+    "atc": "N06AX26",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Vortioxetina (ATC: N06AX26)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Modulador multimodal con beneficio en disfunción cognitiva.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_amitriptilina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Amitriptilina",
+    "atc": "N06AA09",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Segunda Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Amitriptilina (ATC: N06AA09)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Tricíclico; alta eficacia pero menor tolerabilidad por efectos anticolinérgicos y cardiotoxicidad.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_quetiapina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Quetiapina",
+    "atc": "N05AH04",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Segunda Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Quetiapina (ATC: N05AH04)\n- Nivel de Evidencia Científica: Level 2\n- Directriz Clínica: Antipsicótico atípico con propiedades antidepresivas aprobadas.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_aripiprazol",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Aripiprazol",
+    "atc": "N05AX12",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (RESISTENCIA / POTENCIACIÓN)\n- Recomendación: Primera Línea\n- Estrategia: Potenciación (Add-on)\n- Fármaco / Esquema: Aripiprazol (ATC: N05AX12)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Añadido al antidepresivo; dosis bajas (2-5 mg).\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_litio",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Litio (Carbonato)",
+    "atc": "N05AN01",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (RESISTENCIA / POTENCIACIÓN)\n- Recomendación: Primera Línea\n- Estrategia: Potenciación (Add-on)\n- Fármaco / Esquema: Litio (Carbonato) (ATC: N05AN01)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Estrategia clásica con reducción probada de riesgo suicida.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_litio",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Litio (Carbonato)",
+    "atc": "N05AN01",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (MANÍA AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Litio (Carbonato) (ATC: N05AN01)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Piedra angular en manía euforica clásica; control de litemia.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_divalproato",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Divalproato de Sodio",
+    "atc": "N03AG01",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (MANÍA AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Divalproato de Sodio (ATC: N03AG01)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Eficaz en episodios mixtos y cicladores rápidos. Teratogénico.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_quetiapina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Quetiapina",
+    "atc": "N05AH04",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (MANÍA AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Quetiapina (ATC: N05AH04)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Monoterapia atípica de rápida titulación.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_litio",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Litio + Antipsicótico Atípico",
+    "atc": "N/D",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (MANÍA AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Combinación\n- Fármaco / Esquema: Litio + Antipsicótico Atípico (ATC: N/D)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Mayor tasa de respuesta en manía severa que monoterapia.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_quetiapina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Quetiapina",
+    "atc": "N05AH04",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Quetiapina (ATC: N05AH04)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Dosis 300 mg/día; robusta evidencia en depresión bipolar I y II.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_lurasidona",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Lurasidona",
+    "atc": "N05AE05",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Lurasidona (ATC: N05AE05)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Bajo impacto metabólico; administrar con alimentos.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_litio",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Litio + Lamotrigina",
+    "atc": "N/D",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: Primera Línea\n- Estrategia: Combinación\n- Fármaco / Esquema: Litio + Lamotrigina (ATC: N/D)\n- Nivel de Evidencia Científica: Level 2\n- Directriz Clínica: Sinérgica para prevención y tratamiento de fases depresivas.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  },
+  {
+    "id": "canmat_tra_antidepresivos",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Antidepresivos ISRS en Monoterapia",
+    "atc": "N06AB",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: No Recomendado / Contraindicado\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Antidepresivos ISRS en Monoterapia (ATC: N06AB)\n- Nivel de Evidencia Científica: Level 1 (Daño)\n- Directriz Clínica: ALERTA: Alto riesgo de viraje maníaco y desestabilización a ciclos rápidos.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)"
+  }
+]
