@@ -1,2 +1,15 @@
-python-dotenv
-google-genai
+# Procesamiento y Ciencia de Datos
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0
+
+# Extracción de documentos y PDFs
+pdfplumber>=0.10.0
+pypdf>=3.17.0
+
+# Entorno Interactivo
+jupyterlab>=4.0.0
+ipywidgets>=8.1.0
+
+# Base de datos y utilidades
+SQLAlchemy>=2.0.0
