@@ -2,6 +2,7 @@
 .venv/
 env/
 venv/
+ana/
 
 # Python cache
 __pycache__/
@@ -14,5 +15,7 @@ __pycache__/
 # macOS
 .DS_Store
 
-# Datos temporales
-data/raw/*.pdf
+# Datos temporales y bases de datos local
+data/raw/
+*.db
+

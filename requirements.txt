@@ -17,13 +17,3 @@ ipywidgets>=8.1.0
 
 # Base de datos y utilidades
 SQLAlchemy>=2.0.0
-
-# entorno virtual (¡no se sube!)
-ana/
-.venv/
-__pycache__/
-.ipynb_checkpoints/
-
-# libro con derechos de autor y base generada
-data/raw/
-*.db
