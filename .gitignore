@@ -17,5 +17,7 @@ __pycache__/
 
 # Datos temporales y bases de datos local
 data/raw/
+data/cache/
 *.db
+
 

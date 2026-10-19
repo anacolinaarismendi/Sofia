@@ -17,3 +17,6 @@ ipywidgets>=8.1.0
 
 # Base de datos y utilidades
 SQLAlchemy>=2.0.0
+
+# Testing y Calidad
+pytest>=7.0.0
