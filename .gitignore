@@ -9,8 +9,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Jupyter
+# Jupyter & Matplotlib
 .ipynb_checkpoints/
+.jupyter_tmp/
+.matplotlib_tmp/
 
 # macOS
 .DS_Store

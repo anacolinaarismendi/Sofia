@@ -232,5 +232,131 @@
     "voice_snippet": "Alerta de práctica médica en salud mental: El uso de antidepresivos en pacientes con trastorno bipolar, en especial cuando se administran en monoterapia sin la cobertura previa de un estabilizador del ánimo, está contraindicado por el alto riesgo de provocar un viraje maníaco. Esto significa transformar súbitamente una depresión en un episodio de manía o hipomanía aguda con euforia patológica, insomnio sin cansancio, verborrea, hipersexualidad y conducta temeraria. Además, los antidepresivos pueden acelerar la enfermedad hacia un patrón de ciclos rápidos y agravar el riesgo suicida por estados mixtos disfóricos. La directriz de seguridad exige suspender inmediatamente el antidepresivo y optimizar el estabilizador o antipsicótico atípico.",
     "contenido": "# Alerta Clínica: Viraje Maníaco y Desestabilización por Antidepresivos\n\n## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)\n> \"Alerta de práctica médica en salud mental: El uso de antidepresivos en pacientes con trastorno bipolar, en especial cuando se administran en monoterapia sin la cobertura previa de un estabilizador del ánimo, está contraindicado por el alto riesgo de provocar un viraje maníaco. Esto significa transformar súbitamente una depresión en un episodio de manía o hipomanía aguda con euforia patológica, insomnio sin cansancio, verborrea, hipersexualidad y conducta temeraria. Además, los antidepresivos pueden acelerar la enfermedad hacia un patrón de ciclos rápidos y agravar el riesgo suicida por estados mixtos disfóricos. La directriz de seguridad exige suspender inmediatamente el antidepresivo y optimizar el estabilizador o antipsicótico atípico.\"\n\n## 2. Signos de Alarma Temprana de Viraje Maníaco\nCuando un paciente diagnosticado de depresión comienza a tomar un antidepresivo y en los días siguientes presenta:\n1. **Reducción drástica de la necesidad de dormir:** Despierta tras 2 o 3 horas sintiéndose con desbordante energía.\n2. **Aceleración del pensamiento y del lenguaje (Taquipsiquia y taquilalia):** Habla imparable y salta de una idea a otra sin coherencia.\n3. **Hiperactividad no productiva y gastos desmedidos:** Inicia múltiples proyectos incoherentes o realiza compras compulsivas fuera de su patrón habitual.\n4. **Irritabilidad extrema o desinhibición conductual:** Explosiones de ira o pérdida del pudor social.\n\n## 3. Conducta Inmediata ante el Viraje\n- **Paso 1:** Descontinuar de inmediato el fármaco antidepresivo causante.\n- **Paso 2:** Introducir o titular un estabilizador de acción antimaníaca rápida de primera línea según CANMAT (Quetiapina, Aripiprazol o Carbonato de Litio).\n- **Paso 3:** Si existe agitación psicomotora severa, coadyuvar transitoriamente con benzodiacepinas de alta potencia (como clonazepam o lorazepam) en espera del efecto antimaníaco pleno.",
     "archivo_origen": "pre_training/05_alertas_seguridad_y_caja_negra/alerta_viraje_maniaco_isrs_bipolar.md"
+  },
+  {
+    "id": "canmat_tra_citalopram",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Citalopram",
+    "atc": "N06AB04",
+    "voice_snippet": "CANMAT recomienda Citalopram en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Citalopram (ATC: N06AB04)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS de alta tolerabilidad; vigilar intervalo QTc a dosis >40 mg/día.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_escitalopram",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Escitalopram",
+    "atc": "N06AB10",
+    "voice_snippet": "CANMAT recomienda Escitalopram en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Escitalopram (ATC: N06AB10)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS con menor perfil de interacciones citocromo P450.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_sertralina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Sertralina",
+    "atc": "N06AB06",
+    "voice_snippet": "CANMAT recomienda Sertralina en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Sertralina (ATC: N06AB06)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: ISRS seguro en cardiopatía isquémica (estudio SADHART).\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_venlafaxina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Venlafaxina",
+    "atc": "N06AX16",
+    "voice_snippet": "CANMAT recomienda Venlafaxina en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Venlafaxina (ATC: N06AX16)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRSN dual; monitorizar presión arterial a dosis >150 mg/día.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_duloxetina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Duloxetina",
+    "atc": "N06AX21",
+    "voice_snippet": "CANMAT recomienda Duloxetina en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Duloxetina (ATC: N06AX21)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRSN indicado en depresión con dolor somático comórbido o neuropatía.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_bupropión",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Bupropión",
+    "atc": "N06AX12",
+    "voice_snippet": "CANMAT recomienda Bupropión en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Bupropión (ATC: N06AX12)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: IRND sin disfunción sexual ni ganancia ponderal; contraindicado en epilepsia.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_vortioxetina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Vortioxetina",
+    "atc": "N06AX26",
+    "voice_snippet": "CANMAT recomienda Vortioxetina en Primera Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Vortioxetina (ATC: N06AX26)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Modulador multimodal serotonérgico con beneficios pro-cognitivos.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_amitriptilina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Amitriptilina",
+    "atc": "N06AA09",
+    "voice_snippet": "CANMAT recomienda Amitriptilina en Segunda Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Segunda Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Amitriptilina (ATC: N06AA09)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Tricíclico eficaz pero con alta carga anticolinérgica y riesgo de cardiotoxicidad.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_quetiapina",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Quetiapina",
+    "atc": "N05AH04",
+    "voice_snippet": "CANMAT recomienda Quetiapina en Segunda Línea para Trastorno Depresivo Mayor (TDM) (Aguda) con evidencia Level 2.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (AGUDA)\n- Recomendación: Segunda Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Quetiapina (ATC: N05AH04)\n- Nivel de Evidencia Científica: Level 2\n- Directriz Clínica: Eficacia demostrada a dosis de 150-300 mg/día; vigilar perfil metabólico.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_aripiprazol",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Aripiprazol",
+    "atc": "N05AX12",
+    "voice_snippet": "CANMAT recomienda Aripiprazol en Primera Línea para Trastorno Depresivo Mayor (TDM) (Resistencia / Potenciación) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (RESISTENCIA / POTENCIACIÓN)\n- Recomendación: Primera Línea\n- Estrategia: Potenciación\n- Fármaco / Esquema: Aripiprazol (ATC: N05AX12)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Dosis bajas (2-5 mg/día) añadidas al antidepresivo base en respuesta parcial.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_litio",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Depresivo Mayor (TDM) - Litio (Carbonato)",
+    "atc": "N05AN01",
+    "voice_snippet": "CANMAT recomienda Litio (Carbonato) en Primera Línea para Trastorno Depresivo Mayor (TDM) (Resistencia / Potenciación) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO DEPRESIVO MAYOR (TDM) (RESISTENCIA / POTENCIACIÓN)\n- Recomendación: Primera Línea\n- Estrategia: Potenciación\n- Fármaco / Esquema: Litio (Carbonato) (ATC: N05AN01)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Estrategia clásica con evidencia antisuicida comprobada; litemia 0.6-0.8 mEq/L.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_divalproato",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Divalproato de Sodio",
+    "atc": "N03AG01",
+    "voice_snippet": "CANMAT recomienda Divalproato de Sodio en Primera Línea para Trastorno Bipolar (Manía Aguda) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (MANÍA AGUDA)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Divalproato de Sodio (ATC: N03AG01)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Eficaz en episodios mixtos y cicladores rápidos; nivel plasmático 50-100 mcg/mL.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_lurasidona",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Lurasidona",
+    "atc": "N05AE05",
+    "voice_snippet": "CANMAT recomienda Lurasidona en Primera Línea para Trastorno Bipolar (Depresión Bipolar) con evidencia Level 1.",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: Primera Línea\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Lurasidona (ATC: N05AE05)\n- Nivel de Evidencia Científica: Level 1\n- Directriz Clínica: Bajo impacto metabólico; administrar obligatoriamente con comida (>350 kcal).\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
+  },
+  {
+    "id": "canmat_tra_antidepresivos",
+    "tipo": "guia_canmat",
+    "titulo": "CANMAT: Trastorno Bipolar - Antidepresivos ISRS en Monoterapia",
+    "atc": "N06AB",
+    "voice_snippet": "CANMAT recomienda Antidepresivos ISRS en Monoterapia en No Recomendado / Contraindicado para Trastorno Bipolar (Depresión Bipolar) con evidencia Level 1 (Daño).",
+    "contenido": "# GUÍA CLÍNICA CANMAT: TRASTORNO BIPOLAR (DEPRESIÓN BIPOLAR)\n- Recomendación: No Recomendado / Contraindicado\n- Estrategia: Monoterapia\n- Fármaco / Esquema: Antidepresivos ISRS en Monoterapia (ATC: N06AB)\n- Nivel de Evidencia Científica: Level 1 (Daño)\n- Directriz Clínica: Contraindicados formalmente: alto riesgo de inducción de viraje maníaco y ciclación rápida.\n- Fuente: Canadian Network for Mood and Anxiety Treatments (CANMAT)",
+    "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
   }
 ]

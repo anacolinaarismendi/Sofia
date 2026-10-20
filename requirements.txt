@@ -2,6 +2,8 @@
 pandas>=2.0.0
 numpy>=1.24.0
 scikit-learn>=1.3.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
 openpyxl>=3.1.0
 
 # Extracción de documentos y PDFs
@@ -17,6 +19,9 @@ ipywidgets>=8.1.0
 
 # Base de datos y utilidades
 SQLAlchemy>=2.0.0
+
+# Aplicación Web Interactiva
+streamlit>=1.30.0
 
 # Testing y Calidad
 pytest>=7.0.0

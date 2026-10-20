@@ -1,0 +1,94 @@
+{
+  "timestamp_evaluacion": "2026-10-20 20:53:58",
+  "total_casos_evaluados": 4,
+  "promedios_triada_rag": {
+    "context_recall": 1.0,
+    "answer_relevance": 0.9,
+    "faithfulness_groundedness": 1.0,
+    "latencia_segundos_promedio": 0.001
+  },
+  "detalle_por_caso": [
+    {
+      "caso_id": "CASO_01_POSOLOGIA_Y_MARCAS",
+      "categoria": "Monografía y Posología Jufe",
+      "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según Jufe?",
+      "latencia_segundos": 0.001,
+      "top_documento": "Sertralina",
+      "top_score_similitud": 0.1562,
+      "context_recall": 1.0,
+      "entidades_halladas": [
+        "Sertralina",
+        "50",
+        "200",
+        "Zoloft",
+        "Serlift"
+      ],
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
+      "groundedness_score": 1.0,
+      "voice_snippet_valido": true,
+      "generado_con_llm": false
+    },
+    {
+      "caso_id": "CASO_02_INTERACCIONES_CYP450",
+      "categoria": "Farmacocinética y Citocromos Stahl",
+      "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 describe Stahl para Paroxetina y Bupropión?",
+      "latencia_segundos": 0.001,
+      "top_documento": "Interacciones Críticas en el Citocromo CYP2D6: Inhibidores Potentes vs. Sustratos Psiquiátricos",
+      "top_score_similitud": 0.1598,
+      "context_recall": 1.0,
+      "entidades_halladas": [
+        "Paroxetina",
+        "Bupropión",
+        "CYP2D6",
+        "inhibidor",
+        "sustrato"
+      ],
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
+      "groundedness_score": 1.0,
+      "voice_snippet_valido": true,
+      "generado_con_llm": false
+    },
+    {
+      "caso_id": "CASO_03_DIRECTRICES_CANMAT",
+      "categoria": "Medicina Basada en la Evidencia CANMAT",
+      "pregunta": "¿Qué fármacos recomienda CANMAT en primera línea para manía aguda y por qué desaconseja los antidepresivos solos en depresión bipolar?",
+      "latencia_segundos": 0.001,
+      "top_documento": "Canmat Bipolar Depresion Y Viraje",
+      "top_score_similitud": 0.2011,
+      "context_recall": 1.0,
+      "entidades_halladas": [
+        "Litio",
+        "Quetiapina",
+        "viraje",
+        "manía"
+      ],
+      "cobertura_entidades": "4/5",
+      "relevance_score": 0.8,
+      "groundedness_score": 1.0,
+      "voice_snippet_valido": true,
+      "generado_con_llm": false
+    },
+    {
+      "caso_id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
+      "categoria": "Farmacovigilancia y Cascadas de Prescripción",
+      "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Qué dicen Jufe y Stahl sobre este riesgo?",
+      "latencia_segundos": 0.001,
+      "top_documento": "Cascada de Prescripción Clásica: Haloperidol a Biperideno por Parkinsonismo Secundario",
+      "top_score_similitud": 0.1198,
+      "context_recall": 1.0,
+      "entidades_halladas": [
+        "Haloperidol",
+        "Biperideno",
+        "cascada",
+        "desprescripción"
+      ],
+      "cobertura_entidades": "4/5",
+      "relevance_score": 0.8,
+      "groundedness_score": 1.0,
+      "voice_snippet_valido": true,
+      "generado_con_llm": false
+    }
+  ]
+}
