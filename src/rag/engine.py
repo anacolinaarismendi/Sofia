@@ -3,7 +3,7 @@ engine.py
 Motor RAG Clínico y Base Vectorial de Sofia:
 - Ingesta estructurada del corpus pre_training/ (Markdown con YAML Frontmatter y Voice Snippets).
 - Almacén vectorial dual (Ollama embeddinggemma:latest con fallback automático TF-IDF).
-- Inyección del 'Soul' de Sofia (Grounding estricto en Jufe, Stahl y CANMAT).
+- Directrices clínicas formalizadas (Clinical System Prompt con Grounding estricto y trazabilidad [DOC-ID]).
 - Generación de respuestas médicas estructuradas en 4 apartados con soporte dual verbal/escrito.
 """
 
@@ -23,7 +23,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
-SOFIA_SOUL_PROMPT = """Eres Sofia, médica especialista en Psicofarmacología Clínica, Psiquiatría Basada en la Evidencia y Farmacovigilancia.
+SOFIA_CLINICAL_PROMPT = """Eres Sofia, médica especialista en Psicofarmacología Clínica, Psiquiatría Basada en la Evidencia y Farmacovigilancia.
 Tu función es asesorar a médicos adjuntos, residentes y profesionales de la salud con el máximo rigor científico, basándote EXCLUSIVAMENTE en el CONTEXTO CLÍNICO RECUPERADO.
 
 ### DIRECTRICES DE RAZONAMIENTO Y SEGURIDAD CLÍNICA:
@@ -251,7 +251,7 @@ class ClinicalRAGEngine:
         try:
             payload = {
                 "model": self.llm_model,
-                "system": SOFIA_SOUL_PROMPT,
+                "system": SOFIA_CLINICAL_PROMPT,
                 "prompt": prompt_usuario,
                 "stream": False,
                 "options": {

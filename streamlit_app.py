@@ -16,7 +16,7 @@ WORKSPACE_ROOT = Path(__file__).resolve().parent
 if str(WORKSPACE_ROOT) not in sys.path:
     sys.path.insert(0, str(WORKSPACE_ROOT))
 
-from src.rag.engine import ClinicalRAGEngine, SOFIA_SOUL_PROMPT
+from src.rag.engine import ClinicalRAGEngine, SOFIA_CLINICAL_PROMPT
 from src.enrichers.atc_enricher import ATCEnricher
 
 

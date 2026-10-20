@@ -3,12 +3,13 @@ from .engine import (
     ClinicalRAGEngine,
     ClinicalVectorStore,
     cargar_corpus_pretraining,
-    SOFIA_SOUL_PROMPT
+    SOFIA_CLINICAL_PROMPT
 )
 
 __all__ = [
     "ClinicalRAGEngine",
     "ClinicalVectorStore",
     "cargar_corpus_pretraining",
-    "SOFIA_SOUL_PROMPT"
+    "SOFIA_CLINICAL_PROMPT"
 ]
+

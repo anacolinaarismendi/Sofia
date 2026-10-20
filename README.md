@@ -30,7 +30,7 @@ flowchart TD
     E[Consulta Médica] --> B
     B --> F[Top-k Documentos Recuperados + Voice Snippet]
     
-    F --> G[Soul de Sofia \nPrompt Template Clínico con Grounding Estricto]
+    F --> G[Plantilla Clínica Sofia \nClinical System Prompt con Grounding [DOC-ID]]
     G --> H[Ollama LLM \nqwen3.5:2b-mlx o Fallback Determinista]
     H --> I[Respuesta Médica en 4 Apartados \n+ Audio Snippet <40s]
 ```
@@ -80,13 +80,9 @@ Sofia/
 │   └── rag/
 │       └── engine.py                          # ClinicalRAGEngine y ClinicalVectorStore
 ├── scripts/
-│   ├── run_notebook_in_process.py             # Validador de ejecución 100% celda por celda
-│   ├── evaluate_rag.py                        # Benchmark y evaluación formal de la Tríada de RAG
-│   ├── sanitize_notebooks.py                  # Saneamiento de rutas locales
-│   └── build_eda_notebook.py                  # Generador del notebook 00
+│   └── evaluate_rag.py                        # Benchmark y evaluación formal de la Tríada de RAG
 ├── streamlit_app.py                # Interfaz web multimodular (Chat, CYP450, Cascadas, CANMAT)
-├── requirements.txt                # Dependencias del proyecto
-└── context.md                      # Contexto integral verificado del proyecto
+└── requirements.txt                # Dependencias del proyecto
 ```
 
 ---
@@ -128,12 +124,9 @@ jupyter lab
 | [`01_preprocesamiento_jufe.ipynb`](notebooks/01_preprocesamiento_jufe.ipynb) | Extracción monográfica de Jufe, posologías, rangos y normalización de efectos adversos. | ✅ 100% Ejecutable |
 | [`02_preprocesamiento_stahl.ipynb`](notebooks/02_preprocesamiento_stahl.ipynb) | Extracción de perfiles de receptores, perlas clínicas y matriz binaria de citocromos. | ✅ 100% Ejecutable |
 | [`03_preprocesamiento_canmat.ipynb`](notebooks/03_preprocesamiento_canmat.ipynb) | Tablas de 1ª/2ª línea para TDM y Bipolar, y alertas críticas de viraje maníaco. | ✅ 100% Ejecutable |
-| [`04_rag_psicofarmacologia.ipynb`](notebooks/04_rag_psicofarmacologia.ipynb) | Pipeline RAG completo con vector store, Prompt Template (*Soul* de Sofia) y consultas. | ✅ 100% Ejecutable |
+| [`04_rag_psicofarmacologia.ipynb`](notebooks/04_rag_psicofarmacologia.ipynb) | Pipeline RAG completo con vector store, Clinical System Prompt (`SOFIA_CLINICAL_PROMPT`) y consultas de farmacovigilancia. | ✅ 100% Ejecutable |
 
-Para verificar de forma automatizada que todas las celdas de todos los notebooks corren sin errores:
-```bash
-python scripts/run_notebook_in_process.py
-```
+Los cuadernos son 100% reproducibles y pueden ejecutarse de forma secuencial en cualquier entorno Jupyter estándar o VS Code sin dependencias ocultas ni rutas absolutas.
 
 ---
 

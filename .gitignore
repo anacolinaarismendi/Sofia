@@ -22,4 +22,18 @@ data/raw/
 data/cache/
 *.db
 
+# Scripts auxiliares de andamiaje y desarrollo local
+scripts/build_*.py
+scripts/update_*.py
+scripts/sanitize_*.py
+scripts/run_*.py
+scripts/test_execute_*.py
+scripts/validate_*.py
+scripts/test_rag_with_ollama.py
+
+# Contexto y notas internas de desarrollo
+context.md
+*.log
+
+
 
