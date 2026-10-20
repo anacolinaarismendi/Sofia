@@ -8,12 +8,14 @@
 
 ---
 
-## 📚 Fuentes Clínicas Canónicas Validadas
+## 📚 Naturaleza del Corpus y Política Ética de Citación
 
-1. **Dra. Gabriela Jufe:** *Psicofarmacología Práctica* (Perfiles monográficos de principios activos, dosificaciones, rangos terapéuticos y efectos adversos).
-2. **Dr. Stephen Stahl:** *Prescriber's Guide* (Perfil de receptores 5-HT/D2/M1, interacciones CYP450, sustratos/inhibidores y perlas clínicas).
-3. **Guías Oficiales CANMAT e ISBD 2018:** Directrices basadas en evidencia con niveles de recomendación (**Level 1 a 4** y alertas de **Level 1 Daño / Contraindicación**).
-4. **Clasificación ATC de la OMS:** Normalización con códigos oficiales Nivel 5 y catálogo de marcas comerciales (Zoloft, Prozac, Haldol, Leponex, Carbolit, etc.).
+> [!IMPORTANT]
+> **Corpus Clínico de Elaboración Propia:**  
+> La base de conocimiento de Sofia ha sido elaborada, sintetizada y estructurada internamente en fichas técnicas con identificadores únicos (`[DOC-ID]`), tomando como marco de evidencia científica las obras canónicas de la **Dra. Gabriela Jufe** (*Psicofarmacología Práctica*), el **Dr. Stephen Stahl** (*Prescriber's Guide*), las directrices oficiales **CANMAT / ISBD 2018** y la clasificación **ATC de la OMS**.
+
+### Estándar de Citación y Trazabilidad por Identificador (`[DOC-ID]`)
+Para salvaguardar la integridad médica y prevenir la **falsa atribución** (*citas apócrifas a nombres personales sobre textos generados*), **Sofia respalda cada afirmación clínica citando exclusivamente el identificador único del documento del corpus** (ej: `[MONO-SERT-001]`, `[CYP-2D6-001]`, `[CASC-HAL-BIP-001]`, `[CANMAT-BIP-MANIA-001]`), garantizando un rastro de auditoría (*audit trail*) transparente y verificable por el profesional médico.
 
 ---
 

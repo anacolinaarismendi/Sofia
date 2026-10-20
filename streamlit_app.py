@@ -139,12 +139,11 @@ with st.sidebar:
     st.metric("Fidelidad RAG (Benchmark)", "100.0%", delta="0 Alucinaciones")
 
     st.markdown("---")
-    st.markdown("### 📚 Fuentes Clínicas Canónicas")
+    st.markdown("### 📚 Corpus Clínico y Trazabilidad")
     st.markdown("""
-    - **Dra. Gabriela Jufe:** *Psicofarmacología Práctica*
-    - **Dr. Stephen Stahl:** *Prescriber's Guide*
-    - **Guías CANMAT / ISBD 2018:** *Bipolar Disorder & MDD*
-    - **Catálogo Oficial:** Clasificación ATC (OMS) y marcas
+    - **Corpus propio:** Síntesis estructurada basada en Jufe, Stahl y CANMAT 2018.
+    - **Trazabilidad `[DOC-ID]`:** Cero citas apócrifas; respaldo directo por código de documento.
+    - **Catálogo Oficial:** Clasificación ATC (OMS) y marcas comerciales.
     """)
 
     st.markdown("---")
@@ -156,7 +155,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 st.markdown('<div class="main-title">🧠 Sofia — Asistente Clínico de Psicofarmacología</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="sub-title">Motor RAG especializado en interacciones CYP450, cascadas de prescripción, directrices CANMAT y farmacovigilancia.</div>',
+    '<div class="sub-title">Motor RAG especializado en interacciones CYP450, cascadas de prescripción, directrices CANMAT y farmacovigilancia con trazabilidad [DOC-ID].</div>',
     unsafe_allow_html=True
 )
 
@@ -196,7 +195,8 @@ with tab_chat:
                 "role": "assistant",
                 "content": (
                     "Hola, soy **Sofia**, médica especialista en psicofarmacología clínica y farmacovigilancia. "
-                    "Estoy lista para responder consultas con estricto *grounding* en las obras de la Dra. Gabriela Jufe, el Dr. Stephen Stahl y las guías CANMAT 2018. "
+                    "Estoy lista para responder consultas con estricto *grounding* en nuestro corpus clínico y "
+                    "trazabilidad transparente mediante identificadores de evidencia `[DOC-ID]`. "
                     "¿En qué caso o paciente puedo asistirte hoy?"
                 )
             }
@@ -212,9 +212,10 @@ with tab_chat:
                     unsafe_allow_html=True
                 )
             if msg.get("fuentes"):
-                with st.expander("📚 Fuentes Bibliográficas y Evidencia Recuperada"):
+                with st.expander("📚 Fuentes y Documentos Clínicos Recuperados"):
                     for doc, score in msg["fuentes"]:
-                        st.markdown(f"- **{doc['titulo']}** (ATC: `{doc.get('atc', 'N/D')}`) — Relevancia: `{score:.4f}` | Archivo: `{doc['archivo_origen']}`")
+                        doc_id = doc.get("id", "DOC")
+                        st.markdown(f"- **`[{doc_id}]` {doc['titulo']}** (ATC: `{doc.get('atc', 'N/D')}`) — Relevancia: `{score:.4f}` | Archivo: `{doc['archivo_origen']}`")
 
     # Manejar input del usuario (sea del chat o de un botón preconfigurado)
     user_query = st.chat_input("Escribe tu pregunta médica aquí...") or query_preset
@@ -241,9 +242,10 @@ with tab_chat:
                         unsafe_allow_html=True
                     )
 
-                with st.expander("📚 Fuentes Bibliográficas y Evidencia Recuperada"):
+                with st.expander("📚 Fuentes y Documentos Clínicos Recuperados"):
                     for doc, score in fuentes:
-                        st.markdown(f"- **{doc['titulo']}** (ATC: `{doc.get('atc', 'N/D')}`) — Relevancia: `{score:.4f}` | Archivo: `{doc['archivo_origen']}`")
+                        doc_id = doc.get("id", "DOC")
+                        st.markdown(f"- **`[{doc_id}]` {doc['titulo']}** (ATC: `{doc.get('atc', 'N/D')}`) — Relevancia: `{score:.4f}` | Archivo: `{doc['archivo_origen']}`")
 
         # Guardar en historial
         st.session_state.messages.append({

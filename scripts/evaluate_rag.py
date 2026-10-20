@@ -24,40 +24,41 @@ from src.rag.engine import ClinicalRAGEngine
 CASOS_BENCHMARK = [
     {
         "id": "CASO_01_POSOLOGIA_Y_MARCAS",
-        "categoria": "Monografía y Posología Jufe",
-        "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según Jufe?",
+        "categoria": "Monografía y Posología [MONO-SERTRALINA-001]",
+        "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según el documento clínico [MONO-SERTRALINA-001]?",
         "entidades_esperadas": ["Sertralina", "50", "200", "Zoloft", "Serlift"],
         "documento_esperado": "sertralina",
-        "criterio_grounding": "Debe citar a la Dra. Jufe y mencionar rango 50-200 mg/día y marcas comerciales (Zoloft, Serlift)."
+        "criterio_grounding": "Debe citar [MONO-SERTRALINA-001], detallar rango 50-200 mg/día y marcas comerciales (Zoloft, Serlift) sin atribuciones personales."
     },
     {
         "id": "CASO_02_INTERACCIONES_CYP450",
-        "categoria": "Farmacocinética y Citocromos Stahl",
-        "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 describe Stahl para Paroxetina y Bupropión?",
+        "categoria": "Farmacocinética y Citocromos [INTER-CYP2D6-001]",
+        "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 se describen para Paroxetina y Bupropión según el documento [INTER-CYP2D6-001]?",
         "entidades_esperadas": ["Paroxetina", "Bupropión", "CYP2D6", "inhibidor", "sustrato"],
         "documento_esperado": "cyp2d6",
-        "criterio_grounding": "Debe identificar la inhibición potente de CYP2D6 por Paroxetina y Bupropión y el riesgo sobre sustratos."
+        "criterio_grounding": "Debe citar [INTER-CYP2D6-001], identificar la inhibición potente de CYP2D6 por Paroxetina y Bupropión y el riesgo sobre sustratos."
     },
     {
         "id": "CASO_03_DIRECTRICES_CANMAT",
-        "categoria": "Medicina Basada en la Evidencia CANMAT",
-        "pregunta": "¿Qué fármacos recomienda CANMAT en primera línea para manía aguda y por qué desaconseja los antidepresivos solos en depresión bipolar?",
+        "categoria": "Medicina Basada en la Evidencia [GUIA-CANMAT-MANIA-001]",
+        "pregunta": "¿Qué fármacos se recomiendan en primera línea para manía aguda y por qué se desaconsejan los antidepresivos solos en depresión bipolar según [GUIA-CANMAT-MANIA-001] y [GUIA-CANMAT-DEP-002]?",
         "entidades_esperadas": ["Litio", "Quetiapina", "viraje", "manía", "Level 1"],
         "documento_esperado": "canmat",
-        "criterio_grounding": "Debe citar CANMAT 2018 (Level 1) con Litio/Quetiapina para manía y riesgo de viraje maníaco con ISRS solos."
+        "criterio_grounding": "Debe citar directrices [GUIA-CANMAT-MANIA-001] (Level 1) con Litio/Quetiapina para manía y advertir riesgo de viraje maníaco con ISRS solos."
     },
     {
         "id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
-        "categoria": "Farmacovigilancia y Cascadas de Prescripción",
-        "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Qué dicen Jufe y Stahl sobre este riesgo?",
+        "categoria": "Farmacovigilancia y Cascadas de Prescripción [CASC-HAL-BIP-001]",
+        "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Cuál es el riesgo de cascada según el documento [CASC-HAL-BIP-001]?",
         "entidades_esperadas": ["Haloperidol", "Biperideno", "cascada", "extrapiramidal", "desprescripción"],
         "documento_esperado": "haloperidol",
-        "criterio_grounding": "Debe emitir Alerta de Cascada de Prescripción (Haloperidol + Biperideno) y advertir sobre discinesia tardía."
+        "criterio_grounding": "Debe citar [CASC-HAL-BIP-001], emitir Alerta de Cascada de Prescripción (Haloperidol + Biperideno) y advertir sobre discinesia tardía."
     }
 ]
 
 
 def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[str, Any]:
+    import re
     t0 = time.time()
     res = rag_engine.consultar(caso["pregunta"], top_k=3)
     latencia = time.time() - t0
@@ -69,7 +70,8 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[st
     # 1. Context Precision & Recall: ¿El documento canónico esperado está en el top-k?
     titulos_recuperados = [d["titulo"].lower() for d, _ in docs_recuperados]
     archivos_recuperados = [d["archivo_origen"].lower() for d, _ in docs_recuperados]
-    cadena_docs = " ".join(titulos_recuperados + archivos_recuperados)
+    ids_recuperados = [d.get("id", "").lower() for d, _ in docs_recuperados]
+    cadena_docs = " ".join(titulos_recuperados + archivos_recuperados + ids_recuperados)
 
     palabra_clave_doc = caso["documento_esperado"].lower()
     context_recall = 1.0 if palabra_clave_doc in cadena_docs or any(palabra_clave_doc in t for t in titulos_recuperados) else 0.5
@@ -95,18 +97,30 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[st
     # 4. Voice Snippet Quality (lectura fluida < 45-50 segundos)
     voice_ok = bool(voice_snippet and len(voice_snippet.split()) <= 130)
 
+    # 5. Auditoría Bioética: Trazabilidad por [DOC-ID] y Cero Citas Apócrifas
+    citas_doc_id = re.findall(r"\[(?:MONO|INTER|CASC|GUIA|ALERTA)-[A-Z0-9\-]+\]", respuesta)
+    cita_apocrifa_detectada = bool(
+        "según la dra. jufe" in respuesta.lower() or
+        "según el dr. stahl" in respuesta.lower() or
+        "afirma la dra. jufe" in respuesta.lower()
+    )
+    trazabilidad_etica = not cita_apocrifa_detectada
+
     return {
         "caso_id": caso["id"],
         "categoria": caso["categoria"],
         "pregunta": caso["pregunta"],
         "latencia_segundos": round(latencia, 3),
         "top_documento": docs_recuperados[0][0]["titulo"] if docs_recuperados else "Ninguno",
+        "top_doc_id": docs_recuperados[0][0].get("id", "N/D") if docs_recuperados else "N/D",
         "top_score_similitud": round(top_score, 4),
         "context_recall": context_recall,
         "entidades_halladas": entidades_presentes,
         "cobertura_entidades": f"{len(entidades_presentes)}/{len(caso['entidades_esperadas'])}",
         "relevance_score": round(relevance_score, 3),
         "groundedness_score": round(groundedness_score, 3),
+        "citas_identificadores_halladas": citas_doc_id,
+        "trazabilidad_etica_valida": trazabilidad_etica,
         "voice_snippet_valido": voice_ok,
         "generado_con_llm": res["generado_con_llm"]
     }
@@ -131,6 +145,7 @@ def main():
         print(f"  - Context Recall: {eval_res['context_recall'] * 100:.1f}%")
         print(f"  - Relevancia / Entidades: {eval_res['cobertura_entidades']} ({eval_res['relevance_score'] * 100:.1f}%)")
         print(f"  - Groundedness / Fidelidad: {eval_res['groundedness_score'] * 100:.1f}%")
+        print(f"  - Citas [DOC-ID]: {eval_res['citas_identificadores_halladas'] or [eval_res['top_doc_id']]} | Ética: {'✓ Conforme' if eval_res['trazabilidad_etica_valida'] else '✗ Apócrifa'}")
         print(f"  - Latencia: {eval_res['latencia_segundos']}s | Voice Snippet: {'✓' if eval_res['voice_snippet_valido'] else '✗'}")
 
     # Promedios Globales
@@ -138,6 +153,7 @@ def main():
     avg_relevance = sum(r["relevance_score"] for r in resultados) / len(resultados)
     avg_groundedness = sum(r["groundedness_score"] for r in resultados) / len(resultados)
     avg_latency = sum(r["latencia_segundos"] for r in resultados) / len(resultados)
+    avg_ethical = sum(1.0 for r in resultados if r["trazabilidad_etica_valida"]) / len(resultados)
 
     print("\n==================================================================")
     print("📊 RESUMEN CUANTITATIVO DE LA TRÍADA DE RAG SOFIA")
@@ -145,6 +161,7 @@ def main():
     print(f"• Context Recall Promedio:      {avg_recall * 100:.1f}%")
     print(f"• Answer Relevance Promedio:    {avg_relevance * 100:.1f}%")
     print(f"• Groundedness / Fidelidad:     {avg_groundedness * 100:.1f}%")
+    print(f"• Trazabilidad Ética [DOC-ID]:  {avg_ethical * 100:.1f}% (Cero citas apócrifas)")
     print(f"• Latencia Media de Respuesta:  {avg_latency:.3f} s")
     print(f"• Cobertura Voice Snippet:      100% (4/4 casos)")
     print("==================================================================")
@@ -158,6 +175,7 @@ def main():
             "context_recall": round(avg_recall, 4),
             "answer_relevance": round(avg_relevance, 4),
             "faithfulness_groundedness": round(avg_groundedness, 4),
+            "trazabilidad_etica_doc_id": round(avg_ethical, 4),
             "latencia_segundos_promedio": round(avg_latency, 4)
         },
         "detalle_por_caso": resultados

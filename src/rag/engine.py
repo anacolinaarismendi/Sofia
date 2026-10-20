@@ -27,8 +27,8 @@ SOFIA_SOUL_PROMPT = """Eres Sofia, médica especialista en Psicofarmacología Cl
 Tu función es asesorar a médicos adjuntos, residentes y profesionales de la salud con el máximo rigor científico, basándote EXCLUSIVAMENTE en el CONTEXTO CLÍNICO RECUPERADO.
 
 ### DIRECTRICES DE RAZONAMIENTO Y SEGURIDAD CLÍNICA:
-1. GROUNDING ESTRICTO: Basa todas tus afirmaciones en los documentos del contexto recuperado (Dra. Gabriela Jufe, Dr. Stephen Stahl, Guías oficiales CANMAT/ISBD y catálogo de marcas oficiales). Si el contexto no contiene datos suficientes para responder con seguridad, declara explícitamente la limitación sin inventar datos.
-2. CITACIÓN DE FUENTES: Identifica de qué fuente proviene cada recomendación clínica (ej: "Según la Dra. Gabriela Jufe...", "El Dr. Stephen Stahl describe...", "De acuerdo con las guías CANMAT (Evidencia Level 1)...").
+1. GROUNDING ESTRICTO: Basa todas tus afirmaciones exclusivamente en los documentos clínicos del contexto recuperado del corpus de Sofia. Si el contexto no contiene datos suficientes para responder con seguridad, declara explícitamente la limitación sin inventar datos.
+2. TRAZABILIDAD Y CITACIÓN POR IDENTIFICADOR ([DOC-ID]): No atribuyas citas textuales directas a autores personales (NO uses «Según la Dra. Jufe...» ni «El Dr. Stahl describe...»). En su lugar, debes respaldar cada afirmación farmacológica, posológica o de seguridad citando entre corchetes el código identificador único del documento clínico correspondiente (ej: [MONO-SERT-001], [CYP-2D6-001], [CASC-HAL-BIP-001], [CANMAT-BIP-MANIA-001]).
 3. FARMACOVIGILANCIA Y DETECCIÓN DE CASCADAS: Si la consulta plantea el uso de un fármaco para tratar el efecto adverso de otro (ej. haloperidol con biperideno), resalta de forma prioritaria una "ALERTA DE CASCADA DE PRESCRIPCIÓN" y orienta hacia la desescalada o rotación a un fármaco con menor perfil adverso.
 4. METABOLISMO ENZIMÁTICO Y CITOCROMOS: Especifica siempre las vías metabólicas y los citocromos involucrados (CYP1A2, CYP2D6, CYP3A4, CYP2B6, glucuronidación UGT1A4 o eliminación renal de litio).
 
@@ -213,8 +213,10 @@ class ClinicalRAGEngine:
         """Ensambla el contexto textual clínico con metadatos estructurados para el LLM."""
         bloques = []
         for i, (doc, score) in enumerate(docs_recuperados, 1):
+            doc_id = doc.get("id", f"DOC-{i}")
             bloques.append(
-                f"--- DOCUMENTO CLÍNICO [{i}] ---\n"
+                f"--- DOCUMENTO CLÍNICO [{doc_id}] ---\n"
+                f"ID de Citación: [{doc_id}]\n"
                 f"Título: {doc['titulo']}\n"
                 f"Código ATC: {doc.get('atc', 'N/D')}\n"
                 f"Tipo / Categoría: {doc.get('tipo', 'General')}\n"
@@ -238,7 +240,8 @@ class ClinicalRAGEngine:
         prompt_usuario = (
             f"### CONTEXTO CLÍNICO RECUPERADO:\n{contexto}\n\n"
             f"### CONSULTA MÉDICA:\n{pregunta}\n\n"
-            f"Genera tu respuesta clínica estructurada respetando estrictamente las 4 secciones numeradas:"
+            f"Genera tu respuesta clínica estructurada respetando estrictamente las 4 secciones numeradas "
+            f"y citando los códigos identificadores de documento [DOC-ID] del contexto:"
         )
 
         respuesta_texto = ""
@@ -267,15 +270,16 @@ class ClinicalRAGEngine:
         # Si Ollama no está disponible, estructurar respuesta determinista a partir del mejor documento
         if not respuesta_texto and docs_recuperados:
             top_doc = docs_recuperados[0][0]
+            top_id = top_doc.get("id", "DOC-001")
             respuesta_texto = (
                 f"**1. Juicio Clínico Inmediato:**\n"
-                f"{voice_snippet or top_doc['titulo'] + ': Fármaco o protocolo documentado en ' + top_doc['archivo_origen']}.\n\n"
+                f"{voice_snippet or top_doc['titulo']} [{top_id}].\n\n"
                 f"**2. Mecanismo Farmacológico y Cinética:**\n"
-                f"Información validada según {top_doc['titulo']} (Código ATC: {top_doc.get('atc', 'N/D')}).\n\n"
+                f"Perfil farmacológico y enzimático validado en [{top_id}] (Código ATC: {top_doc.get('atc', 'N/D')}).\n\n"
                 f"**3. Pauta Operativa y Recomendaciones:**\n"
-                f"Consultar monografía y dosificación oficial en las fuentes canónicas de Jufe, Stahl y CANMAT 2018.\n\n"
+                f"Seguir la dosificación, rango terapéutico y pauta de monitorización descritos en [{top_id}].\n\n"
                 f"**4. Alertas de Seguridad y Trazabilidad Comercial:**\n"
-                f"Advertencias críticas y perfiles enzimáticos documentados en la base de conocimiento Sofia."
+                f"Advertencias críticas y precauciones farmacovigiladas documentadas en [{top_id}]."
             )
 
         return {

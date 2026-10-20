@@ -73,6 +73,16 @@ def validate_dataset():
             if asst_words < 80:
                 errors.append(f"Línea {idx}: Respuesta del asistente demasiado corta ({asst_words} palabras).")
 
+            # Auditoría Ética y de Trazabilidad: Cero citas apócrifas a personas
+            if "según la dra. jufe" in assistant_text.lower() or "según el dr. stahl" in assistant_text.lower():
+                errors.append(f"Línea {idx}: Cita apócrifa a autor personal detectada en respuesta del asistente.")
+
+            # Validar presencia de identificadores clínicos [DOC-ID]
+            import re
+            doc_citations = re.findall(r"\[(?:MONO|INTER|CASC|GUIA|ALERTA)-[A-Z0-9\-]+\]", assistant_text)
+            if not doc_citations:
+                errors.append(f"Línea {idx}: La respuesta médica no incluye ninguna citación a identificador de documento [DOC-ID].")
+
     print(f"\n--- MÉTRICAS GLOBALES DEL DATASET ---")
     print(f"  • Total de muestras conversacionales: {total_lines}")
     print(f"  • Palabras totales en consultas de doctores: {total_user_words:,} palabras (promedio: {total_user_words // total_lines} palabras/consulta)")
