@@ -23,16 +23,16 @@ Para salvaguardar la integridad médica y prevenir la **falsa atribución** (*ci
 
 ```mermaid
 flowchart TD
-    A[Corpus pre_training/ \n26 Docs Markdown con YAML y Voice Snippets] --> B[Almacén Vectorial Dual \nClinicalVectorStore]
-    B -->|Modo Preferente| C[Ollama Local \nembeddinggemma:latest]
-    B -->|Fallback Local| D[Scikit-Learn \nTF-IDF Híbrido ngram 1,2]
+    A["Corpus pre_training/<br>26 Docs Markdown con YAML y Voice Snippets"] --> B["Almacén Vectorial Dual<br>ClinicalVectorStore"]
+    B -->|Modo Preferente| C["Ollama Local<br>embeddinggemma:latest"]
+    B -->|Fallback Local| D["Scikit-Learn<br>TF-IDF Híbrido ngram 1,2"]
     
-    E[Consulta Médica] --> B
-    B --> F[Top-k Documentos Recuperados + Voice Snippet]
+    E["Consulta Médica"] --> B
+    B --> F["Top-k Documentos Recuperados + Voice Snippet"]
     
-    F --> G[Plantilla Clínica Sofia \nClinical System Prompt con Grounding [DOC-ID]]
-    G --> H[Ollama LLM \nqwen3.5:2b-mlx o Fallback Determinista]
-    H --> I[Respuesta Médica en 4 Apartados \n+ Audio Snippet <40s]
+    F --> G["Plantilla Clínica Sofia<br>Clinical System Prompt con Grounding [DOC-ID]"]
+    G --> H["Ollama LLM<br>qwen3.5:2b-mlx o Fallback Determinista"]
+    H --> I["Respuesta Médica en 4 Apartados<br>+ Audio Snippet <40s"]
 ```
 
 ### Estructura del Repositorio

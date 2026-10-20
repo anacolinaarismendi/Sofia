@@ -28,10 +28,8 @@ flowchart TD
     A["Paciente con Haloperidol presenta Temblor/Rigidez"] --> B["¿Identificado como efecto adverso farmacológico?"]
     B -->|Sí| C["Paso 1: ¿Se puede reducir la dosis de Haloperidol?"]
     C -->|Sí| D["Reducir dosis a < 4 mg/día y evaluar 1 semana"]
-    C -->|No / Recaída| E["Paso 2: Rotar a Antipsicótico Atípico
-(Quetiapina, Olanzapina o Aripiprazol)"]
-    D --> F["Paso 3: Retirada gradual del Biperideno
-(Reducir 1-2 mg cada semana)"]
+    C -->|No / Recaída| E["Paso 2: Rotar a Antipsicótico Atípico<br>(Quetiapina, Olanzapina o Aripiprazol)"]
+    D --> F["Paso 3: Retirada gradual del Biperideno<br>(Reducir 1-2 mg cada semana)"]
     E --> F
     F --> G["Resolución exitosa sin carga anticolinérgica"]
 ```

@@ -1,19 +1,19 @@
 {
-  "timestamp_evaluacion": "2026-10-20 22:43:19",
+  "timestamp_evaluacion": "2026-10-20 23:00:06",
   "total_casos_evaluados": 4,
   "promedios_triada_rag": {
     "context_recall": 1.0,
     "answer_relevance": 0.9,
     "faithfulness_groundedness": 1.0,
     "trazabilidad_etica_doc_id": 1.0,
-    "latencia_segundos_promedio": 0.0013
+    "latencia_segundos_promedio": 0.0018
   },
   "detalle_por_caso": [
     {
       "caso_id": "CASO_01_POSOLOGIA_Y_MARCAS",
       "categoria": "Monografía y Posología [MONO-SERTRALINA-001]",
       "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según el documento clínico [MONO-SERTRALINA-001]?",
-      "latencia_segundos": 0.002,
+      "latencia_segundos": 0.003,
       "top_documento": "Sertralina",
       "top_doc_id": "MONO-SERTRALINA-001",
       "top_score_similitud": 0.1786,
@@ -42,7 +42,7 @@
       "caso_id": "CASO_02_INTERACCIONES_CYP450",
       "categoria": "Farmacocinética y Citocromos [INTER-CYP2D6-001]",
       "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 se describen para Paroxetina y Bupropión según el documento [INTER-CYP2D6-001]?",
-      "latencia_segundos": 0.001,
+      "latencia_segundos": 0.002,
       "top_documento": "Interacciones Críticas en el Citocromo CYP2D6: Inhibidores Potentes vs. Sustratos Psiquiátricos",
       "top_doc_id": "INTER-CYP2D6-001",
       "top_score_similitud": 0.2398,
@@ -102,7 +102,7 @@
       "latencia_segundos": 0.001,
       "top_documento": "Cascada de Prescripción Clásica: Haloperidol a Biperideno por Parkinsonismo Secundario",
       "top_doc_id": "CASC-HAL-BIP-001",
-      "top_score_similitud": 0.2013,
+      "top_score_similitud": 0.2004,
       "context_recall": 1.0,
       "entidades_halladas": [
         "Haloperidol",

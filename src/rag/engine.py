@@ -15,8 +15,15 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 import numpy as np
 import requests
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    SKLEARN_AVAILABLE = True
+except ImportError:
+    TfidfVectorizer = None
+    cosine_similarity = None
+    SKLEARN_AVAILABLE = False
 
 
 # Directorio base portable
@@ -39,6 +46,9 @@ Estructura tu respuesta en los siguientes 4 apartados numerados:
 - **3. Pauta Operativa y Recomendaciones:** Dosis sugeridas, velocidad de titulación/desescalada y parámetros obligatorios de monitorización analítica o clínica.
 - **4. Alertas de Seguridad y Trazabilidad Comercial:** Advertencias críticas (caja negra, litemia, agranulocitosis) y nombres comerciales / laboratorios aplicables.
 """
+
+SOFIA_SOUL_PROMPT = SOFIA_CLINICAL_PROMPT  # Alias retrocompatible
+
 
 
 def cargar_corpus_pretraining(directorio: Optional[Path] = None) -> List[Dict[str, Any]]:
@@ -134,9 +144,14 @@ class ClinicalVectorStore:
         self.documentos = docs
         textos = [f"{d['titulo']} {d.get('atc', '')}\n{d['contenido']}" for d in docs]
 
-        # Siempre inicializar TF-IDF como contingencia inmediata
-        self.vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=10000)
-        self.tfidf_matrix = self.vectorizer.fit_transform(textos)
+        # Inicializar TF-IDF si scikit-learn está disponible
+        if SKLEARN_AVAILABLE and TfidfVectorizer is not None:
+            self.vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=10000)
+            self.tfidf_matrix = self.vectorizer.fit_transform(textos)
+        else:
+            self.vectorizer = None
+            self.tfidf_matrix = None
+            self.doc_tokens = [set(re.findall(r"\w+", t.lower())) for t in textos]
 
         if self.use_ollama:
             try:
@@ -170,7 +185,7 @@ class ClinicalVectorStore:
                 indices_candidatos = list(range(len(docs_candidatos)))
 
         # Búsqueda densa con Ollama si está disponible
-        if self.use_ollama and self.embeddings is not None:
+        if self.use_ollama and self.embeddings is not None and cosine_similarity is not None:
             try:
                 res = requests.post(
                     f"{self.ollama_host}/api/embeddings",
@@ -185,12 +200,26 @@ class ClinicalVectorStore:
             except Exception:
                 pass
 
-        # Fallback determinista local con TF-IDF
-        q_vec = self.vectorizer.transform([query])
-        sub_matrix = self.tfidf_matrix[indices_candidatos]
-        sims = cosine_similarity(q_vec, sub_matrix)[0]
-        top_idx_rel = np.argsort(sims)[::-1][:top_k]
-        return [(self.documentos[indices_candidatos[i]], float(sims[i])) for i in top_idx_rel]
+        # Fallback determinista local con TF-IDF si está disponible
+        if self.vectorizer is not None and self.tfidf_matrix is not None and cosine_similarity is not None:
+            q_vec = self.vectorizer.transform([query])
+            sub_matrix = self.tfidf_matrix[indices_candidatos]
+            sims = cosine_similarity(q_vec, sub_matrix)[0]
+            top_idx_rel = np.argsort(sims)[::-1][:top_k]
+            return [(self.documentos[indices_candidatos[i]], float(sims[i])) for i in top_idx_rel]
+        else:
+            # Fallback robusto sin scikit-learn (solapamiento de términos)
+            q_tokens = set(re.findall(r"\w+", query.lower()))
+            sims = []
+            for i in indices_candidatos:
+                doc_t = getattr(self, "doc_tokens", [])[i] if hasattr(self, "doc_tokens") and i < len(self.doc_tokens) else set()
+                inter = len(q_tokens & doc_t)
+                union = len(q_tokens | doc_t)
+                score = (inter / union) if union > 0 else 0.0
+                sims.append(score)
+            sims_arr = np.array(sims)
+            top_idx_rel = np.argsort(sims_arr)[::-1][:top_k]
+            return [(self.documentos[indices_candidatos[i]], float(sims_arr[i])) for i in top_idx_rel]
 
 
 class ClinicalRAGEngine:

@@ -16,8 +16,32 @@ WORKSPACE_ROOT = Path(__file__).resolve().parent
 if str(WORKSPACE_ROOT) not in sys.path:
     sys.path.insert(0, str(WORKSPACE_ROOT))
 
-from src.rag.engine import ClinicalRAGEngine, SOFIA_CLINICAL_PROMPT
-from src.enrichers.atc_enricher import ATCEnricher
+try:
+    from src.rag.engine import ClinicalRAGEngine
+except Exception as _rag_err:
+    import traceback
+    st.error(f"⚠️ Error al inicializar ClinicalRAGEngine: {_rag_err}")
+    st.code(traceback.format_exc())
+    class ClinicalRAGEngine:  # type: ignore
+        def __init__(self, *args, **kwargs):
+            pass
+        def consultar(self, pregunta: str, top_k: int = 3):
+            return {
+                "pregunta": pregunta,
+                "respuesta": f"El motor RAG no pudo inicializarse correctamente en este entorno.\nError: {_rag_err}",
+                "voice_snippet": "",
+                "generado_con_llm": False,
+                "documentos_recuperados": []
+            }
+
+try:
+    from src.enrichers.atc_enricher import ATCEnricher
+except Exception:
+    class ATCEnricher:  # type: ignore
+        CATALOGO_ATC = {}
+        @classmethod
+        def obtener_ficha(cls, *args, **kwargs):
+            return None
 
 
 # -----------------------------------------------------------------------------
