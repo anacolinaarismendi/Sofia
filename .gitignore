@@ -35,5 +35,9 @@ scripts/test_rag_with_ollama.py
 context.md
 *.log
 
+# Fine-tuning
+finetunningpre/
+
+
 
 
