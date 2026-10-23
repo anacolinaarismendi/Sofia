@@ -24,32 +24,32 @@ from src.rag.engine import ClinicalRAGEngine
 CASOS_BENCHMARK = [
     {
         "id": "CASO_01_POSOLOGIA_Y_MARCAS",
-        "categoria": "Monografía y Posología [MONO-SERTRALINA-001]",
-        "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según el documento clínico [MONO-SERTRALINA-001]?",
+        "categoria": "Monografía y Posología (Sertralina)",
+        "pregunta": "¿Qué laboratorios comercializan la Sertralina, cuáles son sus marcas comerciales principales y cuál es su posología recomendada de inicio y mantenimiento?",
         "entidades_esperadas": ["Sertralina", "50", "200", "Zoloft", "Serlift"],
         "documento_esperado": "sertralina",
-        "criterio_grounding": "Debe citar [MONO-SERTRALINA-001], detallar rango 50-200 mg/día y marcas comerciales (Zoloft, Serlift) sin atribuciones personales."
+        "criterio_grounding": "Debe citar [MONO-SERTRALINA-001], detallar rango 50-200 mg/día y marcas comerciales (Zoloft, Serlift, Aremis) sin atribuciones personales."
     },
     {
         "id": "CASO_02_INTERACCIONES_CYP450",
-        "categoria": "Farmacocinética y Citocromos [INTER-CYP2D6-001]",
-        "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 se describen para Paroxetina y Bupropión según el documento [INTER-CYP2D6-001]?",
+        "categoria": "Farmacocinética y Citocromos (CYP2D6)",
+        "pregunta": "¿Qué interacciones farmacocinéticas y precauciones enzimáticas con el citocromo CYP2D6 se describen para Paroxetina y Bupropión?",
         "entidades_esperadas": ["Paroxetina", "Bupropión", "CYP2D6", "inhibidor", "sustrato"],
         "documento_esperado": "cyp2d6",
         "criterio_grounding": "Debe citar [INTER-CYP2D6-001], identificar la inhibición potente de CYP2D6 por Paroxetina y Bupropión y el riesgo sobre sustratos."
     },
     {
         "id": "CASO_03_DIRECTRICES_CANMAT",
-        "categoria": "Medicina Basada en la Evidencia [GUIA-CANMAT-MANIA-001]",
-        "pregunta": "¿Qué fármacos se recomiendan en primera línea para manía aguda y por qué se desaconsejan los antidepresivos solos en depresión bipolar según [GUIA-CANMAT-MANIA-001] y [GUIA-CANMAT-DEP-002]?",
+        "categoria": "Medicina Basada en la Evidencia (CANMAT)",
+        "pregunta": "¿Qué fármacos se recomiendan en primera línea para un episodio de manía aguda y por qué se desaconseja el uso de antidepresivos en monoterapia en depresión bipolar?",
         "entidades_esperadas": ["Litio", "Quetiapina", "viraje", "manía", "Level 1"],
         "documento_esperado": "canmat",
         "criterio_grounding": "Debe citar directrices [GUIA-CANMAT-MANIA-001] (Level 1) con Litio/Quetiapina para manía y advertir riesgo de viraje maníaco con ISRS solos."
     },
     {
         "id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
-        "categoria": "Farmacovigilancia y Cascadas de Prescripción [CASC-HAL-BIP-001]",
-        "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Cuál es el riesgo de cascada según el documento [CASC-HAL-BIP-001]?",
+        "categoria": "Farmacovigilancia y Cascadas de Prescripción (Haloperidol - Biperideno)",
+        "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y se le prescribe medicación antiparkinsoniana como biperideno. ¿Cuál es el riesgo de cascada de prescripción y qué pauta de desprescripción se aconseja?",
         "entidades_esperadas": ["Haloperidol", "Biperideno", "cascada", "extrapiramidal", "desprescripción"],
         "documento_esperado": "haloperidol",
         "criterio_grounding": "Debe citar [CASC-HAL-BIP-001], emitir Alerta de Cascada de Prescripción (Haloperidol + Biperideno) y advertir sobre discinesia tardía."

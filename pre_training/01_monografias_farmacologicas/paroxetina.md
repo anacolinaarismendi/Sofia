@@ -2,7 +2,7 @@
 id: "MONO-PAROXETINA-003"
 tipo: "monografia_farmacologica"
 farmaco: "Paroxetina"
-atc_codigo: "N06AB02"
+atc_codigo: "N06AB05"
 atc_grupo: "Antidepresivos / Inhibidores Selectivos de la Recaptación de Serotonina (ISRS)"
 enzimas_cyp: ["CYP2D6 (inhibidor potente / sustrato)", "CYP3A4"]
 marcas_principales: ["Paxil (GSK)", "Seroxat", "Aropax", "Motivan"]
@@ -11,7 +11,7 @@ nivel_riesgo: "Alto (riesgo de interacciones, abstinencia y teratogenicidad)"
 palabras_clave: ["paroxetina", "paxil", "isrs", "anticolinergico", "sedacion", "sindrome discontinuacion", "teratogenico", "cyp2d6"]
 ---
 
-# Ficha Clínica y Conversacional: Paroxetina (N06AB02)
+# Ficha Clínica y Conversacional: Paroxetina (N06AB05)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
 > "La paroxetina es el antidepresivo ISRS más potente sobre el transportador de serotonina, pero también el más sedante y anticolinérgico. Indicada en depresión severa, crisis de pánico y fobia social en dosis de 20 a 50 miligramos al día. Es un potentísimo inhibidor de su propia enzima metabolizadora, el citocromo CYP2D6, provocando una cinética no lineal e interacciones severas. Presenta dos advertencias clínicas críticas: un síndrome de discontinuación muy intenso con síntomas de rebote ante la suspensión brusca, y riesgo de malformaciones cardíacas congénitas si se administra durante el primer trimestre de gestación. Su marca más conocida es Paxil o Seroxat."

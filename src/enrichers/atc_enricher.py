@@ -161,11 +161,23 @@ class ATCEnricher:
 
     @classmethod
     def get_info(cls, nombre_farmaco: str) -> Optional[Dict[str, Any]]:
-        """Busca información ATC para un fármaco dado su nombre común."""
+        """Busca información ATC para un fármaco dado su nombre común, oficial o marca comercial."""
+        if not nombre_farmaco:
+            return None
         clave = normalizar_clave(nombre_farmaco)
+        # 1. Coincidencia directa por clave o nombre oficial
         for k, v in cls.CATALOGO_ATC.items():
             if k in clave or clave in k:
                 return v
+            if clave in normalizar_clave(v.get("nombre_oficial", "")):
+                return v
+
+        # 2. Búsqueda por marca comercial registrada (ej. Aremis, Plenur, Zoloft)
+        for k, v in cls.CATALOGO_ATC.items():
+            for marca in v.get("marcas_comerciales", []):
+                norm_marca = normalizar_clave(marca)
+                if norm_marca and (norm_marca in clave or clave in norm_marca):
+                    return v
         return None
 
     @classmethod

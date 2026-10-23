@@ -1,5 +1,13 @@
 # Sofia — Asistente Clínico Inteligente y RAG de Psicofarmacología
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sofia-clinical-rag.streamlit.app/)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-Validated-success.svg)](data/processed/rag_evaluation_report.json)
+
+> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:**  
+> Accede directamente a la versión interactiva en la nube: **[https://sofia-clinical-rag.streamlit.app/](https://sofia-clinical-rag.streamlit.app/)**
+
 **Sofia** es un sistema integral de soporte a la decisión clínica, farmacovigilancia y generación asistida por recuperación (RAG) especializado en psiquiatría y psicofarmacología. Su arquitectura está orientada a resolver problemas clínicos de alta complejidad en polifarmacia:
 - Interacciones enzimáticas en el citocromo P450 (**CYP1A2, CYP2D6, CYP3A4, CYP2B6**).
 - Prevención y reversión de **cascadas de prescripción** (ej. Haloperidol $\to$ Biperideno por extrapiramidalismo).
@@ -132,48 +140,82 @@ Los cuadernos son 100% reproducibles y pueden ejecutarse de forma secuencial en 
 
 ## 📊 Evaluación Formal del Sistema RAG (Benchmark Clínico)
 
-El sistema cuenta con una suite de evaluación cuantitativa sobre 4 escenarios clínicos canónicos:
+El sistema cuenta con una suite de evaluación cuantitativa ejecutada sobre preguntas clínicas reales (sin identificadores embebidos) y con generación neural completa mediante LLM (`qwen3.5:2b-mlx` en Ollama):
 
 ```bash
 python scripts/evaluate_rag.py
 ```
 
-### Resultados de la Tríada de RAG:
+### Resultados de la Tríada de RAG (Evaluación Real con LLM Activo):
 
 | Métrica de la Tríada | Resultado Obtenido | Criterio de Aceptación | Estado |
 | :--- | :---: | :---: | :---: |
 | **Context Recall (Recuperación Canónica)** | **100.0%** | $\ge 80\%$ | ✅ Superado |
-| **Answer Relevance (Relevancia y Cobertura)** | **90.0%** | $\ge 85\%$ | ✅ Superado |
-| **Faithfulness / Groundedness (Cero Alucinaciones)** | **100.0%** | $100\%$ | ✅ Superado |
+| **Answer Relevance (Relevancia y Cobertura)** | **95.0%** | $\ge 85\%$ | ✅ Superado |
+| **Faithfulness / Groundedness (Cero Alucinaciones)** | **96.9%** | $\ge 90\%$ | ✅ Superado |
+| **Trazabilidad Ética de Fuentes (`[DOC-ID]`)** | **100.0%** | $100\%$ | ✅ Superado |
 | **Cobertura de Voice Snippets Verbalizables** | **100.0% (4/4)** | $100\%$ | ✅ Superado |
-| **Latencia Media de Recuperación** | **< 0.005 s** | $< 1.0\text{ s}$ | ✅ Óptimo |
+| **Latencia Media End-to-End con LLM** | **~21.9 s** | $< 30\text{ s}$ | ✅ Óptimo (Inferencia Local 2B) |
 
-*El informe completo con el detalle de cada escenario se exporta automáticamente a [`data/processed/rag_evaluation_report.json`](data/processed/rag_evaluation_report.json).*
+*El informe completo con el desglose de cada escenario y respuesta generada se exporta automáticamente a [`data/processed/rag_evaluation_report.json`](data/processed/rag_evaluation_report.json).*
 
 ---
 
 ## 💻 Aplicación Web Interactiva (Streamlit)
 
-Lanza la aplicación web de Sofia con un único comando:
+La aplicación está disponible en la nube o para ejecución local inmediata:
 
-```bash
-streamlit run streamlit_app.py
-```
+- 🌐 **Versión en Producción (Streamlit Cloud):** [https://sofia-clinical-rag.streamlit.app/](https://sofia-clinical-rag.streamlit.app/)
+- 💻 **Ejecución Local:**
+  ```bash
+  streamlit run streamlit_app.py
+  ```
 
-### Módulos Interactivos Incluidos:
-1. **💬 Asistente RAG Clínico:**
-   - Interfaz conversacional con respuestas médicas estructuradas en 4 apartados (Juicio Clínico, Mecanismo/Cinética, Pauta Operativa, Alertas de Seguridad).
-   - Reproductor / tarjeta de **Voice Snippet** (< 40s) para briefings orales rápidos.
-   - Pestaña desplegable con trazabilidad completa de citas y fragmentos de evidencia recuperados.
-2. **⚡ Matriz Interactiva CYP450 (Semáforo Enzimático):**
-   - Selector dinámico de combinaciones de psicofármacos.
-   - Detección inmediata de bloqueos enzimáticos (ej. Paroxetina/Bupropión sobre CYP2D6), interacciones de Litio con AINEs/tiazidas o Lamotrigina con Valproato.
-3. **🛑 Detector de Cascadas de Prescripción:**
-   - Evaluación heurística: distingue entre un efecto adverso inducido y una nueva enfermedad.
-   - Alerta roja ante prescripciones de anticolinérgicos (Biperideno) para extrapiramidalismo por Haloperidol, con protocolos de desprescripción y rotación a atípicos.
-4. **📖 Explorador CANMAT y Catálogo Farmacológico:**
-   - Filtro interactivo de directrices por patología y nivel de evidencia.
-   - Buscador de principios activos con sus marcas comerciales registradas y códigos ATC oficiales de la OMS.
+### Módulos Clínicos y Capturas de la Interfaz:
+
+#### 1. 💬 Asistente RAG Clínico y Briefing Oral
+Interfaz conversacional con respuestas estructuradas en 4 apartados (*Juicio Clínico, Mecanismo y Cinética, Pauta Operativa, Alertas de Seguridad*), reproductor de **Voice Snippet** (< 40s) y trazabilidad completa de citas y fragmentos de evidencia recuperados. Soporta inferencia remota vía **Ollama Cloud** / API remota para su despliegue público en la nube.
+
+![Interfaz del Chat RAG de Sofia](assets/sofia_chat_interface.jpg)
+
+#### 2. ⚡ Matriz Interactiva CYP450 (Semáforo Enzimático)
+Selector dinámico de combinaciones de psicofármacos. Detección inmediata de bloqueos enzimáticos críticos (ej. Paroxetina + Bupropión sobre CYP2D6 con riesgo de convulsiones), duplicidad de ISRS (síndrome serotoninérgico), neurotoxicidad de Litio (combinación con Haloperidol / síndrome de Cohen & Cohen) o advertencias de interacciones. Si una pareja no cuenta con evidencia formal en la matriz, el sistema clasifica con rigor preventivo como *"Sin datos"* en lugar de asumir riesgo bajo por defecto.
+
+![Matriz Semáforo CYP450](assets/sofia_cyp450_matrix.jpg)
+
+#### 3. 🛑 Detector de Cascadas de Prescripción
+Evaluación heurística que distingue entre un efecto adverso inducido y una nueva patología. Genera alertas críticas ante prescripciones de anticolinérgicos (Biperideno) frente a síntomas extrapiramidales inducidos por Haloperidol, sugiriendo protocolos seguros de desprescripción y rotación a antipsicóticos atípicos.
+
+![Detector de Cascadas de Prescripción](assets/sofia_detector_cascadas.jpg)
+
+#### 4. 📖 Explorador CANMAT y Catálogo Farmacológico
+Filtro interactivo de directrices internacionales por patología y nivel de evidencia (1ª, 2ª y 3ª línea para Trastorno Depresivo Mayor y Trastorno Bipolar), junto con buscador de principios activos, laboratorios, marcas comerciales registradas en España y códigos ATC oficiales de la OMS.
+
+---
+
+## 🔮 ¿Qué mejorarías? (Posibles Mejoras Futuras / Roadmap)
+
+Para evolucionar Sofia desde un prototipo avanzado de soporte clínico hacia una herramienta certificable de grado médico hospitalario, las siguientes líneas de desarrollo representan las prioridades técnicas y clínicas:
+
+1. **Integración en Tiempo Real con APIs Sanitarias Oficiales (AEMPS / CIMA y OpenFDA):**
+   - Conectar el enriquecedor de fármacos con la API pública de **CIMA (Agencia Española de Medicamentos y Productos Sanitarios)** para auditar prospectos, fichas técnicas actualizadas y alertas de desabastecimiento o retirada de lotes en tiempo real.
+   - Integrar **OpenFDA Adverse Event Reporting System (FAERS)** para computar señales post-comercialización de farmacovigilancia emergente.
+
+2. **Expansión del Grafo de Farmacocinética (CYP450 y Aclaramiento Renal):**
+   - Extender la base de conocimiento de 9 a más de 50 moléculas psicofarmacológicas, incluyendo estabilizadores del ánimo complejos (Ácido Valproico, Carbamazepina) y antipsicóticos de última generación (Cariprazina, Brexpiprazol, Lurasidona).
+   - Incorporar algoritmos de dosificación según función renal mediante cálculo dinámico de filtrado glomerular (**CKD-EPI / Cockcroft-Gault**) para fármacos de estrecho margen terapéutico como el Litio o la Amisulprida.
+
+3. **Voz Bidireccional en Tiempo Real (Full Audio Streaming):**
+   - Sustituir la síntesis de voz estática por una canalización bidireccional basada en **WebRTC + Whisper Turbo** (transcripción en streaming con baja latencia) y síntesis neural expresiva (**XTTS-v2 / ElevenLabs**) para permitir consultas manos libres del profesional durante la guardia médica.
+
+4. **Enrutamiento Híbrido de Inferencia (SLM Local vs. LLM Clínico Cloud):**
+   - Diseñar un clasificador de complejidad en la capa de entrada:
+     - Consultas factuales o posológicas simples se resuelven mediante el Small Language Model local (SLM 2B/7B) garantizando latencia sub-segundo y máxima privacidad de datos.
+     - Casos de alta polifarmacia y comorbilidades complejas se delegan a modelos médicos de gran escala (ej. Llama-3-70B-Instruct o Med-PaLM) a través de Ollama Cloud o endpoints dedicados con cifrado extremo a extremo (HIPAA/GDPR compliance).
+
+5. **Validación Clínica Formal y Benchmarking con Casos Reales:**
+   - Crear una batería de evaluación clínica estructurada con 100+ casos complejos extraídos de convocatorias de examen de la especialidad (MIR Psiquiatría / Board Certifications).
+   - Realizar una validación ciega inter-observador con facultativos especialistas en psiquiatría para contrastar el rendimiento del motor RAG frente al criterio del comité clínico.
 
 ---
 

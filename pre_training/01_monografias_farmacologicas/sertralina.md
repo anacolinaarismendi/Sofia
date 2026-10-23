@@ -5,16 +5,16 @@ farmaco: "Sertralina"
 atc_codigo: "N06AB06"
 atc_grupo: "Antidepresivos / Inhibidores Selectivos de la Recaptación de Serotonina (ISRS)"
 enzimas_cyp: ["CYP2D6 (inhibición leve/moderada a dosis altas)", "CYP2B6", "CYP3A4"]
-marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Almirall)", "Aserin"]
+marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Esteve / Almirall)", "Besitran (Pfizer)", "Altruline"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 nivel_riesgo: "Moderado"
-palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular"]
+palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular", "aremis", "esteve"]
 ---
 
 # Ficha Clínica y Conversacional: Sertralina (N06AB06)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La sertralina es un antidepresivo inhibidor selectivo de la recaptación de serotonina, fármaco de primera línea para el trastorno depresivo mayor y cuadros de ansiedad como el pánico y el trastorno obsesivo-compulsivo. Su dosis inicial típica es de 25 a 50 miligramos diarios por la mañana, titulable hasta un máximo de 200 miligramos al día. Destaca por su seguridad cardiovascular comprobada y porque interfiere significativamente menos con el citocromo CYP2D6 que la paroxetina o la fluoxetina, lo que la convierte en una opción idónea en pacientes polimedicados. Comercialmente se encuentra como Zoloft de Pfizer o Serlift de Roemmers."
+> "La sertralina es un antidepresivo inhibidor selectivo de la recaptación de serotonina, fármaco de primera línea para el trastorno depresivo mayor y cuadros de ansiedad como el pánico y el trastorno obsesivo-compulsivo. Su dosis inicial típica es de 25 a 50 miligramos diarios por la mañana, titulable hasta un máximo de 200 miligramos al día. Destaca por su seguridad cardiovascular comprobada y porque interfiere significativamente menos con el citocromo CYP2D6 que la paroxetina o la fluoxetina, lo que la convierte en una opción idónea en pacientes polimedicados. Comercialmente se encuentra como Zoloft o Besitran de Pfizer, Serlift de Roemmers y Aremis de Esteve (Almirall)."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
 Según la Dra. Gabriela Jufe y el Dr. Stephen Stahl, la sertralina actúa como un potente inhibidor del transportador de serotonina (SERT). A diferencia de otros ISRS, posee una característica farmacodinámica diferencial única: un bloqueo débil pero clínicamente relevante del transportador de dopamina (DAT) y afinidad por receptores sigma-1. Esta suave acción dopaminérgica contribuye a una mejoría temprana de la anhedonia, el enlentecimiento psicomotor y la energía en comparación con otros serotoninérgicos puros.

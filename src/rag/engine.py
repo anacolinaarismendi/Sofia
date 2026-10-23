@@ -30,7 +30,7 @@ except ImportError:
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
-SOFIA_CLINICAL_PROMPT = """Eres Sofia, médica especialista en Psicofarmacología Clínica, Psiquiatría Basada en la Evidencia y Farmacovigilancia.
+SOFIA_CLINICAL_PROMPT = """Eres Sofia, asistente clínica especializada en Psicofarmacología Clínica, Psiquiatría Basada en la Evidencia y Farmacovigilancia.
 Tu función es asesorar a médicos adjuntos, residentes y profesionales de la salud con el máximo rigor científico, basándote EXCLUSIVAMENTE en el CONTEXTO CLÍNICO RECUPERADO.
 
 ### DIRECTRICES DE RAZONAMIENTO Y SEGURIDAD CLÍNICA:
@@ -39,9 +39,9 @@ Tu función es asesorar a médicos adjuntos, residentes y profesionales de la sa
 3. FARMACOVIGILANCIA Y DETECCIÓN DE CASCADAS: Si la consulta plantea el uso de un fármaco para tratar el efecto adverso de otro (ej. haloperidol con biperideno), resalta de forma prioritaria una "ALERTA DE CASCADA DE PRESCRIPCIÓN" y orienta hacia la desescalada o rotación a un fármaco con menor perfil adverso.
 4. METABOLISMO ENZIMÁTICO Y CITOCROMOS: Especifica siempre las vías metabólicas y los citocromos involucrados (CYP1A2, CYP2D6, CYP3A4, CYP2B6, glucuronidación UGT1A4 o eliminación renal de litio).
 
-### FORMATO DE RESPUESTA MÉDICA OBLIGATORIO:
+### FORMATO DE RESPUESTA CLÍNICA OBLIGATORIO:
 Estructura tu respuesta en los siguientes 4 apartados numerados:
-- **1. Juicio Clínico Inmediato:** Conclusión directa, asertiva y aplicable a la consulta en 2-3 líneas.
+- **1. Juicio Clínico Inmediato:** Conclusión directa y aplicable a la consulta en 2-3 líneas.
 - **2. Mecanismo Farmacológico y Cinética:** Explicación fisiopatológica, receptores involucrados (D2, 5-HT, etc.) y/o perfil enzimático CYP450.
 - **3. Pauta Operativa y Recomendaciones:** Dosis sugeridas, velocidad de titulación/desescalada y parámetros obligatorios de monitorización analítica o clínica.
 - **4. Alertas de Seguridad y Trazabilidad Comercial:** Advertencias críticas (caja negra, litemia, agranulocitosis) y nombres comerciales / laboratorios aplicables.
@@ -110,14 +110,25 @@ def cargar_corpus_pretraining(directorio: Optional[Path] = None) -> List[Dict[st
 
 
 class ClinicalVectorStore:
-    """Almacén vectorial clínico híbrido con Ollama y fallback local TF-IDF."""
+    """Almacén vectorial clínico híbrido con Ollama (local o cloud) y fallback local TF-IDF."""
 
     def __init__(
         self,
-        ollama_host: str = "http://localhost:11434",
-        embedding_model: str = "embeddinggemma:latest"
+        ollama_host: Optional[str] = None,
+        embedding_model: str = "embeddinggemma:latest",
+        api_key: Optional[str] = None
     ):
-        self.ollama_host = ollama_host
+        self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
+        env_host = os.environ.get("OLLAMA_HOST")
+        if ollama_host:
+            self.ollama_host = ollama_host
+        elif env_host:
+            self.ollama_host = env_host
+        elif self.api_key:
+            self.ollama_host = "https://ollama.com"
+        else:
+            self.ollama_host = "http://localhost:11434"
+
         self.embedding_model = embedding_model
         self.documentos: List[Dict[str, Any]] = []
         self.embeddings: Optional[np.ndarray] = None
@@ -126,10 +137,16 @@ class ClinicalVectorStore:
         self.use_ollama = False
         self._verificar_ollama()
 
+    def _get_headers(self) -> Dict[str, str]:
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+        return headers
+
     def _verificar_ollama(self) -> bool:
-        """Comprueba disponibilidad del host de Ollama."""
+        """Comprueba disponibilidad del host de Ollama (local o cloud)."""
         try:
-            r = requests.get(f"{self.ollama_host}/api/tags", timeout=1.5)
+            r = requests.get(f"{self.ollama_host}/api/tags", headers=self._get_headers(), timeout=2.5)
             if r.status_code == 200:
                 tags = [m.get("name", "") for m in r.json().get("models", [])]
                 self.use_ollama = any(self.embedding_model in t for t in tags)
@@ -159,6 +176,7 @@ class ClinicalVectorStore:
                 for t in textos:
                     res = requests.post(
                         f"{self.ollama_host}/api/embeddings",
+                        headers=self._get_headers(),
                         json={"model": self.embedding_model, "prompt": t[:2000]},
                         timeout=10
                     )
@@ -189,6 +207,7 @@ class ClinicalVectorStore:
             try:
                 res = requests.post(
                     f"{self.ollama_host}/api/embeddings",
+                    headers=self._get_headers(),
                     json={"model": self.embedding_model, "prompt": query},
                     timeout=5
                 )
@@ -223,17 +242,32 @@ class ClinicalVectorStore:
 
 
 class ClinicalRAGEngine:
-    """Motor integral de RAG clínico de Sofia con soporte multimodal y groundedness estricto."""
+    """Motor integral de RAG clínico de Sofia con soporte local, Ollama Cloud y groundedness estricto."""
 
     def __init__(
         self,
-        ollama_host: str = "http://localhost:11434",
+        ollama_host: Optional[str] = None,
         embedding_model: str = "embeddinggemma:latest",
-        llm_model: str = "qwen3.5:2b-mlx"
+        llm_model: Optional[str] = None,
+        api_key: Optional[str] = None
     ):
-        self.ollama_host = ollama_host
-        self.llm_model = llm_model
-        self.vector_store = ClinicalVectorStore(ollama_host=ollama_host, embedding_model=embedding_model)
+        self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
+        env_host = os.environ.get("OLLAMA_HOST")
+        if ollama_host:
+            self.ollama_host = ollama_host
+        elif env_host:
+            self.ollama_host = env_host
+        elif self.api_key:
+            self.ollama_host = "https://ollama.com"
+        else:
+            self.ollama_host = "http://localhost:11434"
+
+        self.llm_model = llm_model or os.environ.get("OLLAMA_MODEL") or "qwen3.5:2b-mlx"
+        self.vector_store = ClinicalVectorStore(
+            ollama_host=self.ollama_host,
+            embedding_model=embedding_model,
+            api_key=self.api_key
+        )
         self.docs = cargar_corpus_pretraining()
         if self.docs:
             self.vector_store.indexar_documentos(self.docs)
@@ -268,7 +302,7 @@ class ClinicalRAGEngine:
 
         prompt_usuario = (
             f"### CONTEXTO CLÍNICO RECUPERADO:\n{contexto}\n\n"
-            f"### CONSULTA MÉDICA:\n{pregunta}\n\n"
+            f"### CONSULTA CLÍNICA:\n{pregunta}\n\n"
             f"Genera tu respuesta clínica estructurada respetando estrictamente las 4 secciones numeradas "
             f"y citando los códigos identificadores de documento [DOC-ID] del contexto:"
         )
@@ -276,23 +310,34 @@ class ClinicalRAGEngine:
         respuesta_texto = ""
         generado_con_llm = False
 
-        # Intentar llamada a Ollama si está disponible
+        # Intentar llamada a Ollama (local o Cloud)
         try:
             payload = {
                 "model": self.llm_model,
                 "system": SOFIA_CLINICAL_PROMPT,
                 "prompt": prompt_usuario,
                 "stream": False,
+                "think": False,
                 "options": {
                     "temperature": 0.2,
                     "top_p": 0.9,
-                    "num_predict": 500
+                    "num_predict": 800
                 }
             }
-            res = requests.post(f"{self.ollama_host}/api/generate", json=payload, timeout=60)
+            res = requests.post(
+                f"{self.ollama_host}/api/generate",
+                headers=self.vector_store._get_headers(),
+                json=payload,
+                timeout=75
+            )
             if res.status_code == 200:
-                respuesta_texto = res.json().get("response", "").strip()
-                generado_con_llm = True
+                raw_resp = res.json().get("response", "").strip()
+                if raw_resp:
+                    # Limpiar bloques internos de pensamiento si están presentes
+                    respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip()
+                    if not respuesta_texto:
+                        respuesta_texto = raw_resp
+                    generado_con_llm = True
         except Exception:
             pass
 

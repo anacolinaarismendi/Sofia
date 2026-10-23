@@ -1,0 +1,9 @@
+Farmaco_Principal,Farmaco_Secundario,Enzima,Nivel_Riesgo,Impacto_Clinico,Conducta_Sugerida
+Paroxetina,Risperidona,CYP2D6,Rojo Crítico,Inhibición potente de CYP2D6; eleva niveles de risperidona provocando extrapiramidalismo agudo.,Reducir dosis de risperidona al 50% o rotar a Sertralina/Escitalopram.
+Bupropión,Haloperidol,CYP2D6,Rojo Crítico,Inhibición marcada de 2D6 con acumulación de haloperidol y sedación excesiva/prolongación QTc.,Ajuste posológico del 50% y monitorización estrecha de síntomas extrapiramidales.
+Fluoxetina,Risperidona,CYP2D6,Rojo Crítico,Inhibición potente y persistente (vida media larga de norfluoxetina).,Vigilancia de toxicidad durante semanas incluso tras retirar la fluoxetina.
+Clozapina,Humo de Tabaco,CYP1A2,Amarillo Advertencia,Los hidrocarburos inducen CYP1A2 reduciendo niveles plasmáticos de clozapina hasta un 50%.,Ajustar dosis según hábito tabáquico y monitorizar hemograma seriado.
+Carbonato de Litio,AINEs / Tiazidas,Excreción Renal,Rojo Crítico,"Reducción del aclaramiento renal de litio en un 30-50%, precipitando toxicidad lítica potencialmente fatal.",Contraindicación de AINEs/tiazidas sin reducción drástica de litio y control estricto de litemia.
+Lamotrigina,Ácido Valproico,Glucuronidación UGT1A4,Amarillo Advertencia,Valproato inhibe la glucuronidación duplicando la vida media de lamotrigina (riesgo de Stevens-Johnson).,Iniciar lamotrigina a la mitad de la dosis estándar y titular lentamente a semanas alternas.
+Haloperidol,Biperideno,Cascada D2 / Anticolinérgico,Alerta Roja (Cascada),Cascada clásica: Parkinsonismo inducido tratado con anticolinérgico. Riesgo de discinesia tardía irreversible.,"Protocolo de Desprescripción Sofia: Reducir dosis, rotar a atípico y retirar biperideno en 2-4 semanas."
+Sertralina,Litio,Vías Independientes,Verde Seguro,Mínima interferencia enzimática; perfil cardiovascular seguro y baja interacción CYP2D6.,Mantener esquema estándar con monitorización habitual de respuesta clínica.

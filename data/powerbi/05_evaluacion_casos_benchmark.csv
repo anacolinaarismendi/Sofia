@@ -1,0 +1,5 @@
+Caso_ID,Categoria,Doc_ID,Pregunta,Top_Doc,Score_Similitud,Context_Recall,Answer_Relevance,Groundedness,Voice_Snippet_Ok,Latencia_Seg
+CASO_01,Monografía y Posología,[MONO-SERTRALINA-001],¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología?,Sertralina,0.1786,1.0,1.0,1.0,Sí,0.001
+CASO_02,Farmacocinética y Citocromos,[INTER-CYP2D6-001],¿Qué interacciones y precauciones enzimáticas con CYP2D6 se describen para Paroxetina y Bupropión?,Interacciones Críticas en el Citocromo CYP2D6,0.2398,1.0,1.0,1.0,Sí,0.001
+CASO_03,Medicina Basada en Evidencia,[GUIA-CANMAT-DEP-002],¿Qué fármacos se recomiendan en primera línea para manía aguda y por qué se desaconsejan antidepresivos solos?,CANMAT Bipolar Depresión y Viraje,0.2065,1.0,0.8,1.0,Sí,0.001
+CASO_04,Farmacovigilancia y Cascadas,[CASC-HAL-BIP-001],Paciente con Haloperidol comienza con rigidez y temblor y le indican biperideno. ¿Riesgo de cascada?,Cascada de Prescripción Clásica: Haloperidol a Biperideno,0.2004,1.0,0.8,1.0,Sí,0.001

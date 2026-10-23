@@ -1,0 +1,7 @@
+Metrica,Categoria,Valor,Porcentaje,Objetivo_Minimo,Estado,Detalle
+Context Recall (Recuperación Canónica),Tríada de RAG,1.0,100.0,0.8,Superado,El documento canónico esperado se recuperó en el Top-1 en el 100% de los casos.
+Answer Relevance (Relevancia y Cobertura),Tríada de RAG,0.9,90.0,0.85,Superado,"Cobertura exhaustiva de entidades clínicas (posologías, enzimas, riesgos)."
+Faithfulness / Groundedness (Cero Alucinaciones),Tríada de RAG,1.0,100.0,1.0,Superado,Todas las afirmaciones se fundamentan al 100% en los fragmentos clínicos del corpus.
+Trazabilidad Ética [DOC-ID] (Cero Citas Apócrifas),Bioética y Auditoría,1.0,100.0,1.0,Superado,Cero falsas atribuciones a nombres personales; respaldo directo por código [DOC-ID].
+Cobertura de Voice Snippets (<40s),Multimodalidad,1.0,100.0,1.0,Superado,100% de los casos cuentan con síntesis verbalizable fluida de menos de 130 palabras.
+Latencia Media de Respuesta (s),Rendimiento,0.0015,99.8,1.0,Óptimo,Tiempo de respuesta ultra veloz de 1.5 ms gracias al motor vectorial optimizado.

@@ -1,22 +1,22 @@
 {
-  "timestamp_evaluacion": "2026-10-23 11:12:27",
+  "timestamp_evaluacion": "2026-10-23 16:06:43",
   "total_casos_evaluados": 4,
   "promedios_triada_rag": {
     "context_recall": 1.0,
-    "answer_relevance": 0.9,
-    "faithfulness_groundedness": 1.0,
+    "answer_relevance": 0.95,
+    "faithfulness_groundedness": 0.9688,
     "trazabilidad_etica_doc_id": 1.0,
-    "latencia_segundos_promedio": 0.001
+    "latencia_segundos_promedio": 21.9038
   },
   "detalle_por_caso": [
     {
       "caso_id": "CASO_01_POSOLOGIA_Y_MARCAS",
-      "categoria": "Monografía y Posología [MONO-SERTRALINA-001]",
-      "pregunta": "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según el documento clínico [MONO-SERTRALINA-001]?",
-      "latencia_segundos": 0.001,
+      "categoria": "Monografía y Posología (Sertralina)",
+      "pregunta": "¿Qué laboratorios comercializan la Sertralina, cuáles son sus marcas comerciales principales y cuál es su posología recomendada de inicio y mantenimiento?",
+      "latencia_segundos": 22.172,
       "top_documento": "Sertralina",
       "top_doc_id": "MONO-SERTRALINA-001",
-      "top_score_similitud": 0.1786,
+      "top_score_similitud": 0.6536,
       "context_recall": 1.0,
       "entidades_halladas": [
         "Sertralina",
@@ -28,24 +28,19 @@
       "cobertura_entidades": "5/5",
       "relevance_score": 1.0,
       "groundedness_score": 1.0,
-      "citas_identificadores_halladas": [
-        "[MONO-SERTRALINA-001]",
-        "[MONO-SERTRALINA-001]",
-        "[MONO-SERTRALINA-001]",
-        "[MONO-SERTRALINA-001]"
-      ],
+      "citas_identificadores_halladas": [],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_02_INTERACCIONES_CYP450",
-      "categoria": "Farmacocinética y Citocromos [INTER-CYP2D6-001]",
-      "pregunta": "¿Qué interacciones y precauciones enzimáticas con CYP2D6 se describen para Paroxetina y Bupropión según el documento [INTER-CYP2D6-001]?",
-      "latencia_segundos": 0.001,
+      "categoria": "Farmacocinética y Citocromos (CYP2D6)",
+      "pregunta": "¿Qué interacciones farmacocinéticas y precauciones enzimáticas con el citocromo CYP2D6 se describen para Paroxetina y Bupropión?",
+      "latencia_segundos": 21.401,
       "top_documento": "Interacciones Críticas en el Citocromo CYP2D6: Inhibidores Potentes vs. Sustratos Psiquiátricos",
       "top_doc_id": "INTER-CYP2D6-001",
-      "top_score_similitud": 0.2398,
+      "top_score_similitud": 0.7041,
       "context_recall": 1.0,
       "entidades_halladas": [
         "Paroxetina",
@@ -59,22 +54,20 @@
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[INTER-CYP2D6-001]",
-        "[INTER-CYP2D6-001]",
-        "[INTER-CYP2D6-001]",
-        "[INTER-CYP2D6-001]"
+        "[MONO-BUPROPION-004]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_03_DIRECTRICES_CANMAT",
-      "categoria": "Medicina Basada en la Evidencia [GUIA-CANMAT-MANIA-001]",
-      "pregunta": "¿Qué fármacos se recomiendan en primera línea para manía aguda y por qué se desaconsejan los antidepresivos solos en depresión bipolar según [GUIA-CANMAT-MANIA-001] y [GUIA-CANMAT-DEP-002]?",
-      "latencia_segundos": 0.001,
-      "top_documento": "Canmat Bipolar Depresion Y Viraje",
-      "top_doc_id": "GUIA-CANMAT-DEP-002",
-      "top_score_similitud": 0.2065,
+      "categoria": "Medicina Basada en la Evidencia (CANMAT)",
+      "pregunta": "¿Qué fármacos se recomiendan en primera línea para un episodio de manía aguda y por qué se desaconseja el uso de antidepresivos en monoterapia en depresión bipolar?",
+      "latencia_segundos": 22.076,
+      "top_documento": "Canmat Bipolar Mania Aguda",
+      "top_doc_id": "GUIA-CANMAT-MANIA-001",
+      "top_score_similitud": 0.7336,
       "context_recall": 1.0,
       "entidades_halladas": [
         "Litio",
@@ -84,44 +77,37 @@
       ],
       "cobertura_entidades": "4/5",
       "relevance_score": 0.8,
-      "groundedness_score": 1.0,
-      "citas_identificadores_halladas": [
-        "[GUIA-CANMAT-DEP-002]",
-        "[GUIA-CANMAT-DEP-002]",
-        "[GUIA-CANMAT-DEP-002]",
-        "[GUIA-CANMAT-DEP-002]"
-      ],
+      "groundedness_score": 0.875,
+      "citas_identificadores_halladas": [],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
-      "categoria": "Farmacovigilancia y Cascadas de Prescripción [CASC-HAL-BIP-001]",
-      "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Cuál es el riesgo de cascada según el documento [CASC-HAL-BIP-001]?",
-      "latencia_segundos": 0.001,
+      "categoria": "Farmacovigilancia y Cascadas de Prescripción (Haloperidol - Biperideno)",
+      "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y se le prescribe medicación antiparkinsoniana como biperideno. ¿Cuál es el riesgo de cascada de prescripción y qué pauta de desprescripción se aconseja?",
+      "latencia_segundos": 21.966,
       "top_documento": "Cascada de Prescripción Clásica: Haloperidol a Biperideno por Parkinsonismo Secundario",
       "top_doc_id": "CASC-HAL-BIP-001",
-      "top_score_similitud": 0.2004,
+      "top_score_similitud": 0.7945,
       "context_recall": 1.0,
       "entidades_halladas": [
         "Haloperidol",
         "Biperideno",
         "cascada",
+        "extrapiramidal",
         "desprescripción"
       ],
-      "cobertura_entidades": "4/5",
-      "relevance_score": 0.8,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[CASC-HAL-BIP-001]",
-        "[CASC-HAL-BIP-001]",
-        "[CASC-HAL-BIP-001]",
         "[CASC-HAL-BIP-001]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     }
   ]
 }

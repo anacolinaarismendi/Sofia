@@ -127,8 +127,28 @@ st.markdown("""
 # Carga de Motor RAG y Datasets en Caché
 # -----------------------------------------------------------------------------
 @st.cache_resource(show_spinner="Inicializando base de conocimiento clínica de Sofia...")
-def get_rag_engine():
-    return ClinicalRAGEngine()
+def get_rag_engine(api_key: str = "", host: str = "", model: str = ""):
+    # 1. Leer credenciales de st.secrets si existen (Streamlit Cloud)
+    sec_key = ""
+    sec_host = ""
+    sec_model = ""
+    try:
+        if hasattr(st, "secrets"):
+            sec_key = st.secrets.get("OLLAMA_API_KEY", "")
+            sec_host = st.secrets.get("OLLAMA_HOST", "")
+            sec_model = st.secrets.get("OLLAMA_MODEL", "")
+    except Exception:
+        pass
+
+    final_key = api_key or sec_key or None
+    final_host = host or sec_host or None
+    final_model = model or sec_model or None
+
+    return ClinicalRAGEngine(
+        ollama_host=final_host,
+        llm_model=final_model,
+        api_key=final_key
+    )
 
 
 @st.cache_data
@@ -147,10 +167,6 @@ def load_datasets():
     return datasets
 
 
-rag_engine = get_rag_engine()
-data = load_datasets()
-
-
 # -----------------------------------------------------------------------------
 # Barra Lateral (Sidebar)
 # -----------------------------------------------------------------------------
@@ -160,14 +176,42 @@ with st.sidebar:
     st.caption("Asistente de Soporte a la Decisión y Farmacovigilancia en Psiquiatría")
 
     st.markdown("---")
-    st.markdown("### 🔌 Estado del Sistema")
-    if rag_engine.vector_store.use_ollama:
-        st.success("🟢 Ollama Conectado (`embeddinggemma`)")
+    st.markdown("### 🔌 Inferencia y Conectividad")
+
+    # Panel expandible para configuración de Ollama Cloud en despliegue
+    with st.expander("⚙️ Conexión Ollama Cloud / Remoto", expanded=False):
+        st.caption("Si despliegas fuera de tu Mac (Streamlit Cloud), configura tu API Key de Ollama Cloud:")
+        user_key = st.text_input(
+            "Ollama Cloud API Key:",
+            type="password",
+            value=st.session_state.get("ollama_api_key", ""),
+            help="Obtén tu API key en ollama.com/settings/keys"
+        )
+        user_host = st.text_input(
+            "Host URL:",
+            value=st.session_state.get("ollama_host", ""),
+            placeholder="https://ollama.com"
+        )
+        if st.button("Aplicar Credenciales", use_container_width=True):
+            st.session_state["ollama_api_key"] = user_key
+            st.session_state["ollama_host"] = user_host
+            st.cache_resource.clear()
+            st.rerun()
+
+    active_key = st.session_state.get("ollama_api_key", "")
+    active_host = st.session_state.get("ollama_host", "")
+    rag_engine = get_rag_engine(api_key=active_key, host=active_host)
+    data = load_datasets()
+
+    # Estado visual del motor de inferencia
+    if rag_engine.api_key or (rag_engine.ollama_host and "ollama.com" in rag_engine.ollama_host):
+        st.success(f"☁️ Ollama Cloud Activo (`{rag_engine.llm_model}`)")
+    elif rag_engine.vector_store.use_ollama:
+        st.success(f"🟢 Ollama Local Activo (`{rag_engine.llm_model}`)")
     else:
-        st.info("🟡 Recuperador: TF-IDF Híbrido Local")
+        st.info("🟡 Inferencia Contingencia: TF-IDF + Fichas Estructuradas")
 
     st.metric("Base de Conocimiento", f"{len(rag_engine.docs)} Documentos", delta="Curados pre_training")
-    st.metric("Fidelidad RAG (Benchmark)", "100.0%", delta="0 Alucinaciones")
 
     st.markdown("---")
     st.markdown("### 📚 Corpus Clínico y Trazabilidad")
@@ -178,7 +222,7 @@ with st.sidebar:
     """)
 
     st.markdown("---")
-    st.caption("⚠️ **Aviso de Responsabilidad:** Sofia es una herramienta de soporte asistencial para profesionales médicos. No sustituye el criterio clínico individual.")
+    st.caption("⚠️ **Aviso de Responsabilidad:** Sofia es una herramienta de soporte asistencial para profesionales de la salud. No sustituye el juicio clínico individual.")
 
 
 # -----------------------------------------------------------------------------
@@ -225,7 +269,7 @@ with tab_chat:
             {
                 "role": "assistant",
                 "content": (
-                    "Hola, soy **Sofia**, médica especialista en psicofarmacología clínica y farmacovigilancia. "
+                    "Hola, soy **Sofia**, asistente clínica especializada en psicofarmacología clínica y farmacovigilancia. "
                     "Estoy lista para responder consultas con estricto *grounding* en nuestro corpus clínico y "
                     "trazabilidad transparente mediante identificadores de evidencia `[DOC-ID]`. "
                     "¿En qué caso o paciente puedo asistirte hoy?"
@@ -249,7 +293,7 @@ with tab_chat:
                         st.markdown(f"- **`[{doc_id}]` {doc['titulo']}** (ATC: `{doc.get('atc', 'N/D')}`) — Relevancia: `{score:.4f}` | Archivo: `{doc['archivo_origen']}`")
 
     # Manejar input del usuario (sea del chat o de un botón preconfigurado)
-    user_query = st.chat_input("Escribe tu pregunta médica aquí...") or query_preset
+    user_query = st.chat_input("Escribe tu consulta clínica aquí...") or query_preset
 
     if user_query:
         # Registrar y mostrar mensaje de usuario
@@ -312,7 +356,40 @@ with tab_cyp:
 
         interacciones_detectadas = []
 
-        # Regla 1: Inhibición potente de CYP2D6 (Paroxetina, Bupropión, Fluoxetina) + Sustrato 2D6 (Risperidona, Haloperidol)
+        isrs_catalogo = {"Sertralina", "Fluoxetina", "Paroxetina"}
+        isrs_seleccionados = set(seleccion).intersection(isrs_catalogo)
+
+        # Regla A: Paroxetina + Bupropión (Doble Inhibición Potente de CYP2D6 y Riesgo Convulsivo)
+        if "Paroxetina" in seleccion and "Bupropión" in seleccion:
+            interacciones_detectadas.append({
+                "nivel": "CRÍTICO",
+                "titulo": "🔴 Interacción Severa Farmacocinética y Farmacodinámica (Paroxetina + Bupropión)",
+                "descripcion": (
+                    "**Mecanismo Enzimático:** Tanto la paroxetina como el bupropión son potentes inhibidores del citocromo CYP2D6. "
+                    "Al coadministrarse, se produce una saturación competitiva del aclaramiento de paroxetina (que depende de 2D6 con cinética no lineal), "
+                    "provocando un aumento exponencial e impredecible de sus niveles plasmáticos.\n\n"
+                    "**Riesgo Clínico:** Toxicidad serotoninérgica, prolongación del intervalo QTc, temblor severo y disminución crítica del umbral "
+                    "convulsivo inducida por bupropión ante concentraciones supraterapéuticas.\n\n"
+                    "**Recomendación:** Combinación desaconsejada. Si se requiere añadir bupropión para mitigar disfunción sexual o apatía, "
+                    "es preferible emplear un ISRS con mínimo o nulo impacto sobre CYP2D6 (como Sertralina o Escitalopram)."
+                )
+            })
+
+        # Regla B: Duplicidad Terapéutica de ISRS (2 o más ISRS juntos)
+        if len(isrs_seleccionados) >= 2:
+            interacciones_detectadas.append({
+                "nivel": "CRÍTICO",
+                "titulo": f"🔴 Duplicidad Terapéutica Inadecuada de ISRS ({' + '.join(sorted(isrs_seleccionados))})",
+                "descripcion": (
+                    "**Mecanismo:** La prescripción simultánea de dos o más fármacos de la misma familia (ISRS) carece de fundamento clínico "
+                    "basado en evidencia y no aporta beneficio sinérgico en depresión mayor o trastornos de ansiedad.\n\n"
+                    "**Riesgo Clínico:** Multiplica de forma inmediata el riesgo de **Síndrome Serotoninérgico** potencialmente letal "
+                    "(hipertermia, clonus, mioclonías, inestabilidad autonómica, agitación psicomotriz) y riesgo hemorrágico por depleción plaquetaria de serotonina.\n\n"
+                    "**Conducta Racional:** Contraindicado. Realizar cambio escalonado con período de retirada o lavado adecuado si se planea una rotación."
+                )
+            })
+
+        # Regla C: Inhibición potente de CYP2D6 + Sustrato 2D6 (Risperidona, Haloperidol)
         inhibidores_2d6 = {"Paroxetina", "Bupropión", "Fluoxetina"}
         sustratos_2d6 = {"Risperidona", "Haloperidol"}
 
@@ -331,45 +408,82 @@ with tab_cyp:
                 )
             })
 
-        # Regla 2: Clozapina + Inhibidores o Inductores CYP1A2
-        if "Clozapina" in seleccion:
+        # Regla D: Litio + Interacciones cruzadas
+        if "Litio" in seleccion:
+            if "Haloperidol" in seleccion:
+                interacciones_detectadas.append({
+                    "nivel": "CRÍTICO",
+                    "titulo": "🔴 Riesgo de Neurotoxicidad y Síndrome Encefalopático (Litio + Haloperidol)",
+                    "descripcion": (
+                        "**Hallazgo Clínico:** La combinación puede precipitar un síndrome encefalopático severo (síndrome de Cohen & Cohen), "
+                        "cursando con letargia, temblor grosero, debilidad extrema, fiebre y síntomas extrapiramidales severos con riesgo de secuelas neurológicas.\n\n"
+                        "**Monitorización:** Evitar dosis altas de ambos fármacos; mantener litemias en el rango inferior (0.6 - 0.8 mEq/L) y suspender si aparece confusión."
+                    )
+                })
+
+            if isrs_seleccionados:
+                interacciones_detectadas.append({
+                    "nivel": "ADVERTENCIA",
+                    "titulo": f"🟡 Potenciación Serotoninérgica y Temblor (Litio + {', '.join(sorted(isrs_seleccionados))})",
+                    "descripcion": (
+                        "**Interacción Farmacodinámica:** El litio estimula la neurotransmisión serotoninérgica central. Aunque es una estrategia válida de adición "
+                        "en depresión resistente, eleva la frecuencia de temblor postural fino, molestias digestivas y riesgo de toxicidad serotoninérgica.\n\n"
+                        "**Pauta:** Controlar periódicamente la litemia basal y vigilar síntomas autonómicos o neuromusculares."
+                    )
+                })
+
+            if "Clozapina" in seleccion:
+                interacciones_detectadas.append({
+                    "nivel": "ADVERTENCIA",
+                    "titulo": "🟡 Monitorización Neurológica Estricta (Litio + Clozapina)",
+                    "descripcion": (
+                        "**Riesgo:** Ambos agentes disminuyen el umbral convulsivo y aumentan el riesgo de mioclonías, confusión y síndrome neuroléptico maligno.\n\n"
+                        "**Pauta:** Titulación lenta de clozapina y hemograma seriado habitual."
+                    )
+                })
+
+            # Recordatorio renal constante de litio si no hay otra regla crítica de litio
+            if "Haloperidol" not in seleccion and not isrs_seleccionados and "Clozapina" not in seleccion:
+                interacciones_detectadas.append({
+                    "nivel": "ADVERTENCIA",
+                    "titulo": "🟡 Vigilancia de Eliminación Renal de Litio",
+                    "descripcion": (
+                        "**Riesgo Renal:** El litio tiene eliminación exclusivamente renal sin metabolismo CYP450. "
+                        "La prescripción concomitante de AINEs (ibuprofeno, naproxeno), IECA o diuréticos tiazídicos "
+                        "reduce su aclaramiento en un 30-50%, precipitando toxicidad lítica potencialmente fatal."
+                    )
+                })
+
+        # Regla E: Clozapina + Inhibidores o Inductores CYP1A2
+        if "Clozapina" in seleccion and "Litio" not in seleccion:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "titulo": "🟡 Monitorización Estricta de Clozapina (Sustrato Principal CYP1A2)",
                 "descripcion": (
                     "**Vía Metabólica:** Clozapina depende en un 70% de CYP1A2. Fármacos inhibidores elevan su nivel hacia el rango convulsivo; "
-                    "los hidrocarburos del humo del tabaco inducen CYP1A2 y reducen sus niveles hasta un 50%. Requiere hemograma seriado y litemia no aplicable."
+                    "los hidrocarburos del humo del tabaco inducen CYP1A2 y reducen sus niveles hasta un 50%. Requiere hemograma seriado obligatorio."
                 )
             })
 
-        # Regla 3: Litio + AINEs / Tiazidas
-        if "Litio" in seleccion:
-            interacciones_detectadas.append({
-                "nivel": "ADVERTENCIA",
-                "titulo": "🟡 Vigilancia de Eliminación Renal de Litio",
-                "descripcion": (
-                    "**Riesgo Renal:** El litio tiene eliminación exclusivamente renal sin metabolismo CYP450. "
-                    "La prescripción concomitante de AINEs (ibuprofeno, naproxeno), IECA o diuréticos tiazídicos "
-                    "reduce su aclaramiento en un 30-50%, precipitando toxicidad lítica potencialmente fatal."
-                )
-            })
-
-        # Regla 4: Lamotrigina
-        if "Lamotrigina" in seleccion:
+        # Regla F: Lamotrigina + Valproato
+        if "Lamotrigina" in seleccion and "Litio" not in seleccion:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "titulo": "🟡 Metabolismo de Lamotrigina por Glucuronidación (UGT1A4)",
                 "descripcion": (
                     "**Interacción:** No se metaboliza principalmente por CYP450. Sin embargo, si se combina con Ácido Valproico, "
-                    "éste inhibe la glucuronidación duplicando la vida media de lamotrigina y aumentando el riesgo de Síndrome de Stevens-Johnson."
+                    "éste inhibe la glucuronidación duplicando la vida media de lamotrigina y aumentando drásticamente el riesgo de Síndrome de Stevens-Johnson."
                 )
             })
 
         if not interacciones_detectadas:
             st.markdown(
-                '<div class="alert-safe">🟢 <b>Combinación con Bajo Riesgo de Interacción CYP450 Directa:</b> '
-                'No se identificaron incompatibilidades enzimáticas mayores en el perfil de Stahl para estos principios activos. '
-                'Mantener posologías estándar con monitorización clínica habitual.</div>',
+                f'<div class="alert-warning" style="background-color: #f8fafc; border-left: 5px solid #64748b; color: #1e293b; padding: 14px 18px; border-radius: 6px;">'
+                f'<h4>⚪ Sin Datos Específicos de Interacción en esta Matriz Rápida</h4>'
+                f'<p>No se dispone de una regla heurística predefinida en este panel para la combinación simultánea de: <b>{", ".join(seleccion)}</b>.</p>'
+                f'<p style="margin-bottom: 0;"><b>Aviso de seguridad clínica:</b> La ausencia de una alerta automática en este selector rápido <u>no garantiza la inocuidad</u> del esquema. '
+                f'Verifique la función renal y hepática del paciente, consulte las monografías oficiales o plantee la consulta a <b>Sofia</b> en el asistente RAG.</p>'
+                f'</div>',
                 unsafe_allow_html=True
             )
         else:
