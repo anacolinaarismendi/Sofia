@@ -1,6 +1,9 @@
 [client]
 showErrorDetails = true
 
+[browser]
+gatherUsageStats = false
+
 [server]
 headless = true
 enableCORS = false

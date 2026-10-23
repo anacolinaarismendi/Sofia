@@ -24,7 +24,10 @@ except Exception as _rag_err:
     st.code(traceback.format_exc())
     class ClinicalRAGEngine:  # type: ignore
         def __init__(self, *args, **kwargs):
-            pass
+            class DummyStore:
+                use_ollama = False
+            self.vector_store = DummyStore()
+            self.docs = []
         def consultar(self, pregunta: str, top_k: int = 3):
             return {
                 "pregunta": pregunta,
@@ -40,8 +43,12 @@ except Exception:
     class ATCEnricher:  # type: ignore
         CATALOGO_ATC = {}
         @classmethod
+        def get_info(cls, *args, **kwargs):
+            return None
+        @classmethod
         def obtener_ficha(cls, *args, **kwargs):
             return None
+
 
 
 # -----------------------------------------------------------------------------
