@@ -83,31 +83,39 @@ Para mantener expectativas realistas sobre el sistema interactivo, el usuario de
 
 ## ⚙️ Modos de Inferencia en la App Interactiva
 
-El motor [`ClinicalRAGEngine`](src/rag/engine.py) implementa una arquitectura híbrida resiliente que se adapta al entorno de ejecución:
+El motor [`ClinicalRAGEngine`](src/rag/engine.py) implementa una arquitectura híbrida con dos vías de ejecución según la disponibilidad de recursos y conectividad:
 
 ```mermaid
 flowchart TD
     Q["Consulta del Usuario"] --> VS["ClinicalVectorStore (Recuperación top_k=3)"]
-    VS -->|Ollama Activo (Local o Cloud)| V_Densa["Búsqueda Semántica Densa (embeddinggemma)"]
-    VS -->|Ollama Inactivo| V_TFIDF["Fallback Determinista Scikit-Learn (TF-IDF ngram 1,2)"]
+    VS -->|Ollama Activo (Local o Cloud API)| V_Densa["Búsqueda Semántica Densa (embeddinggemma)"]
+    VS -->|Ollama Inactivo / Sin API Key| V_TFIDF["Búsqueda Léxica TF-IDF Scikit-Learn (ngram 1,2)"]
     
     V_Densa --> Ctx["Ensamblado de Contexto con Identificadores [DOC-ID]"]
     V_TFIDF --> Ctx
     
     Ctx --> LLM_Check{"¿Servidor LLM Disponible?"}
     LLM_Check -->|Sí: Ollama Local / Cloud API| Gen_LLM["Generación Neural Estructurada en 4 Apartados<br>(qwen3.5:2b-mlx / T=0.2)"]
-    LLM_Check -->|No: Contingencia Offline| Gen_Det["Estructuración Determinista Directa<br>a partir del Mejor Documento Recuperado"]
+    LLM_Check -->|No: Contingencia Sin LLM| Gen_Det["Plantilla Fija de Texto (4 frases hardcoded)<br>rellenada con la Ficha Recuperada"]
     
-    Gen_LLM --> Resp["Respuesta Clínica + Voice Snippet + Fuentes [DOC-ID]"]
+    Gen_LLM --> Resp["Respuesta Clínica Dinámica + Voice Snippet + Fuentes [DOC-ID]"]
     Gen_Det --> Resp
 ```
 
-1. **Modo Neural Completo (Ollama Local o Cloud):**
-   - **Embeddings:** `embeddinggemma:latest` para búsqueda semántica vectorial.
-   - **LLM:** `qwen3.5:2b-mlx` (temperatura 0.2) con el prompt clínico de Sofia (`SOFIA_CLINICAL_PROMPT`).
-   - **Salida:** Respuesta estructurada en 4 apartados, citando identificadores `[DOC-ID]` y extrayendo el *Voice Snippet* (<40s).
-2. **Modo Contingencia (Sin servidor LLM / Fallback Scikit-Learn):**
-   - Si Ollama no está en ejecución (por ejemplo, en despliegues básicos de Streamlit Cloud sin credenciales), el sistema **no se rompe**: recupera el documento más afín mediante TF-IDF y sintetiza la respuesta clínica determinista basada en la ficha recuperada.
+### 1. Modo Neural Completo (Ollama Local o Cloud API)
+- **Embeddings:** `embeddinggemma:latest` para búsqueda semántica vectorial densa basada en significado clínico.
+- **LLM:** `qwen3.5:2b-mlx` (temperatura 0.2) con el prompt clínico de Sofia (`SOFIA_CLINICAL_PROMPT`).
+- **Salida:** Respuesta clínica redactada dinámicamente en 4 apartados estructurados, razonando sobre el caso concreto, citando identificadores `[DOC-ID]` y extrayendo el *Voice Snippet* (<40s).
+- 📱 **Requisito en ordenadores básicos, teléfonos móviles o Streamlit Cloud:**  
+  Un teléfono móvil o un servidor web gratuito sin GPU (como Streamlit Community Cloud) **no puede correr `qwen` ni `embeddinggemma` localmente**. Si se abre la aplicación desde un teléfono o a través de internet sin hardware dedicado, **se necesita obligatoriamente conexión y una API Key de Ollama Cloud** (o un servidor Ollama remoto accesible) para que el modelo de lenguaje pueda redactar y responder.
+
+### 2. Modo Contingencia (Sin servidor LLM / Fallback Scikit-Learn)
+- **¿Qué significa que "el modelo conmuta a contingencia"?:**  
+  En este modo **no hay ningún modelo de IA en ejecución**. El modelo de lenguaje generativo está completamente apagado. En su lugar, el sistema recurre a un **algoritmo estadístico clásico de búsqueda de palabras de los años 70 (TF-IDF de Scikit-Learn)** que simplemente busca coincidencias léxicas exactas de términos en los archivos Markdown.
+- **¿Qué responde en contingencia?:**  
+  No hay redacción ni razonamiento clínico. El sistema devuelve una **plantilla estática fija de 4 frases predefinidas (hardcoded en el código)** que rellena con el título y el resumen pregrabado del documento recuperado (`"Seguir la dosificación descrita en [DOC-ID]"`). No responderá dudas médicas personalizadas ni interpretará combinaciones farmacológicas que no estén escritas literalmente.
+- **¿Qué significa que "nunca se rompe"?:**  
+  Esta afirmación aplica **exclusivamente a nivel de estabilidad de software:** gracias a los bloques de captura de excepciones (`try...except`), la aplicación web **no lanza una pantalla roja de error de Python** (`ConnectionRefusedError` o `Timeout`) ante la caída del servidor. Sin embargo, a nivel funcional y de experiencia de usuario, **el modelo generativo no está activo** y el chat funciona como un simple visor rígido de fichas.
 
 ---
 
@@ -176,10 +184,11 @@ pip install -r requirements.txt
 
 ### 2. (Opcional) Activar inferencia neural local con Ollama
 ```bash
-# Modelos recomendados para el entorno local
+# Modelos recomendados para entorno local en Mac con Apple Silicon (MLX):
 ollama pull embeddinggemma:latest
 ollama pull qwen3.5:2b-mlx
 ```
+> 💡 *Nota para entornos sin Apple Silicon (Linux / Windows / Cloud):* El modelo `qwen3.5:2b-mlx` utiliza el framework MLX de Apple. En otros sistemas operativos o servidores en la nube sin GPU dedicada, se debe utilizar un modelo compatible de Ollama (ej. `qwen2.5:3b` o `qwen2.5:1.5b`) o configurar la API Key de Ollama Cloud.
 
 ### 3. Ejecutar la aplicación interactiva
 ```bash
