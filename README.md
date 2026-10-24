@@ -1,12 +1,12 @@
 # Sofia — Asistente Clínico Inteligente y RAG de Psicofarmacología
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sofia-clinical-rag.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-Validated-success.svg)](data/processed/rag_evaluation_report.json)
 
 > 🚀 **Aplicación Web Desplegada en Streamlit Cloud:**  
-> Accede directamente a la versión interactiva en la nube: **[https://sofia-clinical-rag.streamlit.app/](https://sofia-clinical-rag.streamlit.app/)**
+> Accede directamente a la versión interactiva en la nube: **[https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)**
 
 **Sofia** es un sistema integral de soporte a la decisión clínica, farmacovigilancia y generación asistida por recuperación (RAG) especializado en psiquiatría y psicofarmacología. Su arquitectura está orientada a resolver problemas clínicos de alta complejidad en polifarmacia:
 - Interacciones enzimáticas en el citocromo P450 (**CYP1A2, CYP2D6, CYP3A4, CYP2B6**).
@@ -165,7 +165,7 @@ python scripts/evaluate_rag.py
 
 La aplicación está disponible en la nube o para ejecución local inmediata:
 
-- 🌐 **Versión en Producción (Streamlit Cloud):** [https://sofia-clinical-rag.streamlit.app/](https://sofia-clinical-rag.streamlit.app/)
+- 🌐 **Versión en Producción (Streamlit Cloud):** [https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
 - 💻 **Ejecución Local:**
   ```bash
   streamlit run streamlit_app.py

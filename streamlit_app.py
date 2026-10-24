@@ -222,6 +222,10 @@ with st.sidebar:
     """)
 
     st.markdown("---")
+    st.markdown("### 📂 Código y Documentación")
+    st.markdown("[🔗 Ver Repositorio y README en GitHub](https://github.com/anacolinaarismendi/Sofia)")
+
+    st.markdown("---")
     st.caption("⚠️ **Aviso de Responsabilidad:** Sofia es una herramienta de soporte asistencial para profesionales de la salud. No sustituye el juicio clínico individual.")
 
 
