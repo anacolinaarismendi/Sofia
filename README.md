@@ -6,96 +6,164 @@
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-Validated-success.svg)](data/processed/rag_evaluation_report.json)
 
 > 🚀 **Aplicación Web Desplegada en Streamlit Cloud:**  
-> Accede directamente a la versión interactiva en la nube: **[https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)**
-
-**Sofia** es un sistema integral de soporte a la decisión clínica, farmacovigilancia y generación asistida por recuperación (RAG) especializado en psiquiatría y psicofarmacología. Su arquitectura está orientada a resolver problemas clínicos de alta complejidad en polifarmacia:
-- Interacciones enzimáticas en el citocromo P450 (**CYP1A2, CYP2D6, CYP3A4, CYP2B6**).
-- Prevención y reversión de **cascadas de prescripción** (ej. Haloperidol $\to$ Biperideno por extrapiramidalismo).
-- Jerarquía de evidencia según guías internacionales **CANMAT / ISBD 2018** (Trastorno Depresivo Mayor y Trastorno Bipolar).
-- Soporte dual: **escrito estructurado** (4 secciones clínicas) y **oral verbalizable** (*Voice Snippets* < 40 segundos para asistentes de voz).
+> Accede a la interfaz interactiva en: **[https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)**
 
 ---
 
-## 📚 Naturaleza del Corpus y Política Ética de Citación
+## 📌 ¿Qué es Sofia y cuál es el alcance real de su RAG?
 
-> [!IMPORTANT]
-> **Corpus Clínico de Elaboración Propia:**  
-> La base de conocimiento de Sofia ha sido elaborada, sintetizada y estructurada internamente en fichas técnicas con identificadores únicos (`[DOC-ID]`), tomando como marco de evidencia científica las obras canónicas de la **Dra. Gabriela Jufe** (*Psicofarmacología Práctica*), el **Dr. Stephen Stahl** (*Prescriber's Guide*), las directrices oficiales **CANMAT / ISBD 2018** y la clasificación **ATC de la OMS**.
+**Sofia** es un sistema de soporte a la decisión clínica, farmacovigilancia y generación aumentada por recuperación (RAG) especializado en **psicofarmacología basada en la evidencia**.
 
-### Estándar de Citación y Trazabilidad por Identificador (`[DOC-ID]`)
-Para salvaguardar la integridad médica y prevenir la **falsa atribución** (*citas apócrifas a nombres personales sobre textos generados*), **Sofia respalda cada afirmación clínica citando exclusivamente el identificador único del documento del corpus** (ej: `[MONO-SERT-001]`, `[CYP-2D6-001]`, `[CASC-HAL-BIP-001]`, `[CANMAT-BIP-MANIA-001]`), garantizando un rastro de auditoría (*audit trail*) transparente y verificable por el profesional médico.
+Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo una política de *Grounding Estricto*:**
+> **El modelo responde únicamente en base a los 26 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/).**  
+> Si una consulta médica o farmacológica excede este corpus, el sistema está programado para **declarar explícitamente su limitación** en lugar de extrapolar o inventar datos.
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## 🎯 Capacidades Reales: Qué SÍ puede responder el RAG
+
+El motor RAG cuenta con información detallada, validada y estructurada para responder con alto rigor científico a preguntas en las siguientes cinco áreas:
+
+### 1. Monografías y Posología de 9 Psicofármacos Clave
+Cada una de las siguientes moléculas dispone de una monografía completa (mecanismo neuroquímico, afinidad de receptores, rangos de dosificación según Jufe y Stahl, efectos comunes vs. graves y poblaciones especiales):
+
+| Principio Activo | Clase Terapéutica | Código ATC | Rango Terapéutico Usual | Aspectos Específicos Indexados |
+| :--- | :--- | :---: | :---: | :--- |
+| **Sertralina** | Antidepresivo ISRS | `N06AB06` | 50 – 200 mg/día | Cardiopatía isquémica (estudio SADHART), marcas y laboratorios. |
+| **Fluoxetina** | Antidepresivo ISRS | `N06AB03` | 20 – 60 mg/día | Vida media prolongada (norfluoxetina), antagonismo 5-HT2C, lavado IMAO. |
+| **Paroxetina** | Antidepresivo ISRS | `N06AB05` | 20 – 50 mg/día | Perfil anticolinérgico M1, sedación, síndrome de discontinuación intenso. |
+| **Bupropión** | Antidepresivo IRND | `N06AX12` | 150 – 300 mg/día | Cero impacto sexual/peso, metabolismo CYP2B6, umbral convulsivo. |
+| **Haloperidol** | Antipsicótico Típico ($D_2$) | `N05AD01` | 2 – 15 mg/día | Síntomas extrapiramidales agudos, riesgo QTc, cascada con biperideno. |
+| **Risperidona** | Antipsicótico Atípico | `N05AX08` | 2 – 6 mg/día | Metabolismo CYP2D6 hacia 9-OH-risperidona, hiperprolactinemia. |
+| **Clozapina** | Antipsicótico Atípico | `N05AH02` | 300 – 600 mg/día | Dependencia de CYP1A2 (efecto tabaco), protocolo de agranulocitosis. |
+| **Carbonato de Litio**| Estabilizador del Ánimo | `N05AN01` | Litemia: 0.6–1.0 mEq/L | Eliminación renal exclusiva, litemias tóxicas (>1.5 mEq/L), AINEs/tiazidas. |
+| **Lamotrigina** | Estabilizador / Antiepiléptico | `N03AX09` | 100 – 200 mg/día | Glucuronidación UGT1A4, titulación lenta, prevención de Stevens-Johnson. |
+
+*(Nota: Fármacos adicionales como Quetiapina, Olanzapina, Aripiprazol, Valproato, Escitalopram, Citalopram, Venlafaxina o Duloxetina están indexados en las tablas CANMAT y el catálogo ATC, pero no cuentan con una monografía de texto largo independiente).*
+
+### 2. Interacciones Enzimáticas del Citocromo P450 y Aclaramiento Renal
+El RAG explica el mecanismo molecular y la conducta clínica esperada ante:
+- **Inhibición de CYP2D6:** Impacto de inhibidores potentes (Paroxetina, Bupropión, Fluoxetina) sobre sustratos de índice estrecho (Risperidona, Haloperidol).
+- **Metabolismo de CYP1A2 y Clozapina:** Elevación tóxica de clozapina ante el cese del consumo de tabaco (los hidrocarburos inducen 1A2) o coadministración de inhibidores.
+- **Glucuronidación (UGT1A4) de Lamotrigina:** Duplicación de niveles plasmáticos al asociarse con Ácido Valproico y necesidad de reducir la dosis inicial en $\ge 50\%$.
+- **Toxicidad Lítica por Aclaramiento Renal:** Disminución del filtrado de Litio provocada por AINEs (ibuprofeno, naproxeno), diuréticos tiazídicos e IECA.
+
+### 3. Detección de Cascadas de Prescripción y Desprescripción
+Identificación del patrón donde el efecto adverso de un psicofármaco se confunde con una nueva enfermedad:
+- **Haloperidol $\to$ Parkinsonismo $\to$ Biperideno:** Alerta sobre carga anticolinérgica, riesgo de discinesia tardía irreversible y deterioro cognitivo; recomienda ajuste de dosis o rotación a atípicos.
+- **Clozapina $\to$ Sialorrea nocturna:** Protocolo con medidas locales (atropina sublingual) frente al uso erróneo de anticolinérgicos orales sistémicos.
+- **Litio $\to$ Poliuria:** Alerta crítica de contraindicación de diuréticos tiazídicos para tratar la diabetes insípida nefrogénica inducida por litio.
+
+### 4. Guías Internacionales CANMAT / ISBD 2018
+Recomendaciones oficiales tabuladas por líneas de tratamiento y niveles de evidencia científica (Level 1 a Level 4):
+- **Trastorno Bipolar (Manía Aguda):** Fármacos de primera línea (Litio, Quetiapina, Divalproato, combinaciones).
+- **Trastorno Bipolar (Depresión Bipolar):** Primera línea (Quetiapina, Lurasidona) y **alerta de viraje maníaco** (contraindicación formal Level 1 de daño para ISRS en monoterapia).
+- **Trastorno Depresivo Mayor (TDM):** Fases agudas y algoritmos de potenciación en resistencia (ej. adición de Aripiprazol o Litio).
+
+### 5. Trazabilidad Comercial y Clasificación ATC (OMS)
+- Mapeo directo a códigos anatómicos oficiales de la OMS.
+- Nombres comerciales y laboratorios de referencia en España y Latinoamérica (ej. *Zoloft, Serlift, Prozac, Paxil, Wellbutrin, Leponex, Haldol, Plenur, Lamictal*).
+
+---
+
+## ⚠️ Fronteras y Límites: Qué NO puede responder el RAG
+
+Para mantener expectativas realistas sobre el sistema interactivo, el usuario debe tener en cuenta lo siguiente:
+
+| Categoría de Consulta | Capacidad del RAG | Razón / Comportamiento del Sistema |
+| :--- | :---: | :--- |
+| **Psicofármacos no indexados en monografía** *(ej. Clonazepam, Lorazepam, Mirtazapina, Cariprazina, Trazodona)* | ❌ Limitada | Si el principio activo no está en `pre_training/`, el modelo declarará no tener suficiente contexto clínico para emitir una recomendación segura. |
+| **Medicina General / No Psiquiátrica** *(ej. antibióticos, oncología, antihipertensivos generales)* | ❌ Fuera de alcance | El corpus está restringido a psicofármacos y a interacciones directas con ellos (como AINEs/IECA con Litio). |
+| **Diagnóstico Psicopatológico Puro** *(ej. criterios diagnósticos DSM-5/CIE-11 desvinculados de la medicación)* | ❌ No diseñado | Sofia es un asesor psicofarmacológico, no una herramienta de entrevista o diagnóstico clínico formal. |
+| **Psicoterapia y Abordajes no Farmacológicos** | ❌ No disponible | No incluye protocolos de terapia cognitivo-conductual, psicoanálisis o terapias de tercera generación. |
+| **Cálculo de Aclaramiento Dinámico de Creatinina** | ⚠️ Orientativo | Puede indicar la necesidad de ajuste renal según la monografía, pero no calcula ecuaciones dinámicas (Cockcroft-Gault / CKD-EPI) a partir de valores sueltos de laboratorio. |
+| **Consultas Abiertas sin Evidencia en el Corpus** | 🛡️ Grounding Estricto | El prompt del sistema prohíbe alucinar o inventar datos ausentes del contexto recuperado. |
+
+---
+
+## ⚙️ Modos de Inferencia en la App Interactiva
+
+El motor [`ClinicalRAGEngine`](src/rag/engine.py) implementa una arquitectura híbrida resiliente que se adapta al entorno de ejecución:
 
 ```mermaid
 flowchart TD
-    A["Corpus pre_training/<br>26 Docs Markdown con YAML y Voice Snippets"] --> B["Almacén Vectorial Dual<br>ClinicalVectorStore"]
-    B -->|Modo Preferente| C["Ollama Local<br>embeddinggemma:latest"]
-    B -->|Fallback Local| D["Scikit-Learn<br>TF-IDF Híbrido ngram 1,2"]
+    Q["Consulta del Usuario"] --> VS["ClinicalVectorStore (Recuperación top_k=3)"]
+    VS -->|Ollama Activo (Local o Cloud)| V_Densa["Búsqueda Semántica Densa (embeddinggemma)"]
+    VS -->|Ollama Inactivo| V_TFIDF["Fallback Determinista Scikit-Learn (TF-IDF ngram 1,2)"]
     
-    E["Consulta Médica"] --> B
-    B --> F["Top-k Documentos Recuperados + Voice Snippet"]
+    V_Densa --> Ctx["Ensamblado de Contexto con Identificadores [DOC-ID]"]
+    V_TFIDF --> Ctx
     
-    F --> G["Plantilla Clínica Sofia<br>Clinical System Prompt con Grounding [DOC-ID]"]
-    G --> H["Ollama LLM<br>qwen3.5:2b-mlx o Fallback Determinista"]
-    H --> I["Respuesta Médica en 4 Apartados<br>+ Audio Snippet <40s"]
+    Ctx --> LLM_Check{"¿Servidor LLM Disponible?"}
+    LLM_Check -->|Sí: Ollama Local / Cloud API| Gen_LLM["Generación Neural Estructurada en 4 Apartados<br>(qwen3.5:2b-mlx / T=0.2)"]
+    LLM_Check -->|No: Contingencia Offline| Gen_Det["Estructuración Determinista Directa<br>a partir del Mejor Documento Recuperado"]
+    
+    Gen_LLM --> Resp["Respuesta Clínica + Voice Snippet + Fuentes [DOC-ID]"]
+    Gen_Det --> Resp
 ```
 
-### Estructura del Repositorio
+1. **Modo Neural Completo (Ollama Local o Cloud):**
+   - **Embeddings:** `embeddinggemma:latest` para búsqueda semántica vectorial.
+   - **LLM:** `qwen3.5:2b-mlx` (temperatura 0.2) con el prompt clínico de Sofia (`SOFIA_CLINICAL_PROMPT`).
+   - **Salida:** Respuesta estructurada en 4 apartados, citando identificadores `[DOC-ID]` y extrayendo el *Voice Snippet* (<40s).
+2. **Modo Contingencia (Sin servidor LLM / Fallback Scikit-Learn):**
+   - Si Ollama no está en ejecución (por ejemplo, en despliegues básicos de Streamlit Cloud sin credenciales), el sistema **no se rompe**: recupera el documento más afín mediante TF-IDF y sintetiza la respuesta clínica determinista basada en la ficha recuperada.
+
+---
+
+## 🖥️ Módulos de la Aplicación Web (`streamlit_app.py`)
+
+La aplicación interactiva divide sus capacidades en cuatro pestañas especializadas:
+
+1. **💬 Asistente RAG Clínico:** Chat en lenguaje natural con respuestas en 4 secciones (*Juicio Clínico, Mecanismo y Cinética, Pauta Operativa, Alertas de Seguridad*), tarjeta de *Voice Snippet* verbalizable y panel desplegable de documentos clínicos recuperados.
+2. **⚡ Matriz Interactiva CYP450:** Selector múltiple de fármacos que evalúa combinaciones mediante un semáforo clínico determinista (bloqueos de CYP2D6, duplicidad de ISRS, neurotoxicidad lítica, advertencias de Clozapina/Lamotrigina).
+3. **🛑 Detector de Cascadas de Prescripción:** Selector de fármaco primario + síntoma emergente que identifica efectos adversos enmascarados y despliega protocolos de desprescripción.
+4. **📖 Guías CANMAT y Catálogo:** Explorador interactivo con filtros por patología (TDM vs. Bipolar) y buscador de marcas comerciales y códigos ATC oficiales.
+
+---
+
+## 📊 Evaluación Formal del Sistema RAG (Benchmark)
+
+La evaluación cuantitativa del RAG se ejecutó mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) sobre cuatro escenarios clínicos representativos que auditan las áreas críticas del corpus:
+
+| Caso Evaluado | Categoría Clínica | Documento Clave | Context Recall | Faithfulness | Latencia Media |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **Caso 1** | Monografía y Posología (Sertralina) | `[MONO-SERTRALINA-001]` | 100.0% | 100.0% | ~22.1 s |
+| **Caso 2** | Citocromos CYP450 (Paroxetina + Bupropión) | `[INTER-CYP2D6-001]` | 100.0% | 100.0% | ~21.4 s |
+| **Caso 3** | Guías CANMAT (Manía y Viraje Bipolar) | `[GUIA-CANMAT-MANIA-001]` | 100.0% | 87.5% | ~22.0 s |
+| **Caso 4** | Farmacovigilancia y Cascada (Haloperidol - Biperideno) | `[CASC-HAL-BIP-001]` | 100.0% | 100.0% | ~21.9 s |
+
+> *Nota de honestidad metodológica:* Las métricas de recuperación del 100% reflejan la precisión del sistema sobre las temáticas curadas en el corpus de Sofia. No deben interpretarse como un 100% de cobertura sobre toda la farmacopea médica universal.
+
+---
+
+## 📁 Estructura del Repositorio
 
 ```text
 Sofia/
-├── pre_training/                   # 27 Documentos clínicos curados con YAML Frontmatter y Voice Snippets
-│   ├── 00_MANIFIESTO_Y_ESPECIFICACION_EMBEDDINGS.md
-│   ├── 01_monografias_farmacologicas/          # 9 Fármacos base (Sertralina, Clozapina, etc.)
-│   ├── 02_interacciones_farmacologicas_cyp450/ # CYP2D6, CYP1A2, Litio, Lamotrigina + Valproato
+├── pre_training/                               # 26 documentos clínicos Markdown + Manifiesto técnico
+│   ├── 01_monografias_farmacologicas/          # 9 monografías completas
+│   ├── 02_interacciones_farmacologicas_cyp450/ # Interacciones enzimáticas críticas
 │   ├── 03_cascadas_prescripcion_y_desprescripcion/
-│   ├── 04_guias_clinicas_y_algoritmos_decision/ # CANMAT TDM y Bipolar
-│   └── 05_alertas_seguridad_y_caja_negra/      # Agranulocitosis, Stevens-Johnson, etc.
-├── finetunningpre/                 # Dataset de Fine-Tuning para modelos Qwen/Ollama
-│   ├── dataset_sofia_medical_qwen.jsonl       # 29 Casos clínicos en formato ChatML
-│   ├── Modelfile.example                      # Configuración para despliegue en Ollama
-│   └── README_FINETUNING.md                   # Guía de entrenamiento LoRA / Unsloth
+│   ├── 04_guias_clinicas_y_algoritmos_decision/ # Recomendaciones CANMAT
+│   └── 05_alertas_seguridad_y_caja_negra/      # Agranulocitosis, Stevens-Johnson, litemia
 ├── data/
-│   ├── raw/                        # Documentos PDF fuente (CANMAT BDI-20-97, Jufe)
-│   ├── cache/                      # Caché de páginas extraídas
-│   └── processed/                  # CSVs limpios (0 nulos) y base de conocimiento JSON
-│       ├── canmat_alertas_clinicas_clean.csv
-│       ├── canmat_recomendaciones_clean.csv
-│       ├── jufe_efectos_adversos_clean.csv
-│       ├── jufe_farmacos_clean.csv
-│       ├── stahl_eventos_adversos_clean.csv
-│       ├── stahl_farmacos_clean.csv
-│       ├── rag_knowledge_base.json
-│       └── rag_evaluation_report.json
-├── notebooks/                      # Cuadernos interactivos (100% ejecutables, 0 rutas de usuario)
-│   ├── 00_limpieza_y_eda.ipynb                # Auditoría de datos y gráficos estadísticos
-│   ├── 01_preprocesamiento_jufe.ipynb         # Catálogo de Jufe y eventos adversos
-│   ├── 02_preprocesamiento_stahl.ipynb        # Perfil de receptores y citocromos Stahl
-│   ├── 03_preprocesamiento_canmat.ipynb       # Algoritmos y recomendaciones CANMAT
-│   └── 04_rag_psicofarmacologia.ipynb        # Motor RAG y generación clínica
-├── src/                            # Módulos Python reutilizables
-│   ├── enrichers/
-│   │   └── atc_enricher.py                    # Clasificación ATC OMS y marcas comerciales
-│   ├── extractors/
-│   │   ├── pdf_extractor.py                   # Extractor de PDFs con caché en disco
-│   │   ├── jufe_extractor.py                  # Extractor clínico de Jufe
-│   │   └── canmat_extractor.py                # Extractor de directrices CANMAT
-│   ├── downloaders/
-│   │   └── guidelines_downloader.py           # Gestor de disponibilidad de guías
+│   ├── raw/                                    # Fuentes originales en PDF (Jufe, CANMAT)
+│   └── processed/                              # CSVs limpios y base vectorial normalizada
+├── notebooks/                                  # Pipeline de datos 100% reproducible (00 a 04)
+├── src/
+│   ├── enrichers/                              # Catálogo ATC de la OMS y marcas
+│   ├── extractors/                             # Extractores de texto clínico
 │   └── rag/
-│       └── engine.py                          # ClinicalRAGEngine y ClinicalVectorStore
-├── scripts/
-│   └── evaluate_rag.py                        # Benchmark y evaluación formal de la Tríada de RAG
-├── streamlit_app.py                # Interfaz web multimodular (Chat, CYP450, Cascadas, CANMAT)
-└── requirements.txt                # Dependencias del proyecto
+│       └── engine.py                           # ClinicalRAGEngine y ClinicalVectorStore
+├── streamlit_app.py                            # Aplicación interactiva multi-pestaña
+├── requirements.txt                            # Dependencias Python
+└── LICENSE                                     # Licencia MIT
 ```
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Instalación y Puesta en Marcha Local
 
 ### 1. Clonar el repositorio e instalar dependencias
 ```bash
@@ -106,126 +174,30 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. (Opcional) Modelos locales en Ollama
-Sofia funciona de forma 100% autónoma gracias a su fallback determinista con Scikit-Learn TF-IDF. Para habilitar la inferencia neural completa con LLM local:
+### 2. (Opcional) Activar inferencia neural local con Ollama
 ```bash
-# Descargar modelo de embeddings densos
+# Modelos recomendados para el entorno local
 ollama pull embeddinggemma:latest
-
-# Descargar modelo de generación clínica
 ollama pull qwen3.5:2b-mlx
 ```
 
----
-
-## 📓 Ejecución de Cuadernos Jupyter
-
-Todos los cuadernos están diseñados bajo la directriz estricta de **cero rutas de usuario hardcodeadas** y son **100% ejecutables de principio a fin** (`Kernel -> Restart & Run All`):
-
+### 3. Ejecutar la aplicación interactiva
 ```bash
-jupyter lab
+streamlit run streamlit_app.py
 ```
 
-| Cuaderno | Propósito Clínico y Técnico | Estado |
-| :--- | :--- | :--- |
-| [`00_limpieza_y_eda.ipynb`](notebooks/00_limpieza_y_eda.ipynb) | Auditoría de nulos, distribución de severidad de eventos adversos, matriz de calor (*heatmap*) CYP450 y jerarquía CANMAT. | ✅ 100% Ejecutable |
-| [`01_preprocesamiento_jufe.ipynb`](notebooks/01_preprocesamiento_jufe.ipynb) | Extracción monográfica de Jufe, posologías, rangos y normalización de efectos adversos. | ✅ 100% Ejecutable |
-| [`02_preprocesamiento_stahl.ipynb`](notebooks/02_preprocesamiento_stahl.ipynb) | Extracción de perfiles de receptores, perlas clínicas y matriz binaria de citocromos. | ✅ 100% Ejecutable |
-| [`03_preprocesamiento_canmat.ipynb`](notebooks/03_preprocesamiento_canmat.ipynb) | Tablas de 1ª/2ª línea para TDM y Bipolar, y alertas críticas de viraje maníaco. | ✅ 100% Ejecutable |
-| [`04_rag_psicofarmacologia.ipynb`](notebooks/04_rag_psicofarmacologia.ipynb) | Pipeline RAG completo con vector store, Clinical System Prompt (`SOFIA_CLINICAL_PROMPT`) y consultas de farmacovigilancia. | ✅ 100% Ejecutable |
+---
 
-Los cuadernos son 100% reproducibles y pueden ejecutarse de forma secuencial en cualquier entorno Jupyter estándar o VS Code sin dependencias ocultas ni rutas absolutas.
+## 🔮 Roadmap de Expansión
+
+Para ampliar el alcance de Sofia hacia un vademécum psiquiátrico de cobertura extendida:
+1. **Ampliación del Vademécum:** Redacción de monografías para antipsicóticos atípicos de última generación (Cariprazina, Brexpiprazol, Lurasidona) y estabilizadores de segunda línea (Valproato, Carbamazepina).
+2. **Conexión en Vivo con APIs Sanitarias:** Integración con la API de **CIMA (AEMPS)** y **OpenFDA** para actualizar estados de desabastecimiento y prospectos oficiales en tiempo real.
+3. **Cálculo de Función Renal:** Incorporación de una calculadora de filtrado glomerular (CKD-EPI) vinculada a los protocolos de ajuste de Litio.
 
 ---
 
-## 📊 Evaluación Formal del Sistema RAG (Benchmark Clínico)
+## ⚖️ Aviso Legal y de Responsabilidad Médica
 
-El sistema cuenta con una suite de evaluación cuantitativa ejecutada sobre preguntas clínicas reales (sin identificadores embebidos) y con generación neural completa mediante LLM (`qwen3.5:2b-mlx` en Ollama):
-
-```bash
-python scripts/evaluate_rag.py
-```
-
-### Resultados de la Tríada de RAG (Evaluación Real con LLM Activo):
-
-| Métrica de la Tríada | Resultado Obtenido | Criterio de Aceptación | Estado |
-| :--- | :---: | :---: | :---: |
-| **Context Recall (Recuperación Canónica)** | **100.0%** | $\ge 80\%$ | ✅ Superado |
-| **Answer Relevance (Relevancia y Cobertura)** | **95.0%** | $\ge 85\%$ | ✅ Superado |
-| **Faithfulness / Groundedness (Cero Alucinaciones)** | **96.9%** | $\ge 90\%$ | ✅ Superado |
-| **Trazabilidad Ética de Fuentes (`[DOC-ID]`)** | **100.0%** | $100\%$ | ✅ Superado |
-| **Cobertura de Voice Snippets Verbalizables** | **100.0% (4/4)** | $100\%$ | ✅ Superado |
-| **Latencia Media End-to-End con LLM** | **~21.9 s** | $< 30\text{ s}$ | ✅ Óptimo (Inferencia Local 2B) |
-
-*El informe completo con el desglose de cada escenario y respuesta generada se exporta automáticamente a [`data/processed/rag_evaluation_report.json`](data/processed/rag_evaluation_report.json).*
-
----
-
-## 💻 Aplicación Web Interactiva (Streamlit)
-
-La aplicación está disponible en la nube o para ejecución local inmediata:
-
-- 🌐 **Versión en Producción (Streamlit Cloud):** [https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
-- 💻 **Ejecución Local:**
-  ```bash
-  streamlit run streamlit_app.py
-  ```
-
-### Módulos Clínicos y Capturas de la Interfaz:
-
-#### 1. 💬 Asistente RAG Clínico y Briefing Oral
-Interfaz conversacional con respuestas estructuradas en 4 apartados (*Juicio Clínico, Mecanismo y Cinética, Pauta Operativa, Alertas de Seguridad*), reproductor de **Voice Snippet** (< 40s) y trazabilidad completa de citas y fragmentos de evidencia recuperados. Soporta inferencia remota vía **Ollama Cloud** / API remota para su despliegue público en la nube.
-
-![Interfaz del Chat RAG de Sofia](assets/sofia_chat_interface.jpg)
-
-#### 2. ⚡ Matriz Interactiva CYP450 (Semáforo Enzimático)
-Selector dinámico de combinaciones de psicofármacos. Detección inmediata de bloqueos enzimáticos críticos (ej. Paroxetina + Bupropión sobre CYP2D6 con riesgo de convulsiones), duplicidad de ISRS (síndrome serotoninérgico), neurotoxicidad de Litio (combinación con Haloperidol / síndrome de Cohen & Cohen) o advertencias de interacciones. Si una pareja no cuenta con evidencia formal en la matriz, el sistema clasifica con rigor preventivo como *"Sin datos"* en lugar de asumir riesgo bajo por defecto.
-
-![Matriz Semáforo CYP450](assets/sofia_cyp450_matrix.jpg)
-
-#### 3. 🛑 Detector de Cascadas de Prescripción
-Evaluación heurística que distingue entre un efecto adverso inducido y una nueva patología. Genera alertas críticas ante prescripciones de anticolinérgicos (Biperideno) frente a síntomas extrapiramidales inducidos por Haloperidol, sugiriendo protocolos seguros de desprescripción y rotación a antipsicóticos atípicos.
-
-![Detector de Cascadas de Prescripción](assets/sofia_detector_cascadas.jpg)
-
-#### 4. 📖 Explorador CANMAT y Catálogo Farmacológico
-Filtro interactivo de directrices internacionales por patología y nivel de evidencia (1ª, 2ª y 3ª línea para Trastorno Depresivo Mayor y Trastorno Bipolar), junto con buscador de principios activos, laboratorios, marcas comerciales registradas en España y códigos ATC oficiales de la OMS.
-
----
-
-## 🔮 ¿Qué mejorarías? (Posibles Mejoras Futuras / Roadmap)
-
-Para evolucionar Sofia desde un prototipo avanzado de soporte clínico hacia una herramienta certificable de grado médico hospitalario, las siguientes líneas de desarrollo representan las prioridades técnicas y clínicas:
-
-1. **Integración en Tiempo Real con APIs Sanitarias Oficiales (AEMPS / CIMA y OpenFDA):**
-   - Conectar el enriquecedor de fármacos con la API pública de **CIMA (Agencia Española de Medicamentos y Productos Sanitarios)** para auditar prospectos, fichas técnicas actualizadas y alertas de desabastecimiento o retirada de lotes en tiempo real.
-   - Integrar **OpenFDA Adverse Event Reporting System (FAERS)** para computar señales post-comercialización de farmacovigilancia emergente.
-
-2. **Expansión del Grafo de Farmacocinética (CYP450 y Aclaramiento Renal):**
-   - Extender la base de conocimiento de 9 a más de 50 moléculas psicofarmacológicas, incluyendo estabilizadores del ánimo complejos (Ácido Valproico, Carbamazepina) y antipsicóticos de última generación (Cariprazina, Brexpiprazol, Lurasidona).
-   - Incorporar algoritmos de dosificación según función renal mediante cálculo dinámico de filtrado glomerular (**CKD-EPI / Cockcroft-Gault**) para fármacos de estrecho margen terapéutico como el Litio o la Amisulprida.
-
-3. **Voz Bidireccional en Tiempo Real (Full Audio Streaming):**
-   - Sustituir la síntesis de voz estática por una canalización bidireccional basada en **WebRTC + Whisper Turbo** (transcripción en streaming con baja latencia) y síntesis neural expresiva (**XTTS-v2 / ElevenLabs**) para permitir consultas manos libres del profesional durante la guardia médica.
-
-4. **Enrutamiento Híbrido de Inferencia (SLM Local vs. LLM Clínico Cloud):**
-   - Diseñar un clasificador de complejidad en la capa de entrada:
-     - Consultas factuales o posológicas simples se resuelven mediante el Small Language Model local (SLM 2B/7B) garantizando latencia sub-segundo y máxima privacidad de datos.
-     - Casos de alta polifarmacia y comorbilidades complejas se delegan a modelos médicos de gran escala (ej. Llama-3-70B-Instruct o Med-PaLM) a través de Ollama Cloud o endpoints dedicados con cifrado extremo a extremo (HIPAA/GDPR compliance).
-
-5. **Validación Clínica Formal y Benchmarking con Casos Reales:**
-   - Crear una batería de evaluación clínica estructurada con 100+ casos complejos extraídos de convocatorias de examen de la especialidad (MIR Psiquiatría / Board Certifications).
-   - Realizar una validación ciega inter-observador con facultativos especialistas en psiquiatría para contrastar el rendimiento del motor RAG frente al criterio del comité clínico.
-
----
-
-## 🔒 Privacidad y Portabilidad Garantizadas
-
-- **Cero Rutas de Usuario:** Ningún script, cuaderno o archivo de salida serializa rutas locales del tipo `/Users/...`, `/home/...` o `C:\...`. Todos los accesos se anclan dinámicamente a la raíz del repositorio mediante `pathlib.Path`.
-- **Aislamiento de Configuración:** Los entornos de ejecución de Jupyter y Matplotlib están configurados para operar dentro de directorios temporales locales ignorados por Git (`.jupyter_tmp/`, `.matplotlib_tmp/`), asegurando que no se generen conflictos de permisos en el sistema operativo del usuario.
-
----
-
-## ⚖️ Licencia
-
-Distribuido bajo la Licencia MIT. Consulta el archivo [`LICENSE`](LICENSE) para más detalles.
+**Sofia es una herramienta de soporte a la decisión clínica con fines formativos, de investigación y de farmacovigilancia.**  
+No sustituye el juicio clínico independiente del médico especialista, quien mantiene en todo momento la responsabilidad última sobre el diagnóstico, la prescripción y el seguimiento individualizado de cada paciente.
