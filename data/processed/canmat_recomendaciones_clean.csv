@@ -9,6 +9,7 @@ Trastorno Depresivo Mayor (TDM),Aguda,Primera Línea,Monoterapia,Vortioxetina,N0
 Trastorno Depresivo Mayor (TDM),Aguda,Segunda Línea,Monoterapia,Amitriptilina,N06AA09,Level 1,Tricíclico eficaz pero con alta carga anticolinérgica y riesgo de cardiotoxicidad.
 Trastorno Depresivo Mayor (TDM),Aguda,Segunda Línea,Monoterapia,Quetiapina,N05AH04,Level 2,Eficacia demostrada a dosis de 150-300 mg/día; vigilar perfil metabólico.
 Trastorno Depresivo Mayor (TDM),Resistencia / Potenciación,Primera Línea,Potenciación,Aripiprazol,N05AX12,Level 1,Dosis bajas (2-5 mg/día) añadidas al antidepresivo base en respuesta parcial.
+Trastorno Depresivo Mayor (TDM),Resistencia / Potenciación,Primera Línea,Potenciación,Quetiapina (Add-on),N05AH04,Level 1,Dosis de 150-300 mg/día XR en respuesta parcial; mejora insomnio y ansiedad.
 Trastorno Depresivo Mayor (TDM),Resistencia / Potenciación,Primera Línea,Potenciación,Litio (Carbonato),N05AN01,Level 1,Estrategia clásica con evidencia antisuicida comprobada; litemia 0.6-0.8 mEq/L.
 Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Litio (Carbonato),N05AN01,Level 1,Gold standard en manía eufórica clásica; litemia diana 0.8-1.2 mEq/L.
 Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Divalproato de Sodio,N03AG01,Level 1,Eficaz en episodios mixtos y cicladores rápidos; nivel plasmático 50-100 mcg/mL.
@@ -16,5 +17,7 @@ Trastorno Bipolar,Manía Aguda,Primera Línea,Monoterapia,Quetiapina,N05AH04,Lev
 Trastorno Bipolar,Manía Aguda,Primera Línea,Combinación,Litio + Antipsicótico Atípico,Varios,Level 1,Estrategia superior a monoterapia en cuadros de manía severa o psicótica.
 Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Quetiapina,N05AH04,Level 1,Monoterapia de elección probada (estudios BOLDER I y II) a 300 mg/día nocturnos.
 Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Lurasidona,N05AE05,Level 1,Bajo impacto metabólico; administrar obligatoriamente con comida (>350 kcal).
+Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Litio (Carbonato),N05AN01,Level 2,Monoterapia de primera línea para depresión bipolar y prevención del suicidio; litemia 0.8-1.0 mEq/L.
+Trastorno Bipolar,Depresión Bipolar,Primera Línea,Monoterapia,Lamotrigina,N03AX09,Level 2,Eficacia demostrada en fase depresiva sin viraje a manía; titulación escalonada obligatoria.
 Trastorno Bipolar,Depresión Bipolar,Primera Línea,Combinación,Litio + Lamotrigina,Varios,Level 2,Efecto sinérgico estabilizador y antidepresivo con titulación lenta de lamotrigina.
-Trastorno Bipolar,Depresión Bipolar,No Recomendado / Contraindicado,Monoterapia,Antidepresivos ISRS en Monoterapia,N06AB,Level 1 (Daño),Contraindicados formalmente: alto riesgo de inducción de viraje maníaco y ciclación rápida.
+Trastorno Bipolar,Depresión Bipolar,No Recomendado,Monoterapia,Antidepresivos ISRS en Monoterapia,N06AB,Level 1 (Daño),No recomendados: evidencia Level 1 de daño por alto riesgo de viraje maníaco y ciclación rápida.

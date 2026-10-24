@@ -17,7 +17,7 @@ palabras_clave: ["paroxetina", "paxil", "isrs", "anticolinergico", "sedacion", "
 > "La paroxetina es el antidepresivo ISRS más potente sobre el transportador de serotonina, pero también el más sedante y anticolinérgico. Indicada en depresión severa, crisis de pánico y fobia social en dosis de 20 a 50 miligramos al día. Es un potentísimo inhibidor de su propia enzima metabolizadora, el citocromo CYP2D6, provocando una cinética no lineal e interacciones severas. Presenta dos advertencias clínicas críticas: un síndrome de discontinuación muy intenso con síntomas de rebote ante la suspensión brusca, y riesgo de malformaciones cardíacas congénitas si se administra durante el primer trimestre de gestación. Su marca más conocida es Paxil o Seroxat."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Stahl remarca que además de inhibir el SERT con afinidad nanomolar extrema, la paroxetina posee una afinidad significativa por receptores muscarínicos colinérgicos (M1) y una leve afinidad por el transportador de noradrenalina (NET). Esta actividad anticolinérgica intrínseca explica por qué produce más somnolencia, boca seca, estreñimiento y letargia que cualquier otro ISRS, resultando beneficiosa en pacientes con ansiedad extrema o insomnio pertinaz, pero peligrosa en ancianos.
+Conforme a la documentación técnica de [MONO-PAROXETINA-003], además de inhibir el SERT con afinidad nanomolar extrema, la paroxetina posee una afinidad significativa por receptores muscarínicos colinérgicos (M1) y una leve afinidad por el transportador de noradrenalina (NET). Esta actividad anticolinérgica intrínseca explica por qué produce más somnolencia, boca seca, estreñimiento y letargia que cualquier otro ISRS, resultando beneficiosa en pacientes con ansiedad extrema o insomnio pertinaz, pero peligrosa en ancianos.
 
 ## 3. Farmacocinética e Interacciones Enzimáticas (CYP450)
 - **Cinética No Lineal:** Inhibe potentemente al citocromo CYP2D6, que es su propia vía metabólica (inhibición dependiente de mecanismo). Pequeños aumentos de dosis generan incrementos desproporcionados en sangre.
@@ -38,5 +38,5 @@ Stahl remarca que además de inhibir el SERT con afinidad nanomolar extrema, la 
 - **Respuesta:** "Debe realizarse mediante una reducción hiperlenta y escalonada, disminuyendo entre 5 y 10 miligramos cada 2 a 4 semanas, e incluso utilizando formulación líquida o puenteando a fluoxetina si el paciente sufre descargas eléctricas cefálicas o crisis de pánico por discontinuación."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de ISRS.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Paroxetina.
+- Ficha Técnica de Referencia: [MONO-PAROXETINA-003] (Monografía Farmacológica).
+- Clasificación ATC OMS: N06AB05 (Antidepresivos / ISRS).

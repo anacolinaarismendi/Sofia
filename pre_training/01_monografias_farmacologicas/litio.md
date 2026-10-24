@@ -14,10 +14,10 @@ palabras_clave: ["litio", "carbonato de litio", "plenur", "bipolar", "mania", "l
 # Ficha Clínica y Conversacional: Carbonato de Litio (N05AN01)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "El carbonato de litio es el estabilizador del ánimo de referencia y estándar de oro para el tratamiento del trastorno bipolar, tanto en la manía aguda como en el mantenimiento preventivo a largo plazo, siendo el único fármaco con evidencia demostrada de reducción del riesgo de suicidio. Carece de metabolismo hepático y se excreta íntegramente por vía renal. Posee un rango terapéutico extremadamente estrecho, exigiendo monitorizar la litemia en sangre entre 0.6 y 1.0 miliequivalentes por litro. Niveles superiores a 1.5 desencadenan toxicidad grave con temblor grueso, ataxia y desorientación. Su interacción con antiinflamatorios como el ibuprofeno, diuréticos tiazídicos e inhibidores de la ECA es muy peligrosa porque reduce su eliminación renal provocando intoxicaciones agudas. Se comercializa como Plenur."
+> "El carbonato de litio es el estabilizador del ánimo de referencia y estándar de oro en manía aguda y mantenimiento bipolar, con reducción demostrada del riesgo suicida. Se excreta exclusivamente por vía renal, sin metabolismo por citocromos CYP450. Su rango terapéutico es estrecho (litemia 0.6 a 1.0 mEq/L en mantenimiento). Niveles superiores a 1.5 mEq/L generan toxicidad severa con temblor grueso, ataxia y confusión. La administración concomitante con AINEs o diuréticos tiazídicos reduce su eliminación renal provocando intoxicación aguda. Se comercializa como Plenur de Faes Farma o Ceglution de Baliarda."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Jufe y CANMAT explican que el litio es un catión monovalente que modula múltiples cascadas intracelulares de segundos mensajeros. Inhibe la enzima glucógeno sintasa quinasa 3 beta (GSK-3β) y la vía del fosfatidilinositol (inosina monofosfatasa), promoviendo factores neurotróficos como el BDNF y ejerciendo una acción neuroprotectora y antisuicida intrínseca que no comparten otros estabilizadores anticonvulsivantes.
+Conforme a la documentación técnica de [MONO-LITIO-005], el litio es un catión monovalente que modula múltiples cascadas intracelulares de segundos mensajeros. Inhibe la enzima glucógeno sintasa quinasa 3 beta (GSK-3β) y la vía del fosfatidilinositol (inosina monofosfatasa), promoviendo factores neurotróficos como el BDNF y ejerciendo una acción neuroprotectora y antisuicida intrínseca que no comparten otros estabilizadores anticonvulsivantes.
 
 ## 3. Farmacocinética e Interacciones Farmacológicas Críticas
 - **Excreción Renal Exclusiva:** El litio se filtra por el glomérulo y se reabsorbe en un 70-80% en el túbulo proximal renal, compitiendo directamente con el sodio.
@@ -48,5 +48,6 @@ Jufe y CANMAT explican que el litio es un catión monovalente que modula múltip
 - **Respuesta:** "Debe contraindicarse tajantemente el ibuprofeno. Los antiinflamatorios no esteroideos reducen la filtración renal de litio y pueden inducir una intoxicación aguda en pocos días. Se debe pautar paracetamol de un gramo como analgésico seguro."
 
 ## 7. Referencias y Validación
-- Guías CANMAT / ISBD 2018 para Trastorno Bipolar: Fármaco de Primera Línea (Evidencia Level 1).
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Estabilizadores del Ánimo.
+- Ficha Técnica de Referencia: [MONO-LITIO-005] (Monografía Farmacológica).
+- Guías Clínicas CANMAT / ISBD: Fármaco de Primera Línea en Bipolar (Evidencia Level 1).
+- Clasificación ATC OMS: N05AN01 (Psicolépticos / Estabilizadores del Ánimo).

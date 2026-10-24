@@ -14,10 +14,10 @@ palabras_clave: ["risperidona", "risperdal", "antipsicotico atipico", "prolactin
 # Ficha Clínica y Conversacional: Risperidona (N05AX08)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La risperidona es un antipsicótico atípico de segunda generación ampliamente utilizado en la esquizofrenia, los episodios maníacos del trastorno bipolar y la irritabilidad grave en el autismo. Su dosis habitual en adultos oscila entre 2 y 6 miligramos al día. Aunque es un atípico, tiene una afinidad dopaminérgica D2 muy elevada: a dosis superiores a 6 miligramos pierde su perfil atípico y provoca síntomas extrapiramidales similares a los fármacos clásicos. Además, es el antipsicótico que más eleva la hormona prolactina, causando amenorrea, galactorrea y disfunción sexual. Es metabolizada por el citocromo CYP2D6; si se combina con inhibidores potentes como fluoxetina o paroxetina, sus niveles plasmáticos aumentan marcadamente. Su marca de referencia es Risperdal de Janssen."
+> "La risperidona es un antipsicótico atípico utilizado en esquizofrenia, manía bipolar e irritabilidad en autismo, con dosis habitual de 2 a 6 mg/día. Presenta alta afinidad por receptores D2: a dosis superiores a 6 mg/día aumenta el riesgo de síntomas extrapiramidales. Es el antipsicótico que mayor elevación de prolactina genera, induciendo amenorrea, galactorrea y disfunción sexual. Es metabolizada por el citocromo CYP2D6; inhibidores potentes como fluoxetina o paroxetina elevan significativamente sus niveles plasmáticos y la toxicidad motora. Su marca de referencia es Risperdal de Janssen."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Jufe y Stahl detallan que la risperidona combina un antagonismo potente sobre los receptores serotoninérgicos 5-HT2A con un bloqueo marcado de receptores D2 y alfa-1 adrenérgicos. En dosis bajas a moderadas (1 a 4 mg/día), el bloqueo 5-HT2A amortigua el impacto en la vía motora nigroestriatal. No obstante, al superar los 6 mg/día, la ocupación de receptores D2 estriatales supera el umbral del 80%, provocando acatisia, temblor y rigidez muscular.
+Conforme a la documentación técnica de [MONO-RISPERIDONA-007], la risperidona combina un antagonismo potente sobre los receptores serotoninérgicos 5-HT2A con un bloqueo marcado de receptores D2 y alfa-1 adrenérgicos. En dosis bajas a moderadas (1 a 4 mg/día), el bloqueo 5-HT2A amortigua el impacto en la vía motora nigroestriatal. No obstante, al superar los 6 mg/día, la ocupación de receptores D2 estriatales supera el umbral del 80%, provocando acatisia, temblor y rigidez muscular.
 
 ## 3. Farmacocinética y Metabolismo Enzimático (CYP450)
 - **Metabolito Activo (Paliperidona):** Es convertida en el hígado por el citocromo CYP2D6 en 9-hidroxirisperidona (paliperidona), que posee una potencia farmacológica casi idéntica a la molécula madre. El efecto clínico depende de la *fracción antipsicótica activa* (suma de risperidona + 9-hidroxirisperidona).
@@ -40,5 +40,5 @@ Jufe y Stahl detallan que la risperidona combina un antagonismo potente sobre lo
 - **Respuesta:** "Se debe solicitar prolactina sérica para confirmar hiperprolactinemia inducida por risperidona. La estrategia clínica consiste en reducir la dosis, rotar a un antipsicótico ahorrador de prolactina como aripiprazol (agonista parcial D2) o añadir dosis bajas de aripiprazol como coadyuvante para normalizar la prolactina."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Antipsicóticos Atípicos.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Risperidona.
+- Ficha Técnica de Referencia: [MONO-RISPERIDONA-007] (Monografía Farmacológica).
+- Clasificación ATC OMS: N05AX08 (Psicolépticos / Antipsicóticos Atípicos).

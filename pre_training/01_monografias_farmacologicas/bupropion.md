@@ -14,10 +14,10 @@ palabras_clave: ["bupropion", "wellbutrin", "irnd", "dopamina", "noradrenalina",
 # Ficha Clínica y Conversacional: Bupropión (N06AX12)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "El bupropión es un antidepresivo atípico perteneciente a la familia de los inhibidores de la recaptación de noradrenalina y dopamina. Se utiliza en el trastorno depresivo mayor, la prevención del trastorno afectivo estacional y como terapia de cesación tabáquica, en dosis de 150 a 300 miligramos diarios en formulaciones de liberación modificada. Su gran ventaja clínica es que no provoca aumento de peso ni causa disfunción sexual, siendo un activador de la energía y la concentración. Su principal contraindicación estricta son los antecedentes de epilepsia y los trastornos de la conducta alimentaria como anorexia o bulimia, debido al riesgo dosis-dependiente de inducir convulsiones. Además, es un potente inhibidor del citocromo CYP2D6. Se comercializa como Wellbutrin o Elontril."
+> "El bupropión es un antidepresivo atípico inhibidor de la recaptación de noradrenalina y dopamina (IRND), empleado en depresión mayor y cesación tabáquica en dosis de 150 a 300 mg/día en formulación modificada. Destaca por no provocar aumento de peso ni disfunción sexual. Está contraindicado en epilepsia o antecedentes de bulimia y anorexia por riesgo convulsivo dosis-dependiente. Además, es un potente inhibidor del citocromo CYP2D6, lo que exige precaución crítica al combinarlo con sustratos como paroxetina o risperidona. Se comercializa como Wellbutrin o Elontril de GSK."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Tanto Jufe como Stahl subrayan que el bupropión no posee acción serotoninérgica directa. Su mecanismo reside en la inhibición del transportador de dopamina (DAT) y de noradrenalina (NET), junto con un antagonismo no competitivo de receptores nicotínicos de acetilcolina. Esta última propiedad modula las vías de recompensa mesolímbicas, lo que fundamenta su eficacia para suprimir el deseo compulsivo de nicotina sin generar síntomas de abstinencia.
+Conforme a la documentación técnica de [MONO-BUPROPION-004], el bupropión no posee acción serotoninérgica directa. Su mecanismo reside en la inhibición del transportador de dopamina (DAT) y de noradrenalina (NET), junto con un antagonismo no competitivo de receptores nicotínicos de acetilcolina. Esta última propiedad modula las vías de recompensa mesolímbicas, lo que fundamenta su eficacia para suprimir el deseo compulsivo de nicotina sin generar síntomas de abstinencia.
 
 ## 3. Farmacocinética e Interacciones Enzimáticas (CYP450)
 - **Metabolización por CYP2B6:** Es transformado por el citocromo CYP2B6 en varios metabolitos activos (hidroxibupropión, treohidrobupropión). Fármacos inductores como carbamazepina reducen sus niveles.
@@ -39,5 +39,5 @@ Tanto Jufe como Stahl subrayan que el bupropión no posee acción serotoninérgi
 - **Respuesta:** "Sí, es una combinación sinérgica y frecuente recomendada por las guías. El bupropión contrarresta la apatía y la disfunción sexual provocadas por el ISRS, pero se debe vigilar que la presión arterial no aumente y recordar que el bupropión inhibirá moderadamente el aclaramiento de fármacos que usen CYP2D6."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Antidepresivos IRND.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Bupropión.
+- Ficha Técnica de Referencia: [MONO-BUPROPION-004] (Monografía Farmacológica).
+- Clasificación ATC OMS: N06AX12 (Antidepresivos / IRND).

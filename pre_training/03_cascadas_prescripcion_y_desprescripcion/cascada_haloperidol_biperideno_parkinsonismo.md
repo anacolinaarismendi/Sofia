@@ -11,7 +11,7 @@ palabras_clave: ["cascada de prescripcion", "haloperidol", "biperideno", "parkin
 # Cascada de Prescripción: Haloperidol inducido y Biperideno
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "Una cascada de prescripción ocurre cuando el efecto adverso de un primer fármaco es diagnosticado erróneamente como una nueva enfermedad, recetándose un segundo medicamento para tratarlo. El ejemplo clásico en psiquiatría es el uso de haloperidol: debido a su potente bloqueo de dopamina, produce rigidez, temblor y lentitud motora en rueda dentada. En lugar de disminuir la dosis o cambiar a un antipsicótico atípico, con frecuencia se receta biperideno. Esta cascada encubre el problema y expone al paciente a una peligrosa carga anticolinérgica con pérdidas de memoria, confusión, estreñimiento severo, retención urinaria y un mayor riesgo de desarrollar discinesia tardía irreversible. La desprescripción razonada exige reducir el haloperidol y retirar progresivamente el anticolinérgico."
+> "Una cascada de prescripción ocurre cuando un efecto adverso es tratado erróneamente con un segundo fármaco en lugar de ajustar el causante. El ejemplo paradigmático es el haloperidol: su potente bloqueo dopaminérgico causa rigidez y parkinsonismo secundario. Prescribir biperideno añade una peligrosa carga anticolinérgica con deterioro cognitivo, constipación grave y mayor riesgo de discinesia tardía irreversible. El protocolo de desprescripción razonada de Sofia orienta a reducir la dosis de haloperidol o rotar a un antipsicótico atípico con bajo perfil motor, desescalando y retirando el biperideno en dos a cuatro semanas."
 
 ## 2. Anatomía de la Cascada Clínica
 1. **Fármaco Inicial:** Haloperidol (Antipsicótico típico de alta potencia).

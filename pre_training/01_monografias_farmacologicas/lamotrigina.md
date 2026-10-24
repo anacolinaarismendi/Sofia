@@ -14,10 +14,10 @@ palabras_clave: ["lamotrigina", "lamictal", "estabilizador del animo", "depresio
 # Ficha Clínica y Conversacional: Lamotrigina (N03AX09)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La lamotrigina es un fármaco estabilizador del ánimo y antiepiléptico de primera línea para la prevención y el tratamiento de las fases depresivas del trastorno bipolar. A diferencia del litio o el valproato, no tiene eficacia para tratar la manía aguda, pero destaca por su excelente tolerancia metabólica, ya que no engorda ni seda. Su metabolismo depende de la glucuronidación hepática y no del sistema citocromo P450. Su aspecto de máxima seguridad clínica es el riesgo de exantemas cutáneos graves y potencialmente mortales, como el síndrome de Stevens-Johnson. Por esta razón, exige una titulación extraordinariamente lenta comenzando con 25 miligramos al día. Si se combina con ácido valproico, este duplica la vida media de la lamotrigina, obligando a reducir la dosis inicial y de mantenimiento a más de la mitad. Su marca comercial original es Lamictal de GSK."
+> "La lamotrigina es un estabilizador del ánimo y antiepiléptico eficaz en la prevención y tratamiento de la depresión bipolar, sin inducir viraje maníaco ni ganancia de peso. Bloquea canales de sodio dependientes de voltaje y modula la liberación presináptica de glutamato. Su metabolismo ocurre por glucuronidación hepática vía UGT1A4. Su alerta de seguridad más crítica es el riesgo de síndrome de Stevens-Johnson y necrólisis epidérmica tóxica, lo que exige una titulación escalonada durante al menos seis semanas. La coadministración con ácido valproico duplica sus niveles y obliga a reducir la dosis a la mitad. Se comercializa como Lamictal de GSK o Lamotrax de Montpellier."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Stahl y CANMAT explican que la lamotrigina bloquea de forma voltaje-dependiente los canales de sodio sensibles a voltaje (NaV) en las neuronas presinápticas. Esta acción estabiliza la membrana neuronal y suprime la liberación excesiva del neurotransmisor excitatorio glutamato y aspartato, particularmente en circuitos córtico-límbicos hiperactivos en el trastorno bipolar, ejerciendo una acción estabilizadora orientada hacia el polo depresivo.
+Conforme a la documentación técnica de [MONO-LAMOTRIGINA-009], la lamotrigina bloquea de forma voltaje-dependiente los canales de sodio sensibles a voltaje (NaV) en las neuronas presinápticas. Esta acción estabiliza la membrana neuronal y suprime la liberación excesiva del neurotransmisor excitatorio glutamato y aspartato, particularmente en circuitos córtico-límbicos hiperactivos en el trastorno bipolar, ejerciendo una acción estabilizadora orientada hacia el polo depresivo.
 
 ## 3. Farmacocinética e Interacción Vital con Ácido Valproico
 - **Vía Metabólica:** Se depura por glucuronidación mediada por la enzima uridina 5'-difosfo-glucuronosiltransferasa (UGT1A4).
@@ -49,6 +49,6 @@ Para evitar el Síndrome de Stevens-Johnson, debe respetarse el siguiente cronog
 - **Respuesta:** "Bajo ninguna circunstancia. Tras más de 5 vidas medias de interrupción (unos 5 días), el organismo ha eliminado el fármaco y se ha perdido la tolerancia cutánea. Reiniciar directamente con 100 mg expone al paciente a un riesgo inaceptable de Stevens-Johnson. Se debe reiniciar la titulación desde 25 mg/día siguiendo el protocolo."
 
 ## 7. Referencias y Validación
-- Guías CANMAT / ISBD 2018: Primera línea en depresión bipolar (mantenimiento y prevención).
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Antiepilépticos.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Lamotrigina.
+- Ficha Técnica de Referencia: [MONO-LAMOTRIGINA-009] (Monografía Farmacológica).
+- Guías Clínicas de Referencia: CANMAT / ISBD (Depresión Bipolar y Mantenimiento).
+- Clasificación ATC OMS: N03AX09 (Antiepilépticos / Estabilizadores del Ánimo).

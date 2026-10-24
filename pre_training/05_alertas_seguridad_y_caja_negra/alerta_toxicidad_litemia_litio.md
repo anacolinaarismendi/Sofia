@@ -11,7 +11,7 @@ palabras_clave: ["litio", "litemia", "intoxicacion por litio", "ataxia", "hemodi
 # Alerta Crítica Toxicológica: Intoxicación por Carbonato de Litio
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "Alerta toxicológica médica: El carbonato de litio tiene una ventana terapéutica extremadamente estrecha; la diferencia entre una dosis eficaz y una dosis tóxica es mínima. Una litemia superior a 1.2 miliequivalentes por litro ya produce toxicidad leve con temblor grueso, diarrea y letargia. Si los niveles superan los dos miliequivalentes por litro, el paciente entra en un cuadro neurológico grave con ataxia, disartria, rigidez, mioclonías y confusión mental. Concentraciones mayores a dos punto cinco pueden provocar convulsiones, coma, daño cerebral irreversible y muerte. Si se sospecha intoxicación, se debe suspender el litio de inmediato, medir litemia urgente, forzar hidratación con suero fisiológico para barrer el litio por el riñón y preparar hemodiálisis de emergencia si los niveles son críticos."
+> "Alerta toxicológica: El carbonato de litio posee un margen terapéutico estrecho. Concentraciones superiores a 1.2 mEq/L desencadenan toxicidad leve con temblor grosero, vómitos y letargia. Niveles superiores a 2.0 mEq/L provocan toxicidad neurológica grave con ataxia, disartria, mioclonías y confusión mental. Concentraciones por encima de 2.5 mEq/L pueden causar convulsiones, coma, secuelas neurológicas permanentes y muerte. Ante sospecha clínica de intoxicación, se debe suspender el litio inmediatamente, solicitar litemia de urgencia, iniciar sueroterapia fisiológica endovenosa para forzar la eliminación renal y valorar hemodiálisis precoz en niveles críticos."
 
 ## 2. Estratificación de la Intoxicación según la Litemia
 

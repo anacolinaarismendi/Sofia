@@ -1,39 +1,34 @@
 farmaco,atc_codigo,efecto_adverso,severidad,fuente_evidencia
-Sertralina,N06AB06,Náuseas,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,diarrea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,molestias gastrointestinales,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,insomnio,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,cefalea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,temblor,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,disfunción sexual (retardo eyaculatorio,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,anorgasmia),Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Sertralina,N06AB06,sudoración profusa,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,Ansiedad inicial,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,agitación,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,insomnio,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,náuseas,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,pérdida de peso,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,cefalea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,temblor fino,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Fluoxetina,N06AB03,disfunción sexual,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,Síntomas extrapiramidales dosis-dependiente (>6 mg/día),Grave / Monitorizar,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,hiperprolactinemia marcada (amenorrea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,galactorrea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,ginecomastia),Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,aumento de peso,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,sedación,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Risperidona,N05AX08,hipotensión ortostática,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,Alta incidencia de síntomas extrapiramidales (distonía aguda,Grave / Monitorizar,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,acatisia,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,parkinsonismo secundario),Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,discinesia tardía con uso crónico,Grave / Monitorizar,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,sedación moderada,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Haloperidol,N05AD01,prolongación del intervalo QTc,Grave / Monitorizar,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,Poliuria,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,polidipsia,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,temblor fino de manos,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,diarrea,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,náuseas,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,aumento de peso,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,hipotiroidismo subclínico,Común / Leve-Moderado,Jufe - Psicofarmacología Práctica
-Litio (Carbonato de Litio),N05AN01,toxicidad renal tubulointersticial a largo plazo,Grave / Monitorizar,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,Náuseas,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,diarrea,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,molestias gastrointestinales,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,insomnio,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,cefalea,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,temblor,Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,"disfunción sexual (retardo eyaculatorio, anorgasmia)",Común / Moderado,Jufe - Psicofarmacología Práctica
+Sertralina,N06AB06,sudoración profusa,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,Ansiedad inicial,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,agitación,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,insomnio,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,náuseas,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,pérdida de peso,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,cefalea,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,temblor fino,Común / Moderado,Jufe - Psicofarmacología Práctica
+Fluoxetina,N06AB03,disfunción sexual,Común / Moderado,Jufe - Psicofarmacología Práctica
+Risperidona,N05AX08,Síntomas extrapiramidales dosis-dependiente (>6 mg/día),Grave / Riesgo Vital,Jufe - Psicofarmacología Práctica
+Risperidona,N05AX08,"hiperprolactinemia marcada (amenorrea, galactorrea, ginecomastia)",Común / Moderado,Jufe - Psicofarmacología Práctica
+Risperidona,N05AX08,aumento de peso,Común / Moderado,Jufe - Psicofarmacología Práctica
+Risperidona,N05AX08,sedación,Común / Moderado,Jufe - Psicofarmacología Práctica
+Risperidona,N05AX08,hipotensión ortostática,Común / Moderado,Jufe - Psicofarmacología Práctica
+Haloperidol,N05AD01,"Alta incidencia de síntomas extrapiramidales (distonía aguda, acatisia, parkinsonismo secundario)",Grave / Riesgo Vital,Jufe - Psicofarmacología Práctica
+Haloperidol,N05AD01,discinesia tardía con uso crónico,Grave / Riesgo Vital,Jufe - Psicofarmacología Práctica
+Haloperidol,N05AD01,sedación moderada,Común / Moderado,Jufe - Psicofarmacología Práctica
+Haloperidol,N05AD01,prolongación del intervalo QTc,Grave / Riesgo Vital,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,Poliuria,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,polidipsia,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,temblor fino de manos,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,diarrea,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,náuseas,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,aumento de peso,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,hipotiroidismo subclínico,Común / Moderado,Jufe - Psicofarmacología Práctica
+Litio (Carbonato de Litio),N05AN01,toxicidad renal tubulointersticial a largo plazo,Grave / Riesgo Vital,Jufe - Psicofarmacología Práctica

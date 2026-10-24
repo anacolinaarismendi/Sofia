@@ -29,5 +29,5 @@ palabras_clave: ["depresion resistente", "canmat", "potenciacion", "add on", "ar
    - Dosis de 150 a 300 mg/día de liberación prolongada.
    - Excelente para insomnio rebelde, ansiedad psíquica intensa y rumiación depresiva.
 3. **Carbonato de Litio (Add-on):**
-   - Estrategia clásica de potenciación; requiere litemia objetivo entre 0.5 y 0.8 mEq/L.
+   - Estrategia clásica de potenciación; requiere litemia objetivo entre 0.6 y 0.8 mEq/L.
    - Aporta protección antisuicida probada en pacientes deprimidos con ideación recurrente.

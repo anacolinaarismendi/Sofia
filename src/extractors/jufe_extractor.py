@@ -102,11 +102,11 @@ POBLACIONES ESPECIALES: Monitorización obligatoria de función renal, función 
         registros_efectos = []
         for _, row in df_farmacos.iterrows():
             raw_efectos = [
-                e.strip() for e in re.split(r"[,;.]", row["efectos_adversos"]) if len(e.strip()) > 2
+                e.strip().rstrip(".") for e in re.split(r"[,;](?![^()]*\))", row["efectos_adversos"]) if len(e.strip()) > 2
             ]
             for ef in raw_efectos:
                 es_grave = any(p in ef.lower() for p in efectos_graves_palabras)
-                severidad = "Grave / Monitorizar" if es_grave else "Común / Leve-Moderado"
+                severidad = "Grave / Riesgo Vital" if es_grave else "Común / Moderado"
                 registros_efectos.append({
                     "farmaco": row["farmaco"],
                     "atc_codigo": row["atc_codigo"],

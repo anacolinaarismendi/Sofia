@@ -17,7 +17,7 @@ palabras_clave: ["fluoxetina", "prozac", "isrs", "cyp2d6", "vida media larga", "
 > "La fluoxetina es un antidepresivo ISRS con un perfil marcadamente activador, indicado en depresión mayor, bulimia nerviosa y trastorno disfórico premenstrual. Su dosis habitual va de 20 a 60 miligramos diarios. Su principal característica diferencial es su prolongadísima vida media: su metabolito activo, la norfluoxetina, permanece en el organismo entre 7 y 15 días, lo que minimiza el síndrome de discontinuación por olvido de dosis. Sin embargo, es un potente inhibidor del citocromo CYP2D6, por lo que eleva drásticamente los niveles de antipsicóticos y betabloqueantes. Si se desea cambiar a un IMAO, exige un período de lavado estricto de cinco semanas. Su marca pionera es Prozac de Eli Lilly."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Stahl y Jufe destacan que la fluoxetina no solo inhibe el SERT, sino que también es antagonista de los receptores 5-HT2C. El bloqueo 5-HT2C desinhibe la liberación de noradrenalina y dopamina en la corteza prefrontal, confiriéndole propiedades energizantes y alertantes desde el inicio del tratamiento. Es ideal en pacientes con apatía, fatiga mental y fatiga psicomotora, pero puede inducir ansiedad paradójica inicial en individuos con perfil hiperactivado.
+Conforme a la documentación técnica de [MONO-FLUOXETINA-002], la fluoxetina no solo inhibe el SERT, sino que también es antagonista de los receptores 5-HT2C. El bloqueo 5-HT2C desinhibe la liberación de noradrenalina y dopamina en la corteza prefrontal, confiriéndole propiedades energizantes y alertantes desde el inicio del tratamiento. Es ideal en pacientes con apatía, fatiga mental y fatiga psicomotora, pero puede inducir ansiedad paradójica inicial en individuos con perfil hiperactivado.
 
 ## 3. Farmacocinética e Interacciones Enzimáticas (CYP450)
 - **Vida Media Prolongada:** La fluoxetina tiene una semivida de 2 a 4 días, pero su metabolito norfluoxetina persiste entre 7 y 15 días.
@@ -39,5 +39,5 @@ Stahl y Jufe destacan que la fluoxetina no solo inhibe el SERT, sino que tambié
 - **Respuesta:** "Se puede usar con precaución, pero teniendo presente que la fluoxetina inhibirá el metabolismo de la risperidona por CYP2D6, lo que multiplicará sus niveles plasmáticos y disparará el riesgo de rigidez extrapiramidal e hiperprolactinemia. Se debe reducir la dosis de risperidona a la mitad."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de ISRS.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Fluoxetina.
+- Ficha Técnica de Referencia: [MONO-FLUOXETINA-002] (Monografía Farmacológica).
+- Clasificación ATC OMS: N06AB03 (Antidepresivos / ISRS).

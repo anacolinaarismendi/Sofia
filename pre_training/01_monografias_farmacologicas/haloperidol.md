@@ -17,7 +17,7 @@ palabras_clave: ["haloperidol", "haldol", "antipsicotico tipico", "bloqueo d2", 
 > "El haloperidol es el antipsicótico clásico o de primera generación más representativo, utilizado en urgencias psiquiátricas para el control de la agitación psicomotora aguda, cuadros psicóticos y delirium. Su dosis diaria en mantenimiento va de 2 a 10 miligramos. Ejerce un bloqueo potente e indiscriminado sobre los receptores dopaminérgicos D2 en todo el cerebro: al bloquear la vía mesolímbica calma el delirio, pero al bloquear la vía nigroestriatal desencadena con altísima frecuencia distonías agudas, rigidez y parkinsonismo. Este cuadro suele motivar erróneamente la prescripción de anticolinérgicos como el biperideno, generando una cascada de prescripción con riesgo de deterioro cognitivo y discinesia tardía. Su marca histórica es Haldol."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Stahl y Jufe exponen que el haloperidol es un antagonista D2 de altísima afinidad y lenta disociación. Carece de propiedades antagonistas 5-HT2A significativas y tiene muy baja afinidad por receptores muscarínicos colinérgicos (M1) e histaminérgicos (H1). Esta falta de acción anticolinérgica intrínseca rompe el equilibrio dopamina-acetilcolina en los ganglios basales: la brusca caída funcional de dopamina libera una hiperactividad colinérgica no compensada, provocando espasmos musculares severos (distonías agudas) y rigidez en rueda dentada.
+Conforme a la documentación técnica de [MONO-HALOPERIDOL-008], el haloperidol es un antagonista D2 de altísima afinidad y lenta disociación. Carece de propiedades antagonistas 5-HT2A significativas y tiene muy baja afinidad por receptores muscarínicos colinérgicos (M1) e histaminérgicos (H1). Esta falta de acción anticolinérgica intrínseca rompe el equilibrio dopamina-acetilcolina en los ganglios basales: la brusca caída funcional de dopamina libera una hiperactividad colinérgica no compensada, provocando espasmos musculares severos (distonías agudas) y rigidez en rueda dentada.
 
 ## 3. Farmacocinética e Interacciones
 - **Metabolismo Hepático:** Es depurado por CYP3A4, CYP2D6 y glucuronidación. Inductores como carbamazepina o fenitoína reducen su concentración a la mitad; inhibidores de 2D6 o 3A4 pueden elevarla.
@@ -41,5 +41,5 @@ Stahl y Jufe exponen que el haloperidol es un antagonista D2 de altísima afinid
 - **Respuesta:** "No debería ser la primera opción. Añadir biperideno inicia una cascada de prescripción, sumando toxicidad anticolinérgica, pérdida de memoria, estreñimiento severo y mayor riesgo futuro de discinesia tardía. La mejor práctica clínica consiste en reducir la dosis de haloperidol o rotar a un antipsicótico de segunda generación con bajo perfil extrapiramidal, como quetiapina u olanzapina."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Antipsicóticos Típicos.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Haloperidol.
+- Ficha Técnica de Referencia: [MONO-HALOPERIDOL-008] (Monografía Farmacológica).
+- Clasificación ATC OMS: N05AD01 (Antipsicóticos Típicos / Butirofenonas).

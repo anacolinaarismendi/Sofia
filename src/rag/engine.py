@@ -9,6 +9,7 @@ Motor RAG Clínico y Base Vectorial de Sofia:
 
 import os
 import sys
+import time
 import json
 import re
 from pathlib import Path
@@ -136,6 +137,7 @@ class ClinicalVectorStore:
         self.tfidf_matrix = None
         self.use_ollama = False
         self._verificar_ollama()
+        self.modo_indice = "ollama" if self.use_ollama else ("tfidf" if SKLEARN_AVAILABLE else "tokens")
 
     def _get_headers(self) -> Dict[str, str]:
         headers = {"Content-Type": "application/json"}
@@ -161,9 +163,13 @@ class ClinicalVectorStore:
         self.documentos = docs
         textos = [f"{d['titulo']} {d.get('atc', '')}\n{d['contenido']}" for d in docs]
 
-        # Inicializar TF-IDF si scikit-learn está disponible
+        # Inicializar TF-IDF con normalización unicode de acentos
         if SKLEARN_AVAILABLE and TfidfVectorizer is not None:
-            self.vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=10000)
+            self.vectorizer = TfidfVectorizer(
+                ngram_range=(1, 2),
+                max_features=10000,
+                strip_accents="unicode"
+            )
             self.tfidf_matrix = self.vectorizer.fit_transform(textos)
         else:
             self.vectorizer = None
@@ -185,11 +191,15 @@ class ClinicalVectorStore:
                     else:
                         raise RuntimeError(f"Error status {res.status_code}")
                 self.embeddings = np.array(emb_list)
+                self.modo_indice = "ollama"
             except Exception:
                 self.use_ollama = False
                 self.embeddings = None
+                self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
+        else:
+            self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
 
-    def buscar(self, query: str, top_k: int = 3, filtro_tipo: Optional[str] = None) -> List[Tuple[Dict[str, Any], float]]:
+    def buscar(self, query: str, top_k: int = 4, filtro_tipo: Optional[str] = None) -> List[Tuple[Dict[str, Any], float]]:
         """Recupera los top_k documentos clínicos más relevantes para la consulta."""
         if not self.documentos:
             return []
@@ -202,8 +212,8 @@ class ClinicalVectorStore:
             if not indices_candidatos:
                 indices_candidatos = list(range(len(docs_candidatos)))
 
-        # Búsqueda densa con Ollama si está disponible
-        if self.use_ollama and self.embeddings is not None and cosine_similarity is not None:
+        # Búsqueda densa con Ollama si está disponible y activa
+        if self.modo_indice == "ollama" and self.use_ollama and self.embeddings is not None and cosine_similarity is not None:
             try:
                 res = requests.post(
                     f"{self.ollama_host}/api/embeddings",
@@ -268,7 +278,17 @@ class ClinicalRAGEngine:
             embedding_model=embedding_model,
             api_key=self.api_key
         )
-        self.docs = cargar_corpus_pretraining()
+
+        kb_path = WORKSPACE_ROOT / "data" / "processed" / "rag_knowledge_base.json"
+        if kb_path.exists():
+            try:
+                with open(kb_path, "r", encoding="utf-8") as f:
+                    self.docs = json.load(f)
+            except Exception:
+                self.docs = cargar_corpus_pretraining()
+        else:
+            self.docs = cargar_corpus_pretraining()
+
         if self.docs:
             self.vector_store.indexar_documentos(self.docs)
 
@@ -288,9 +308,13 @@ class ClinicalRAGEngine:
             )
         return "\n\n".join(bloques)
 
-    def consultar(self, pregunta: str, top_k: int = 3) -> Dict[str, Any]:
+    def consultar(self, pregunta: str, top_k: int = 4) -> Dict[str, Any]:
         """Ejecuta el pipeline completo de recuperación, ensamblado de contexto y generación."""
+        t0_ret = time.time()
         docs_recuperados = self.vector_store.buscar(pregunta, top_k=top_k)
+        lat_recuperacion = time.time() - t0_ret
+
+        t0_gen = time.time()
         contexto = self.construir_contexto(docs_recuperados)
 
         # Seleccionar el mejor Voice Snippet de los documentos recuperados
@@ -321,7 +345,7 @@ class ClinicalRAGEngine:
                 "options": {
                     "temperature": 0.2,
                     "top_p": 0.9,
-                    "num_predict": 800
+                    "num_predict": 900
                 }
             }
             res = requests.post(
@@ -341,10 +365,12 @@ class ClinicalRAGEngine:
         except Exception:
             pass
 
-        # Si Ollama no está disponible, estructurar respuesta determinista a partir del mejor documento
+        # Si Ollama no está disponible, estructurar respuesta determinista a partir de los documentos recuperados
         if not respuesta_texto and docs_recuperados:
             top_doc = docs_recuperados[0][0]
             top_id = top_doc.get("id", "DOC-001")
+            otros_ids = [f"[{d.get('id')}]" for d, _ in docs_recuperados[1:] if d.get('id')]
+            citas_adicionales = f" y referencias complementarias en {', '.join(otros_ids)}" if otros_ids else ""
             respuesta_texto = (
                 f"**1. Juicio Clínico Inmediato:**\n"
                 f"{voice_snippet or top_doc['titulo']} [{top_id}].\n\n"
@@ -353,13 +379,17 @@ class ClinicalRAGEngine:
                 f"**3. Pauta Operativa y Recomendaciones:**\n"
                 f"Seguir la dosificación, rango terapéutico y pauta de monitorización descritos en [{top_id}].\n\n"
                 f"**4. Alertas de Seguridad y Trazabilidad Comercial:**\n"
-                f"Advertencias críticas y precauciones farmacovigiladas documentadas en [{top_id}]."
+                f"Advertencias críticas y precauciones farmacovigiladas documentadas en [{top_id}]{citas_adicionales}."
             )
+        lat_generacion = time.time() - t0_gen
 
         return {
             "pregunta": pregunta,
             "respuesta": respuesta_texto,
             "voice_snippet": voice_snippet,
             "generado_con_llm": generado_con_llm,
-            "documentos_recuperados": docs_recuperados
+            "documentos_recuperados": docs_recuperados,
+            "latencia_recuperacion_seg": round(lat_recuperacion, 4),
+            "latencia_generacion_seg": round(lat_generacion, 4),
+            "latencia_total_seg": round(lat_recuperacion + lat_generacion, 4)
         }

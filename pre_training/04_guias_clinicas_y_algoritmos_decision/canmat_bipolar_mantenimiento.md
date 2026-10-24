@@ -12,7 +12,7 @@ palabras_clave: ["canmat", "mantenimiento", "bipolar", "litio", "quetiapina", "v
 # Guía CANMAT / ISBD 2018: Fase de Mantenimiento y Profilaxis del Trastorno Bipolar
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La fase de mantenimiento del trastorno bipolar busca prevenir nuevos episodios maníacos y depresivos, reducir la polaridad predominante y proteger al paciente contra el riesgo de suicidio. Las guías CANMAT sitúan al carbonato de litio en la cúspide de la primera línea terapéutica gracias a su capacidad preventiva bipolar global y a su demostrada acción reductora de la mortalidad por suicidio. Otras opciones de primera línea en monoterapia son la quetiapina, el divalproato de sodio y la lamotrigina, teniendo en cuenta que la lamotrigina previene principalmente las recaídas depresivas pero no protege contra la manía. En pacientes con recaídas frecuentes se aconseja la combinación sinérgica de litio con quetiapina o valproato."
+> "El mantenimiento en trastorno bipolar busca prevenir recurrencias maníacas y depresivas, minimizando el riesgo de suicidio. Las guías CANMAT sitúan al litio como estándar de primera línea por su eficacia profiláctica global y su efecto antisuicida probado. Otras alternativas de primera línea son la quetiapina, el divalproato de sodio y la lamotrigina (orientada predominantemente a prevenir recaídas depresivas). En pacientes con episodios recurrentes o respuesta insuficiente a la monoterapia, se recomienda la combinación de litio o valproato con antipsicóticos atípicos como quetiapina o aripiprazol."
 
 ## 2. Fármacos de Primera Línea en Mantenimiento y su Polaridad Protectora
 

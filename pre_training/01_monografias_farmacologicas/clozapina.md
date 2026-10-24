@@ -14,10 +14,10 @@ palabras_clave: ["clozapina", "leponex", "clozaril", "esquizofrenia resistente",
 # Ficha Clínica y Conversacional: Clozapina (N05AH02)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La clozapina es el antipsicótico atípico más eficaz de la psiquiatría moderna, reservado como estándar de oro para la esquizofrenia resistente al tratamiento y la conducta suicida persistente. Apenas causa síntomas extrapiramidales y no eleva la prolactina. Su uso exige un riguroso control hematológico mediante hemogramas seriados debido al riesgo de agranulocitosis o neutropenia grave potencialmente mortal. Es metabolizada principalmente por el citocromo CYP1A2; los hidrocarburos del humo del tabaco inducen esta enzima y reducen sus niveles a la mitad, por lo que un paciente que deja de fumar bruscamente puede intoxicarse de inmediato. Además, requiere monitorización de estreñimiento severo para evitar íleo paralítico fatal. Su nombre comercial pionero es Leponex o Clozaril."
+> "La clozapina es el antipsicótico atípico de referencia para la esquizofrenia resistente y la conducta suicida persistente. Apenas produce efectos extrapiramidales ni eleva prolactina. Requiere hemogramas seriados por riesgo de agranulocitosis potencialmente fatal (suspender si neutrófilos <1000/µL). Es metabolizada por CYP1A2; el tabaco induce esta enzima, por lo que el cese brusco del hábito duplica sus niveles e induce toxicidad grave. Asimismo, exige vigilar el estreñimiento para prevenir íleo paralítico. Se comercializa como Leponex o Clozaril de Novartis."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Stahl describe a la clozapina como el prototipo de antipsicótico atípico multirreceptorial (*broad-spectrum*). Posee una afinidad por receptores serotoninérgicos 5-HT2A sustancialmente superior a su afinidad por receptores dopaminérgicos D2. Se disocia con extrema rapidez del receptor D2 (baja ocupación estriatal del 40-60%), lo que explica la ausencia virtual de parkinsonismo secundario, distonías agudas y discinesia tardía. Tiene gran afinidad por receptores D4, 5-HT2C, H1 histaminérgicos, alfa-1 adrenérgicos y muscarínicos M1-M4.
+Conforme a la documentación clínica de [MONO-CLOZAPINA-006], la clozapina es el prototipo de antipsicótico atípico multirreceptorial (*broad-spectrum*). Posee una afinidad por receptores serotoninérgicos 5-HT2A sustancialmente superior a su afinidad por receptores dopaminérgicos D2. Se disocia con extrema rapidez del receptor D2 (baja ocupación estriatal del 40-60%), lo que explica la ausencia virtual de parkinsonismo secundario, distonías agudas y discinesia tardía. Tiene gran afinidad por receptores D4, 5-HT2C, H1 histaminérgicos, alfa-1 adrenérgicos y muscarínicos M1-M4.
 
 ## 3. Farmacocinética y Metabolismo por Citocromos (CYP450)
 - **Vía Principal CYP1A2:** El citocromo 1A2 es responsable del 70% de su aclaramiento.
@@ -43,5 +43,5 @@ Stahl describe a la clozapina como el prototipo de antipsicótico atípico multi
 - **Respuesta:** "Se debe reducir la dosis de clozapina aproximadamente entre un 30% y un 50% de forma progresiva y monitorizar la clozapinemia, ya que el cese de los hidrocarburos del tabaco desactivará la inducción de CYP1A2 y sus concentraciones plasmáticas se dispararán a niveles tóxicos."
 
 ## 7. Referencias y Validación
-- Dra. Gabriela Jufe: *Psicofarmacología Práctica*, Capítulo de Antipsicóticos Atípicos.
-- Dr. Stephen Stahl: *Prescriber's Guide*, Monografía de Clozapina.
+- Ficha Técnica de Referencia: [MONO-CLOZAPINA-006] (Monografía Farmacológica).
+- Clasificación ATC OMS: N05AH02 (Psicolépticos / Antipsicóticos Atípicos).

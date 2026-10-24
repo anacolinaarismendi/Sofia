@@ -11,7 +11,7 @@ palabras_clave: ["lamotrigina", "stevens johnson", "net", "exantema", "reaccion 
 # Alerta Crítica: Síndrome de Stevens-Johnson por Lamotrigina
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "Alerta clínica de seguridad: La lamotrigina presenta una advertencia de caja negra por riesgo de reacciones dermatológicas graves y potencialmente mortales, como el síndrome de Stevens-Johnson y la necrólisis epidérmica tóxica. Estas reacciones suelen manifestarse durante las primeras dos a ocho semanas de tratamiento y se relacionan directamente con una titulación demasiado rápida o con la coadministración de ácido valproico sin reducir la dosis. Los signos cardinales de peligro son la aparición de fiebre, erupción con ampollas o dianas en la piel y afectación dolorosa de mucosas en boca, ojos o genitales. Ante estos signos, la lamotrigina debe interrumpirse inmediatamente y de forma permanente; nunca debe volver a administrarse a un paciente que haya sufrido esta reacción."
+> "Alerta de seguridad: La lamotrigina conlleva advertencia de caja negra por riesgo de síndrome de Stevens-Johnson y necrólisis epidérmica tóxica, cuadros dermatológicos graves y potencialmente letales. Aparecen típicamente en las primeras dos a ocho semanas, asociadas a una titulación excesivamente rápida o al uso concurrente con ácido valproico sin ajuste posológico. Los signos de alarma incluyen fiebre, exantema con ampollas o lesiones en diana y ulceración dolorosa de mucosas en boca, ojos o genitales. Ante estos síntomas, debe suspenderse inmediatamente y de forma definitiva; jamás debe reintroducirse el fármaco tras esta complicación."
 
 ## 2. Diferenciación: Exantema Benigno vs. Stevens-Johnson
 

@@ -23,6 +23,7 @@ class CANMATExtractor:
         {"patologia": "Trastorno Depresivo Mayor (TDM)", "fase": "Aguda", "linea": "Segunda Línea", "estrategia": "Monoterapia", "farmaco": "Amitriptilina", "atc": "N06AA09", "nivel_evidencia": "Level 1", "comentarios": "Tricíclico eficaz pero con alta carga anticolinérgica y riesgo de cardiotoxicidad."},
         {"patologia": "Trastorno Depresivo Mayor (TDM)", "fase": "Aguda", "linea": "Segunda Línea", "estrategia": "Monoterapia", "farmaco": "Quetiapina", "atc": "N05AH04", "nivel_evidencia": "Level 2", "comentarios": "Eficacia demostrada a dosis de 150-300 mg/día; vigilar perfil metabólico."},
         {"patologia": "Trastorno Depresivo Mayor (TDM)", "fase": "Resistencia / Potenciación", "linea": "Primera Línea", "estrategia": "Potenciación", "farmaco": "Aripiprazol", "atc": "N05AX12", "nivel_evidencia": "Level 1", "comentarios": "Dosis bajas (2-5 mg/día) añadidas al antidepresivo base en respuesta parcial."},
+        {"patologia": "Trastorno Depresivo Mayor (TDM)", "fase": "Resistencia / Potenciación", "linea": "Primera Línea", "estrategia": "Potenciación", "farmaco": "Quetiapina (Add-on)", "atc": "N05AH04", "nivel_evidencia": "Level 1", "comentarios": "Dosis de 150-300 mg/día XR en respuesta parcial; mejora insomnio y ansiedad."},
         {"patologia": "Trastorno Depresivo Mayor (TDM)", "fase": "Resistencia / Potenciación", "linea": "Primera Línea", "estrategia": "Potenciación", "farmaco": "Litio (Carbonato)", "atc": "N05AN01", "nivel_evidencia": "Level 1", "comentarios": "Estrategia clásica con evidencia antisuicida comprobada; litemia 0.6-0.8 mEq/L."},
         {"patologia": "Trastorno Bipolar", "fase": "Manía Aguda", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Litio (Carbonato)", "atc": "N05AN01", "nivel_evidencia": "Level 1", "comentarios": "Gold standard en manía eufórica clásica; litemia diana 0.8-1.2 mEq/L."},
         {"patologia": "Trastorno Bipolar", "fase": "Manía Aguda", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Divalproato de Sodio", "atc": "N03AG01", "nivel_evidencia": "Level 1", "comentarios": "Eficaz en episodios mixtos y cicladores rápidos; nivel plasmático 50-100 mcg/mL."},
@@ -30,16 +31,18 @@ class CANMATExtractor:
         {"patologia": "Trastorno Bipolar", "fase": "Manía Aguda", "linea": "Primera Línea", "estrategia": "Combinación", "farmaco": "Litio + Antipsicótico Atípico", "atc": "Varios", "nivel_evidencia": "Level 1", "comentarios": "Estrategia superior a monoterapia en cuadros de manía severa o psicótica."},
         {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Quetiapina", "atc": "N05AH04", "nivel_evidencia": "Level 1", "comentarios": "Monoterapia de elección probada (estudios BOLDER I y II) a 300 mg/día nocturnos."},
         {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Lurasidona", "atc": "N05AE05", "nivel_evidencia": "Level 1", "comentarios": "Bajo impacto metabólico; administrar obligatoriamente con comida (>350 kcal)."},
+        {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Litio (Carbonato)", "atc": "N05AN01", "nivel_evidencia": "Level 2", "comentarios": "Monoterapia de primera línea para depresión bipolar y prevención del suicidio; litemia 0.8-1.0 mEq/L."},
+        {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "Primera Línea", "estrategia": "Monoterapia", "farmaco": "Lamotrigina", "atc": "N03AX09", "nivel_evidencia": "Level 2", "comentarios": "Eficacia demostrada en fase depresiva sin viraje a manía; titulación escalonada obligatoria."},
         {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "Primera Línea", "estrategia": "Combinación", "farmaco": "Litio + Lamotrigina", "atc": "Varios", "nivel_evidencia": "Level 2", "comentarios": "Efecto sinérgico estabilizador y antidepresivo con titulación lenta de lamotrigina."},
-        {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "No Recomendado / Contraindicado", "estrategia": "Monoterapia", "farmaco": "Antidepresivos ISRS en Monoterapia", "atc": "N06AB", "nivel_evidencia": "Level 1 (Daño)", "comentarios": "Contraindicados formalmente: alto riesgo de inducción de viraje maníaco y ciclación rápida."}
+        {"patologia": "Trastorno Bipolar", "fase": "Depresión Bipolar", "linea": "No Recomendado", "estrategia": "Monoterapia", "farmaco": "Antidepresivos ISRS en Monoterapia", "atc": "N06AB", "nivel_evidencia": "Level 1 (Daño)", "comentarios": "No recomendados: evidencia Level 1 de daño por alto riesgo de viraje maníaco y ciclación rápida."}
     ]
 
     ALERTAS_CANMAT = [
         {
             "patologia": "Trastorno Bipolar",
             "farmaco_involucrado": "Antidepresivos ISRS en Monoterapia",
-            "tipo_alerta": "Contraindicación / Riesgo de Viraje",
-            "descripcion": "ALERTA: Alto riesgo de viraje maníaco y desestabilización a ciclos rápidos.",
+            "tipo_alerta": "No Recomendado / Riesgo de Viraje",
+            "descripcion": "ALERTA: No recomendados por alto riesgo de viraje maníaco y desestabilización a ciclos rápidos (Level 1 de Daño).",
             "nivel_evidencia": "Level 1 (Daño)",
             "fuente": "Guías CANMAT / ISBD"
         }
