@@ -99,3 +99,41 @@ def test_citas_fuera_del_contexto_se_marcan(monkeypatch):
     assert res["modo_respuesta"] == "llm"
     assert res["citas_no_recuperadas"] == ["MONO-INVENTADO-999"]
     assert "Aviso de trazabilidad" in res["respuesta"]
+
+
+# --------------------------------------------------------------------------- Chunking y Búsqueda Híbrida (Clase RAG)
+def test_tokenizador_clinico_normaliza_acentos():
+    from src.rag.chunker import tokenizar_clinico
+    toks = tokenizar_clinico("Posología de Bupropión y CYP2D6 a 150mg/día")
+    assert "posologia" in toks
+    assert "bupropion" in toks
+    assert "cyp2d6" in toks
+    assert "150mg" in toks
+    assert "dia" in toks
+
+
+def test_chunking_estructural_enriquece_metadatos():
+    from src.rag.chunker import crear_chunks_enriquecidos
+    doc_muestra = [{
+        "id": "MONO-TEST-001",
+        "titulo": "Fármaco Test",
+        "atc": "N06AB99",
+        "tipo": "monografia_farmacologica",
+        "contenido": "# Ficha Clínica\n\n## 1. Resumen\n> Texto resumen\n\n## 2. Farmacocinética\nMetabolismo por CYP2D6."
+    }]
+    chunks = crear_chunks_enriquecidos(doc_muestra, min_chars_split=50)
+    assert len(chunks) == 2
+    assert "[MONO-TEST-001]" in chunks[0]["texto_indexable"]
+    assert "Farmacocinética" in chunks[1]["seccion"]
+    assert chunks[1]["doc_padre"] == doc_muestra[0]
+
+
+def test_recuperacion_hibrida_identifica_seccion_relevante(rag_sin_ollama):
+    res = rag_sin_ollama.consultar("paroxetina y bupropion CYP2D6")
+    assert res["fuera_de_alcance"] is False
+    assert len(res["documentos_recuperados"]) > 0
+    top_doc = res["documentos_recuperados"][0][0]
+    # Comprobar que anota la sección relevante encontrada por el chunker
+    assert "seccion_relevante" in top_doc
+    assert top_doc["seccion_relevante"] != ""
+

@@ -27,11 +27,36 @@ except ImportError:
     cosine_similarity = None
     SKLEARN_AVAILABLE = False
 
+try:
+    from rank_bm25 import BM25Okapi
+    BM25_AVAILABLE = True
+except ImportError:
+    BM25Okapi = None
+    BM25_AVAILABLE = False
+
+from .chunker import (
+    tokenizar_clinico,
+    crear_chunks_enriquecidos,
+    agregar_chunks_a_documentos
+)
+
 
 # Directorio base portable
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
 
 logger = logging.getLogger(__name__)
+
+SPANISH_STOPWORDS = [
+    "de", "la", "que", "el", "en", "y", "a", "los", "del", "se", "las", "por", "un", "para",
+    "con", "no", "una", "su", "al", "lo", "como", "mas", "pero", "sus", "le", "ya", "o",
+    "este", "si", "porque", "esta", "son", "entre", "cuando", "muy", "sin", "sobre",
+    "ser", "tiene", "tambien", "me", "hasta", "hay", "donde", "quien", "desde", "todo",
+    "nos", "durante", "todos", "uno", "les", "ni", "contra", "otros", "ese", "eso", "ante",
+    "ellos", "e", "esto", "mi", "antes", "algunos", "unos", "yo", "otro", "otras",
+    "otra", "tanto", "esa", "estos", "mucho", "quienes", "nada", "muchos", "cual",
+    "sea", "poco", "ella", "estar", "estas", "algunas", "algo", "nosotros",
+    "hacer", "paso", "cuales", "como", "cual"
+]
 
 # Umbral mínimo de similitud coseno TF-IDF por debajo del cual el corpus se considera
 # sin cobertura para la consulta (calibrado empíricamente sobre consultas dentro/fuera de alcance).
@@ -130,13 +155,21 @@ def cargar_corpus_pretraining(directorio: Optional[Path] = None) -> List[Dict[st
 
 
 class ClinicalVectorStore:
-    """Almacén vectorial clínico híbrido con Ollama (local o cloud) y fallback local TF-IDF."""
+    """
+    Almacén vectorial clínico híbrido optimizado:
+    - Segmentación semántica enriquecida con metadatos clínicos (Chunking estructural).
+    - Señal léxica BM25 (rank-bm25) normalizada para nombres propios, citocromos y códigos ATC.
+    - Señal densa neural (Ollama) con prefijos asimétricos o TF-IDF local de contingencia.
+    - Fusión ponderada calibrada (alfa · semántica_recortada + (1 - alfa) · bm25_normalizado).
+    - Caché persistente en disco (data/cache/embeddings_cache_*.npz) para arranque inmediato.
+    """
 
     def __init__(
         self,
         ollama_host: Optional[str] = None,
         embedding_model: str = "embeddinggemma:latest",
-        api_key: Optional[str] = None
+        api_key: Optional[str] = None,
+        alfa_hibrido: float = 0.65
     ):
         self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
         env_host = os.environ.get("OLLAMA_HOST")
@@ -150,10 +183,15 @@ class ClinicalVectorStore:
             self.ollama_host = "http://localhost:11434"
 
         self.embedding_model = embedding_model
+        self.alfa_hibrido = alfa_hibrido
         self.documentos: List[Dict[str, Any]] = []
+        self.chunks: List[Dict[str, Any]] = []
         self.embeddings: Optional[np.ndarray] = None
+        self.bm25: Optional[Any] = None
         self.vectorizer: Optional[TfidfVectorizer] = None
         self.tfidf_matrix = None
+        self.vectorizer_doc: Optional[TfidfVectorizer] = None
+        self.tfidf_matrix_doc = None
         self.use_ollama = False
         self._verificar_ollama()
         self.modo_indice = "ollama" if self.use_ollama else ("tfidf" if SKLEARN_AVAILABLE else "tokens")
@@ -178,34 +216,98 @@ class ClinicalVectorStore:
         return False
 
     def indexar_documentos(self, docs: List[Dict[str, Any]]):
-        """Indexa los documentos clínicos extrayendo representaciones vectoriales."""
+        """Indexa los documentos clínicos extrayendo fragmentos enriquecidos, BM25 y representaciones vectoriales."""
         self.documentos = docs
-        textos = [f"{d['titulo']} {d.get('atc', '')}\n{d['contenido']}" for d in docs]
 
-        # Inicializar TF-IDF con normalización unicode de acentos
+        # 1. TF-IDF a nivel de documento completo para la guardia de cobertura
+        textos_doc = [f"{d['titulo']} {d.get('atc', '')}\n{d['contenido']}" for d in docs]
+        if SKLEARN_AVAILABLE and TfidfVectorizer is not None:
+            self.vectorizer_doc = TfidfVectorizer(
+                ngram_range=(1, 2),
+                max_features=10000,
+                strip_accents="unicode",
+                stop_words=SPANISH_STOPWORDS
+            )
+            self.tfidf_matrix_doc = self.vectorizer_doc.fit_transform(textos_doc)
+
+        # 2. Segmentación en fragmentos enriquecidos con metadatos
+        self.chunks = crear_chunks_enriquecidos(docs)
+        textos_chunks = [c["texto_indexable"] for c in self.chunks]
+
+        # 3. Índice léxico BM25
+        if BM25_AVAILABLE and BM25Okapi is not None:
+            corpus_tokens = [tokenizar_clinico(t) for t in textos_chunks]
+            self.bm25 = BM25Okapi(corpus_tokens)
+        else:
+            self.bm25 = None
+
+        # 4. TF-IDF sobre fragmentos enriquecidos (contingencia y componente híbrido local)
         if SKLEARN_AVAILABLE and TfidfVectorizer is not None:
             self.vectorizer = TfidfVectorizer(
                 ngram_range=(1, 2),
                 max_features=10000,
                 strip_accents="unicode"
             )
-            self.tfidf_matrix = self.vectorizer.fit_transform(textos)
+            self.tfidf_matrix = self.vectorizer.fit_transform(textos_chunks)
         else:
             self.vectorizer = None
             self.tfidf_matrix = None
-            self.doc_tokens = [set(re.findall(r"\w+", t.lower())) for t in textos]
+            self.doc_tokens = [set(tokenizar_clinico(t)) for t in textos_chunks]
 
+        # 5. Embeddings densos con Ollama (con caché persistente en disco)
         if self.use_ollama:
             try:
-                self.embeddings = np.array(self._embeber_textos(textos))
+                self.embeddings = self._obtener_o_generar_embeddings_cache(textos_chunks)
                 self.modo_indice = "ollama"
             except Exception as exc:
-                logger.warning("Fallo al generar embeddings con Ollama; se usa TF-IDF: %s", exc)
+                logger.warning("Fallo al generar embeddings con Ollama; se usa TF-IDF + BM25: %s", exc)
                 self.use_ollama = False
                 self.embeddings = None
                 self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
         else:
             self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
+
+    def _obtener_o_generar_embeddings_cache(self, textos: List[str]) -> np.ndarray:
+        """Carga los embeddings desde disco o los genera con Ollama y persiste la caché."""
+        import hashlib
+        cache_dir = WORKSPACE_ROOT / "data" / "cache"
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        safe_model = re.sub(r"[^\w\-]", "_", self.embedding_model)
+        cache_path = cache_dir / f"embeddings_cache_{safe_model}.npz"
+
+        corpus_hash = hashlib.md5("".join(textos).encode("utf-8")).hexdigest()
+
+        if cache_path.exists():
+            try:
+                data = np.load(cache_path, allow_pickle=True)
+                if (
+                    str(data.get("corpus_hash", "")) == corpus_hash
+                    and int(data.get("num_chunks", 0)) == len(textos)
+                    and "embeddings" in data
+                ):
+                    logger.info("Caché de embeddings cargada desde %s (%d vectores)", cache_path.name, len(textos))
+                    return np.array(data["embeddings"])
+            except Exception as exc:
+                logger.warning("Error leyendo caché de embeddings (%s); se recalcula", exc)
+
+        # Prefijo asimétrico para documentos según directrices de embeddinggemma/Qwen
+        textos_con_prefijo = [f"title: none | text: {t}" for t in textos]
+        embs = self._embeber_textos(textos_con_prefijo)
+        embs_arr = np.array(embs)
+
+        try:
+            np.savez_compressed(
+                cache_path,
+                embeddings=embs_arr,
+                corpus_hash=corpus_hash,
+                num_chunks=len(textos),
+                model=self.embedding_model
+            )
+            logger.info("Caché de embeddings guardada en %s", cache_path.name)
+        except Exception as exc:
+            logger.warning("No se pudo persistir la caché de embeddings: %s", exc)
+
+        return embs_arr
 
     def _embeber_textos(self, textos: List[str], max_chars: int = 6000) -> List[List[float]]:
         """Obtiene embeddings por lote (/api/embed) con fallback al endpoint heredado (/api/embeddings)."""
@@ -238,56 +340,91 @@ class ClinicalVectorStore:
             emb_list.append(res.json()["embedding"])
         return emb_list
 
-    def buscar(self, query: str, top_k: int = 4, filtro_tipo: Optional[str] = None) -> List[Tuple[Dict[str, Any], float]]:
-        """Recupera los top_k documentos clínicos más relevantes para la consulta."""
-        if not self.documentos:
+    def buscar(
+        self,
+        query: str,
+        top_k: int = 4,
+        filtro_tipo: Optional[str] = None,
+        alfa: Optional[float] = None
+    ) -> List[Tuple[Dict[str, Any], float]]:
+        """
+        Recuperación híbrida optimizada:
+        1. Pondera señal densa (Ollama) o semántica (TF-IDF) recortada a [0, 1].
+        2. Pondera señal léxica BM25 normalizada por el máximo de la consulta.
+        3. Agrega chunks de vuelta a nivel de documento padre preservando trazabilidad.
+        """
+        if not self.chunks:
             return []
 
-        docs_candidatos = self.documentos
-        indices_candidatos = list(range(len(docs_candidatos)))
-
+        alfa = self.alfa_hibrido if alfa is None else alfa
+        candidatos = list(range(len(self.chunks)))
         if filtro_tipo:
-            indices_candidatos = [i for i, d in enumerate(docs_candidatos) if d.get("tipo") == filtro_tipo]
-            if not indices_candidatos:
-                indices_candidatos = list(range(len(docs_candidatos)))
+            candidatos = [i for i, c in enumerate(self.chunks) if c.get("tipo") == filtro_tipo]
+            if not candidatos:
+                candidatos = list(range(len(self.chunks)))
 
-        # Búsqueda densa con Ollama si está disponible y activa
+        # 1. Señal Léxica BM25
+        toks_query = tokenizar_clinico(query)
+        if self.bm25 is not None and toks_query:
+            raw_bm25 = np.array(self.bm25.get_scores(toks_query))[candidatos]
+            max_b = raw_bm25.max()
+            s_bm25 = (raw_bm25 / max_b) if max_b > 0 else np.zeros_like(raw_bm25)
+        else:
+            s_bm25 = np.zeros(len(candidatos), dtype=float)
+
+        # 2. Señal Semántica (Ollama con prefijo asimétrico o TF-IDF)
+        s_semantica = None
         if self.modo_indice == "ollama" and self.use_ollama and self.embeddings is not None and cosine_similarity is not None:
             try:
+                # Prefijo asimétrico para consultas: task: search result | query: {query}
+                query_con_prefijo = f"task: search result | query: {query}"
                 res = requests.post(
                     f"{self.ollama_host}/api/embeddings",
                     headers=self._get_headers(),
-                    json={"model": self.embedding_model, "prompt": query},
+                    json={"model": self.embedding_model, "prompt": query_con_prefijo},
                     timeout=5
                 )
                 if res.status_code == 200:
                     q_emb = np.array(res.json()["embedding"]).reshape(1, -1)
-                    sims = cosine_similarity(q_emb, self.embeddings[indices_candidatos])[0]
-                    top_idx_rel = np.argsort(sims)[::-1][:top_k]
-                    return [(self.documentos[indices_candidatos[i]], float(sims[i])) for i in top_idx_rel]
+                    sims = cosine_similarity(q_emb, self.embeddings[candidatos])[0]
+                    s_semantica = np.clip(sims, 0.0, 1.0)
             except Exception:
-                pass
+                s_semantica = None
 
-        # Fallback determinista local con TF-IDF si está disponible
-        if self.vectorizer is not None and self.tfidf_matrix is not None and cosine_similarity is not None:
-            q_vec = self.vectorizer.transform([query])
-            sub_matrix = self.tfidf_matrix[indices_candidatos]
-            sims = cosine_similarity(q_vec, sub_matrix)[0]
-            top_idx_rel = np.argsort(sims)[::-1][:top_k]
-            return [(self.documentos[indices_candidatos[i]], float(sims[i])) for i in top_idx_rel]
+        if s_semantica is None:
+            # Fallback a TF-IDF sobre fragmentos
+            if self.vectorizer is not None and self.tfidf_matrix is not None and cosine_similarity is not None:
+                q_vec = self.vectorizer.transform([query])
+                sims = cosine_similarity(q_vec, self.tfidf_matrix[candidatos])[0]
+                s_semantica = np.clip(sims, 0.0, 1.0)
+            else:
+                # Fallback de solapamiento de tokens
+                q_tokens = set(tokenizar_clinico(query))
+                sims = []
+                for i in candidatos:
+                    doc_t = getattr(self, "doc_tokens", [])[i] if hasattr(self, "doc_tokens") and i < len(self.doc_tokens) else set()
+                    inter = len(q_tokens & doc_t)
+                    union = len(q_tokens | doc_t)
+                    score = (inter / union) if union > 0 else 0.0
+                    sims.append(score)
+                s_semantica = np.array(sims, dtype=float)
+
+        # 3. Fusión Híbrida Ponderada
+        tiene_bm25 = bool(s_bm25.max() > 0)
+        tiene_sem = bool(s_semantica.max() > 0)
+
+        if tiene_bm25 and tiene_sem:
+            puntaje_total = alfa * s_semantica + (1.0 - alfa) * s_bm25
+        elif tiene_sem:
+            puntaje_total = s_semantica
         else:
-            # Fallback robusto sin scikit-learn (solapamiento de términos)
-            q_tokens = set(re.findall(r"\w+", query.lower()))
-            sims = []
-            for i in indices_candidatos:
-                doc_t = getattr(self, "doc_tokens", [])[i] if hasattr(self, "doc_tokens") and i < len(self.doc_tokens) else set()
-                inter = len(q_tokens & doc_t)
-                union = len(q_tokens | doc_t)
-                score = (inter / union) if union > 0 else 0.0
-                sims.append(score)
-            sims_arr = np.array(sims)
-            top_idx_rel = np.argsort(sims_arr)[::-1][:top_k]
-            return [(self.documentos[indices_candidatos[i]], float(sims_arr[i])) for i in top_idx_rel]
+            puntaje_total = s_bm25
+
+        top_chunk_rel = np.argsort(puntaje_total)[::-1][:top_k * 4]
+        chunks_evaluados = [(self.chunks[candidatos[i]], float(puntaje_total[i])) for i in top_chunk_rel]
+
+        # 4. Agregación a nivel de documento padre
+        return agregar_chunks_a_documentos(chunks_evaluados, top_k=top_k)
 
 
 class ClinicalRAGEngine:
@@ -349,12 +486,18 @@ class ClinicalRAGEngine:
         bloques = []
         for i, (doc, score) in enumerate(docs_recuperados, 1):
             doc_id = doc.get("id", f"DOC-{i}")
+            sec_destacada = (
+                f"Sección Relevante Destacada: {doc['seccion_relevante']}\n"
+                if doc.get("seccion_relevante") and doc.get("seccion_relevante") != "Documento Completo"
+                else ""
+            )
             bloques.append(
                 f"--- DOCUMENTO CLÍNICO [{doc_id}] ---\n"
                 f"ID de Citación: [{doc_id}]\n"
                 f"Título: {doc['titulo']}\n"
                 f"Código ATC: {doc.get('atc', 'N/D')}\n"
                 f"Tipo / Categoría: {doc.get('tipo', 'General')}\n"
+                f"{sec_destacada}"
                 f"Score de Relevancia: {score:.4f}\n"
                 f"Contenido:\n{doc['contenido']}\n"
             )
@@ -366,12 +509,23 @@ class ClinicalRAGEngine:
         docs_recuperados = self.vector_store.buscar(pregunta, top_k=top_k)
         lat_recuperacion = time.time() - t0_ret
 
-        # Guardia de cobertura: con recuperación léxica (TF-IDF) no hay forma fiable de saber
-        # si el corpus contiene la respuesta salvo por la similitud. Por debajo del umbral se
-        # declara explícitamente la falta de cobertura en lugar de forzar un documento irrelevante.
+        # Guardia de cobertura: con recuperación léxica (TF-IDF/BM25)
+        # Evaluamos la similitud documental para garantizar que el corpus contiene
+        # vocabulario clínico relevante para la consulta antes de proceder.
         if self.vector_store.modo_indice != "ollama":
-            top_score = docs_recuperados[0][1] if docs_recuperados else 0.0
-            if not docs_recuperados or top_score < MIN_SCORE_TFIDF:
+            top_score_cobertura = 0.0
+            if (
+                self.vector_store.vectorizer_doc is not None
+                and self.vector_store.tfidf_matrix_doc is not None
+                and cosine_similarity is not None
+            ):
+                q_vec_doc = self.vector_store.vectorizer_doc.transform([pregunta])
+                sims_doc = cosine_similarity(q_vec_doc, self.vector_store.tfidf_matrix_doc)[0]
+                top_score_cobertura = float(sims_doc.max()) if sims_doc.size > 0 else 0.0
+            elif docs_recuperados:
+                top_score_cobertura = docs_recuperados[0][1]
+
+            if not docs_recuperados or top_score_cobertura < MIN_SCORE_TFIDF:
                 return {
                     "pregunta": pregunta,
                     "respuesta": MENSAJE_SIN_COBERTURA,
