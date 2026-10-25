@@ -432,7 +432,7 @@
     "archivo_origen": "data/processed/canmat_recomendaciones_clean.csv"
   },
   {
-    "id": "MARCA-BUPROPIÓN-001",
+    "id": "MARCA-BUPROPION-001",
     "tipo": "catalogo_marcas",
     "titulo": "Marcas Comerciales y Laboratorios: Bupropión",
     "atc": "N/D",

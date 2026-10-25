@@ -21,6 +21,9 @@ def normalizar_clave(texto: str) -> str:
 class ATCEnricher:
     """Catálogo y enriquecedor oficial de códigos ATC y marcas comerciales."""
 
+    # Longitud mínima para permitir coincidencias parciales (evita que "a" o "ina" devuelvan un fármaco arbitrario)
+    MIN_LEN_BUSQUEDA = 4
+
     CATALOGO_ATC: Dict[str, Dict[str, Any]] = {
         "sertralina": {
             "nombre_oficial": "Sertralina",
@@ -47,7 +50,7 @@ class ATCEnricher:
             "atc_nivel2": "Psicoanalépticos (N06)",
             "atc_nivel3": "Antidepresivos",
             "atc_nivel4": "Inhibidores selectivos de la recaptación de serotonina (ISRS)",
-            "marcas_comerciales": ["Paxil", "Aropax", "Seroxat", "Motivan"]
+            "marcas_comerciales": ["Paxil", "Aropax", "Seroxat", "Motivan", "Psicoasten"]
         },
         "bupropion": {
             "nombre_oficial": "Bupropión",
@@ -65,7 +68,7 @@ class ATCEnricher:
             "atc_nivel2": "Psicolépticos (N05)",
             "atc_nivel3": "Antipsicóticos / Estabilizadores",
             "atc_nivel4": "Compuestos de litio",
-            "marcas_comerciales": ["Carbolit", "Plenur", "Eskalith", "Lithobid"]
+            "marcas_comerciales": ["Carbolit", "Plenur", "Eskalith", "Lithobid", "Ceglution"]
         },
         "carbonato de litio": {
             "nombre_oficial": "Carbonato de Litio",
@@ -74,7 +77,7 @@ class ATCEnricher:
             "atc_nivel2": "Psicolépticos (N05)",
             "atc_nivel3": "Antipsicóticos / Estabilizadores",
             "atc_nivel4": "Compuestos de litio",
-            "marcas_comerciales": ["Carbolit", "Plenur", "Eskalith", "Lithobid"]
+            "marcas_comerciales": ["Carbolit", "Plenur", "Eskalith", "Lithobid", "Ceglution"]
         },
         "clozapina": {
             "nombre_oficial": "Clozapina",
@@ -83,7 +86,7 @@ class ATCEnricher:
             "atc_nivel2": "Psicolépticos (N05)",
             "atc_nivel3": "Antipsicóticos",
             "atc_nivel4": "Diazepinas, oxazepinas y tiazepinas (Atípico)",
-            "marcas_comerciales": ["Leponex", "Clozaril", "Froidir", "Luverina"]
+            "marcas_comerciales": ["Leponex", "Clozaril", "Froidir", "Luverina", "Lapenax"]
         },
         "risperidona": {
             "nombre_oficial": "Risperidona",
@@ -161,24 +164,38 @@ class ATCEnricher:
 
     @classmethod
     def get_info(cls, nombre_farmaco: str) -> Optional[Dict[str, Any]]:
-        """Busca información ATC para un fármaco dado su nombre común, oficial o marca comercial."""
+        """Busca información ATC para un fármaco dado su nombre común, oficial o marca comercial.
+
+        Estrategia (de más a menos estricta): coincidencia exacta, luego coincidencia por
+        subcadena solo si la consulta tiene al menos MIN_LEN_BUSQUEDA caracteres.
+        """
         if not nombre_farmaco:
             return None
         clave = normalizar_clave(nombre_farmaco)
-        # 1. Coincidencia directa por clave o nombre oficial
+        if not clave:
+            return None
+
+        # 1. Coincidencia exacta con clave, nombre oficial o marca comercial
         for k, v in cls.CATALOGO_ATC.items():
-            if k in clave or clave in k:
+            if clave == k or clave == normalizar_clave(v.get("nombre_oficial", "")):
                 return v
-            if clave in normalizar_clave(v.get("nombre_oficial", "")):
+        for v in cls.CATALOGO_ATC.values():
+            if any(clave == normalizar_clave(m) for m in v.get("marcas_comerciales", [])):
                 return v
 
-        # 2. Búsqueda por marca comercial registrada (ej. Aremis, Plenur, Zoloft)
+        # 2. Coincidencia parcial (solo con consultas suficientemente largas)
+        if len(clave) < cls.MIN_LEN_BUSQUEDA:
+            return None
         for k, v in cls.CATALOGO_ATC.items():
+            if clave in k or k in clave or clave in normalizar_clave(v.get("nombre_oficial", "")):
+                return v
+        for v in cls.CATALOGO_ATC.values():
             for marca in v.get("marcas_comerciales", []):
                 norm_marca = normalizar_clave(marca)
-                if norm_marca and (norm_marca in clave or clave in norm_marca):
+                if norm_marca and (clave in norm_marca or norm_marca in clave):
                     return v
         return None
+
 
     @classmethod
     def enrich_dataframe(cls, df: pd.DataFrame, drug_column: str = "farmaco") -> pd.DataFrame:

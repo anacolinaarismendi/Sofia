@@ -59,7 +59,7 @@ CASOS_BENCHMARK = [
 
 def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[str, Any]:
     import re
-    res = rag_engine.consultar(caso["pregunta"], top_k=4)
+    res = rag_engine.consultar(caso["pregunta"], top_k=3)  # mismo top_k que la app
 
     respuesta = res["respuesta"]
     docs_recuperados = res["documentos_recuperados"]
@@ -79,7 +79,7 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[st
         1 for esp in docs_esp
         if esp.lower() in cadena_docs or any(esp.lower() in t for t in titulos_recuperados)
     )
-    context_recall = 1.0 if aciertos > 0 else 0.5
+    context_recall = 1.0 if aciertos > 0 else 0.0
     top_score = docs_recuperados[0][1] if docs_recuperados else 0.0
 
     # 2. Answer Relevance & Coverage de Entidades Clínicas
@@ -103,10 +103,10 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any]) -> Dict[st
     voice_ok = bool(voice_snippet and len(voice_snippet.split()) <= 110)
 
     # 5. Auditoría Bioética: Trazabilidad por [DOC-ID] y Cero Citas Apócrifas
-    citas_brutas = re.findall(r"\[([A-Z0-9_\-]+)\]", respuesta)
+    citas_brutas = re.findall(r"\[([A-ZÁÉÍÓÚÑ0-9_\-]+)\]", respuesta)
     citas_doc_id = [
         c for c in citas_brutas
-        if any(c.startswith(p) for p in ["MONO-", "INTER-", "CASC-", "GUIA-", "ALERTA-", "MARCA-", "CYP-"])
+        if any(c.startswith(p) for p in ["MONO-", "INTER-", "CASC-", "GUIA-", "ALERTA-", "MARCA-"])
     ]
     ids_recuperados_set = {d.get("id", "").upper() for d, _ in docs_recuperados}
     citas_validas = [c for c in citas_doc_id if c.upper() in ids_recuperados_set]
@@ -186,12 +186,13 @@ def main():
     print("==================================================================")
     print(f"• Context Recall Promedio:      {avg_recall * 100:.1f}%")
     print(f"• Answer Relevance Promedio:    {avg_relevance * 100:.1f}%")
-    print(f"• Groundedness / Fidelidad:     {avg_groundedness * 100:.1f}% (Validación preliminar N=4)")
+    print(f"• Groundedness (heurístico):    {avg_groundedness * 100:.1f}% (estructura 4 apartados + cobertura de entidades; no es fidelidad semántica)")
     print(f"• Trazabilidad Ética [DOC-ID]:  {avg_ethical * 100:.1f}% (Cero citas apócrifas, IDs en contexto)")
     print(f"• Latencia Recuperación Media:  {avg_lat_rec * 1000:.2f} ms")
     print(f"• Latencia Generación Media:    {avg_lat_gen:.3f} s")
     print(f"• Latencia Total Media:         {avg_lat_total:.3f} s")
-    print(f"• Cobertura Voice Snippet:      100% (4/4 casos)")
+    n_voice = sum(1 for r in resultados if r["voice_snippet_valido"])
+    print(f"• Cobertura Voice Snippet:      {n_voice / len(resultados) * 100:.0f}% ({n_voice}/{len(resultados)} casos)")
     print("==================================================================")
 
     # Guardar informe estructurado portable en data/processed/
@@ -200,7 +201,7 @@ def main():
         "timestamp_evaluacion": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total_casos_evaluados": len(resultados),
         "modo_ejecucion": "Ollama denso + LLM" if any(r["generado_con_llm"] for r in resultados) else "TF-IDF híbrido determinista (sin LLM activo)",
-        "nota_metodologica": "Smoke test preliminar (N=4 casos representativos de Jufe, Stahl, CANMAT y Farmacovigilancia). No constituye ensayo clínico formal.",
+        "nota_metodologica": "Smoke test preliminar (N=4 casos representativos de Jufe, Stahl, CANMAT y Farmacovigilancia). La métrica faithfulness_groundedness es heurística (estructura en 4 apartados + cobertura de entidades), no mide fidelidad semántica. No constituye ensayo clínico formal.",
         "promedios_triada_rag": {
             "context_recall": round(avg_recall, 4),
             "answer_relevance": round(avg_relevance, 4),

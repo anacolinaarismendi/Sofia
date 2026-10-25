@@ -12,6 +12,7 @@ import sys
 import time
 import json
 import re
+import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 import numpy as np
@@ -30,13 +31,31 @@ except ImportError:
 # Directorio base portable
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
 
+logger = logging.getLogger(__name__)
+
+# Umbral mínimo de similitud coseno TF-IDF por debajo del cual el corpus se considera
+# sin cobertura para la consulta (calibrado empíricamente sobre consultas dentro/fuera de alcance).
+# Es una heurística léxica: no sustituye el control de grounding del LLM.
+MIN_SCORE_TFIDF = 0.12
+
+# Una respuesta cortada por num_predict se detecta con done_reason == "length".
+NUM_PREDICT = 1200
+
+MENSAJE_SIN_COBERTURA = (
+    "**Sin cobertura en el corpus clínico de Sofia.**\n\n"
+    "No se han encontrado documentos suficientemente relevantes para esta consulta en el corpus curado "
+    "(psicofármacos y sus interacciones/guías indexadas). Por seguridad clínica Sofia no emite una "
+    "recomendación sin respaldo documental.\n\n"
+    "Reformula la consulta indicando el principio activo o la interacción concreta, o consulta la "
+    "ficha técnica oficial / un especialista."
+)
 
 SOFIA_CLINICAL_PROMPT = """Eres Sofia, asistente clínica especializada en Psicofarmacología Clínica, Psiquiatría Basada en la Evidencia y Farmacovigilancia.
 Tu función es asesorar a médicos adjuntos, residentes y profesionales de la salud con el máximo rigor científico, basándote EXCLUSIVAMENTE en el CONTEXTO CLÍNICO RECUPERADO.
 
 ### DIRECTRICES DE RAZONAMIENTO Y SEGURIDAD CLÍNICA:
 1. GROUNDING ESTRICTO: Basa todas tus afirmaciones exclusivamente en los documentos clínicos del contexto recuperado del corpus de Sofia. Si el contexto no contiene datos suficientes para responder con seguridad, declara explícitamente la limitación sin inventar datos.
-2. TRAZABILIDAD Y CITACIÓN POR IDENTIFICADOR ([DOC-ID]): No atribuyas citas textuales directas a autores personales (NO uses «Según la Dra. Jufe...» ni «El Dr. Stahl describe...»). En su lugar, debes respaldar cada afirmación farmacológica, posológica o de seguridad citando entre corchetes el código identificador único del documento clínico correspondiente (ej: [MONO-SERT-001], [CYP-2D6-001], [CASC-HAL-BIP-001], [CANMAT-BIP-MANIA-001]).
+2. TRAZABILIDAD Y CITACIÓN POR IDENTIFICADOR ([DOC-ID]): No atribuyas citas textuales directas a autores personales (NO uses «Según la Dra. Jufe...» ni «El Dr. Stahl describe...»). En su lugar, debes respaldar cada afirmación farmacológica, posológica o de seguridad citando entre corchetes el código identificador único de un documento que aparezca en el CONTEXTO CLÍNICO RECUPERADO (formato de ejemplo: [MONO-SERTRALINA-001], [INTER-CYP2D6-001], [CASC-HAL-BIP-001], [GUIA-CANMAT-MANIA-001]). NUNCA cites un identificador que no figure en el contexto recuperado.
 3. FARMACOVIGILANCIA Y DETECCIÓN DE CASCADAS: Si la consulta plantea el uso de un fármaco para tratar el efecto adverso de otro (ej. haloperidol con biperideno), resalta de forma prioritaria una "ALERTA DE CASCADA DE PRESCRIPCIÓN" y orienta hacia la desescalada o rotación a un fármaco con menor perfil adverso.
 4. METABOLISMO ENZIMÁTICO Y CITOCROMOS: Especifica siempre las vías metabólicas y los citocromos involucrados (CYP1A2, CYP2D6, CYP3A4, CYP2B6, glucuronidación UGT1A4 o eliminación renal de litio).
 
@@ -178,26 +197,46 @@ class ClinicalVectorStore:
 
         if self.use_ollama:
             try:
-                emb_list = []
-                for t in textos:
-                    res = requests.post(
-                        f"{self.ollama_host}/api/embeddings",
-                        headers=self._get_headers(),
-                        json={"model": self.embedding_model, "prompt": t[:2000]},
-                        timeout=10
-                    )
-                    if res.status_code == 200:
-                        emb_list.append(res.json()["embedding"])
-                    else:
-                        raise RuntimeError(f"Error status {res.status_code}")
-                self.embeddings = np.array(emb_list)
+                self.embeddings = np.array(self._embeber_textos(textos))
                 self.modo_indice = "ollama"
-            except Exception:
+            except Exception as exc:
+                logger.warning("Fallo al generar embeddings con Ollama; se usa TF-IDF: %s", exc)
                 self.use_ollama = False
                 self.embeddings = None
                 self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
         else:
             self.modo_indice = "tfidf" if self.vectorizer is not None else "tokens"
+
+    def _embeber_textos(self, textos: List[str], max_chars: int = 6000) -> List[List[float]]:
+        """Obtiene embeddings por lote (/api/embed) con fallback al endpoint heredado (/api/embeddings)."""
+        recortados = [t[:max_chars] for t in textos]
+        try:
+            res = requests.post(
+                f"{self.ollama_host}/api/embed",
+                headers=self._get_headers(),
+                json={"model": self.embedding_model, "input": recortados},
+                timeout=120
+            )
+            if res.status_code == 200:
+                embs = res.json().get("embeddings")
+                if embs and len(embs) == len(recortados):
+                    return embs
+            logger.info("/api/embed no disponible (status %s); se usa /api/embeddings", res.status_code)
+        except Exception as exc:
+            logger.info("/api/embed falló (%s); se usa /api/embeddings", exc)
+
+        emb_list = []
+        for t in recortados:
+            res = requests.post(
+                f"{self.ollama_host}/api/embeddings",
+                headers=self._get_headers(),
+                json={"model": self.embedding_model, "prompt": t},
+                timeout=30
+            )
+            if res.status_code != 200:
+                raise RuntimeError(f"Error status {res.status_code}")
+            emb_list.append(res.json()["embedding"])
+        return emb_list
 
     def buscar(self, query: str, top_k: int = 4, filtro_tipo: Optional[str] = None) -> List[Tuple[Dict[str, Any], float]]:
         """Recupera los top_k documentos clínicos más relevantes para la consulta."""
@@ -280,11 +319,24 @@ class ClinicalRAGEngine:
         )
 
         kb_path = WORKSPACE_ROOT / "data" / "processed" / "rag_knowledge_base.json"
+        self.kb_obsoleta = False
         if kb_path.exists():
             try:
                 with open(kb_path, "r", encoding="utf-8") as f:
                     self.docs = json.load(f)
-            except Exception:
+                pre_dir = WORKSPACE_ROOT / "pre_training"
+                if pre_dir.exists():
+                    kb_mtime = kb_path.stat().st_mtime
+                    self.kb_obsoleta = any(
+                        p.stat().st_mtime > kb_mtime for p in pre_dir.glob("**/*.md")
+                    )
+                    if self.kb_obsoleta:
+                        logger.warning(
+                            "rag_knowledge_base.json es anterior a algún documento de pre_training/: "
+                            "regenerar la base de conocimiento."
+                        )
+            except Exception as exc:
+                logger.warning("No se pudo leer rag_knowledge_base.json (%s); se carga pre_training/", exc)
                 self.docs = cargar_corpus_pretraining()
         else:
             self.docs = cargar_corpus_pretraining()
@@ -308,19 +360,40 @@ class ClinicalRAGEngine:
             )
         return "\n\n".join(bloques)
 
-    def consultar(self, pregunta: str, top_k: int = 4) -> Dict[str, Any]:
+    def consultar(self, pregunta: str, top_k: int = 3) -> Dict[str, Any]:
         """Ejecuta el pipeline completo de recuperación, ensamblado de contexto y generación."""
         t0_ret = time.time()
         docs_recuperados = self.vector_store.buscar(pregunta, top_k=top_k)
         lat_recuperacion = time.time() - t0_ret
 
+        # Guardia de cobertura: con recuperación léxica (TF-IDF) no hay forma fiable de saber
+        # si el corpus contiene la respuesta salvo por la similitud. Por debajo del umbral se
+        # declara explícitamente la falta de cobertura en lugar de forzar un documento irrelevante.
+        if self.vector_store.modo_indice != "ollama":
+            top_score = docs_recuperados[0][1] if docs_recuperados else 0.0
+            if not docs_recuperados or top_score < MIN_SCORE_TFIDF:
+                return {
+                    "pregunta": pregunta,
+                    "respuesta": MENSAJE_SIN_COBERTURA,
+                    "voice_snippet": "",
+                    "generado_con_llm": False,
+                    "modo_respuesta": "sin_cobertura",
+                    "fuera_de_alcance": True,
+                    "citas_no_recuperadas": [],
+                    "documentos_recuperados": [],
+                    "latencia_recuperacion_seg": round(lat_recuperacion, 4),
+                    "latencia_generacion_seg": 0.0,
+                    "latencia_total_seg": round(lat_recuperacion, 4)
+                }
+
         t0_gen = time.time()
         contexto = self.construir_contexto(docs_recuperados)
 
-        # Seleccionar el mejor Voice Snippet de los documentos recuperados
+        # Voice Snippet: solo de documentos con relevancia comparable a la del mejor resultado
         voice_snippet = ""
-        for doc, _ in docs_recuperados:
-            if doc.get("voice_snippet"):
+        mejor_score = docs_recuperados[0][1] if docs_recuperados else 0.0
+        for doc, score in docs_recuperados:
+            if doc.get("voice_snippet") and score >= 0.5 * mejor_score:
                 voice_snippet = doc["voice_snippet"]
                 break
 
@@ -333,6 +406,7 @@ class ClinicalRAGEngine:
 
         respuesta_texto = ""
         generado_con_llm = False
+        citas_no_recuperadas: List[str] = []
 
         # Intentar llamada a Ollama (local o Cloud)
         try:
@@ -345,7 +419,7 @@ class ClinicalRAGEngine:
                 "options": {
                     "temperature": 0.2,
                     "top_p": 0.9,
-                    "num_predict": 900
+                    "num_predict": NUM_PREDICT
                 }
             }
             res = requests.post(
@@ -355,15 +429,37 @@ class ClinicalRAGEngine:
                 timeout=75
             )
             if res.status_code == 200:
-                raw_resp = res.json().get("response", "").strip()
+                datos = res.json()
+                raw_resp = datos.get("response", "").strip()
                 if raw_resp:
                     # Limpiar bloques internos de pensamiento si están presentes
                     respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip()
                     if not respuesta_texto:
                         respuesta_texto = raw_resp
                     generado_con_llm = True
-        except Exception:
-            pass
+
+                    # Validar que todo [DOC-ID] citado pertenezca a los documentos recuperados
+                    ids_recuperados = {d.get("id", "").upper() for d, _ in docs_recuperados}
+                    citados = re.findall(
+                        r"\[((?:MONO|INTER|CASC|GUIA|ALERTA|MARCA|CYP|CANMAT)-[^\]\s]+)\]", respuesta_texto
+                    )
+                    citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
+                    if citas_no_recuperadas:
+                        logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
+                        respuesta_texto += (
+                            "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
+                            f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
+                            "Verifica esas referencias antes de usarlas."
+                        )
+                    if datos.get("done_reason") == "length":
+                        respuesta_texto += (
+                            "\n\n> ⚠️ **Respuesta truncada** por límite de longitud: revisa las alertas de seguridad "
+                            "en los documentos recuperados."
+                        )
+            else:
+                logger.warning("Ollama /api/generate devolvió status %s; se usa contingencia", res.status_code)
+        except Exception as exc:
+            logger.warning("Fallo al generar con Ollama; se usa contingencia: %s", exc)
 
         # Si Ollama no está disponible, estructurar respuesta determinista a partir de los documentos recuperados
         if not respuesta_texto and docs_recuperados:
@@ -388,6 +484,9 @@ class ClinicalRAGEngine:
             "respuesta": respuesta_texto,
             "voice_snippet": voice_snippet,
             "generado_con_llm": generado_con_llm,
+            "modo_respuesta": "llm" if generado_con_llm else "contingencia",
+            "fuera_de_alcance": False,
+            "citas_no_recuperadas": citas_no_recuperadas,
             "documentos_recuperados": docs_recuperados,
             "latencia_recuperacion_seg": round(lat_recuperacion, 4),
             "latencia_generacion_seg": round(lat_generacion, 4),

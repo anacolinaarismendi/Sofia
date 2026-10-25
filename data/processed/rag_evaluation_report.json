@@ -1,8 +1,8 @@
 {
-  "timestamp_evaluacion": "2026-10-24 20:31:29",
+  "timestamp_evaluacion": "2026-10-25 12:41:46",
   "total_casos_evaluados": 4,
   "modo_ejecucion": "TF-IDF híbrido determinista (sin LLM activo)",
-  "nota_metodologica": "Smoke test preliminar (N=4 casos representativos de Jufe, Stahl, CANMAT y Farmacovigilancia). No constituye ensayo clínico formal.",
+  "nota_metodologica": "Smoke test preliminar (N=4 casos representativos de Jufe, Stahl, CANMAT y Farmacovigilancia). La métrica faithfulness_groundedness es heurística (estructura en 4 apartados + cobertura de entidades), no mide fidelidad semántica. No constituye ensayo clínico formal.",
   "promedios_triada_rag": {
     "context_recall": 1.0,
     "answer_relevance": 0.7,
@@ -17,10 +17,10 @@
       "caso_id": "CASO_01_POSOLOGIA_Y_MARCAS",
       "categoria": "Monografía y Posología (Sertralina)",
       "pregunta": "¿Qué laboratorios comercializan la Sertralina, cuáles son sus marcas comerciales principales y cuál es su posología recomendada de inicio y mantenimiento?",
-      "latencia_recuperacion_segundos": 0.0006,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0013,
-      "latencia_segundos": 0.0013,
+      "latencia_recuperacion_segundos": 0.0007,
+      "latencia_generacion_segundos": 0.0008,
+      "latencia_total_segundos": 0.0014,
+      "latencia_segundos": 0.0014,
       "top_documento": "Marcas Comerciales y Laboratorios: Sertralina",
       "top_doc_id": "MARCA-SERTRALINA-001",
       "top_score_similitud": 0.2313,
@@ -38,16 +38,16 @@
         "[MARCA-SERTRALINA-001]",
         "[MARCA-SERTRALINA-001]",
         "[MARCA-SERTRALINA-001]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MARCA-CLOZAPINA-001]"
+        "[MARCA-BUPROPION-001]",
+        "[MARCA-HALOPERIDOL-001]"
       ],
       "citas_validas_recuperadas": [
         "[MARCA-SERTRALINA-001]",
         "[MARCA-SERTRALINA-001]",
         "[MARCA-SERTRALINA-001]",
         "[MARCA-SERTRALINA-001]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MARCA-CLOZAPINA-001]"
+        "[MARCA-BUPROPION-001]",
+        "[MARCA-HALOPERIDOL-001]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
@@ -57,10 +57,10 @@
       "caso_id": "CASO_02_INTERACCIONES_CYP450",
       "categoria": "Farmacocinética y Citocromos (CYP2D6)",
       "pregunta": "¿Qué interacciones farmacocinéticas y precauciones enzimáticas con el citocromo CYP2D6 se describen para Paroxetina y Bupropión?",
-      "latencia_recuperacion_segundos": 0.0007,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0013,
-      "latencia_segundos": 0.0013,
+      "latencia_recuperacion_segundos": 0.0005,
+      "latencia_generacion_segundos": 0.0005,
+      "latencia_total_segundos": 0.0011,
+      "latencia_segundos": 0.0011,
       "top_documento": "Interacciones Críticas en el Citocromo CYP2D6: Inhibidores Potentes vs. Sustratos Psiquiátricos",
       "top_doc_id": "INTER-CYP2D6-001",
       "top_score_similitud": 0.2626,
@@ -81,8 +81,7 @@
         "[INTER-CYP2D6-001]",
         "[INTER-CYP2D6-001]",
         "[MONO-BUPROPION-004]",
-        "[INTER-MATRIZ-CYP-005]",
-        "[MONO-PAROXETINA-003]"
+        "[INTER-MATRIZ-CYP-005]"
       ],
       "citas_validas_recuperadas": [
         "[INTER-CYP2D6-001]",
@@ -90,8 +89,7 @@
         "[INTER-CYP2D6-001]",
         "[INTER-CYP2D6-001]",
         "[MONO-BUPROPION-004]",
-        "[INTER-MATRIZ-CYP-005]",
-        "[MONO-PAROXETINA-003]"
+        "[INTER-MATRIZ-CYP-005]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
@@ -101,10 +99,10 @@
       "caso_id": "CASO_03_DIRECTRICES_CANMAT",
       "categoria": "Medicina Basada en la Evidencia (CANMAT)",
       "pregunta": "¿Qué fármacos se recomiendan en primera línea para un episodio de manía aguda y por qué se desaconseja el uso de antidepresivos en monoterapia en depresión bipolar?",
-      "latencia_recuperacion_segundos": 0.0006,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0011,
-      "latencia_segundos": 0.0011,
+      "latencia_recuperacion_segundos": 0.0005,
+      "latencia_generacion_segundos": 0.0005,
+      "latencia_total_segundos": 0.001,
+      "latencia_segundos": 0.001,
       "top_documento": "Alerta de Práctica Clínica: Riesgo de Viraje Maníaco y Ciclación Rápida por Antidepresivos en Trastorno Bipolar",
       "top_doc_id": "ALERTA-ISRS-VIRAJE-004",
       "top_score_similitud": 0.2183,
@@ -122,8 +120,7 @@
         "[ALERTA-ISRS-VIRAJE-004]",
         "[ALERTA-ISRS-VIRAJE-004]",
         "[GUIA-CANMAT-DEP-002]",
-        "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-CSV-019]"
+        "[GUIA-CANMAT-MANIA-001]"
       ],
       "citas_validas_recuperadas": [
         "[ALERTA-ISRS-VIRAJE-004]",
@@ -131,8 +128,7 @@
         "[ALERTA-ISRS-VIRAJE-004]",
         "[ALERTA-ISRS-VIRAJE-004]",
         "[GUIA-CANMAT-DEP-002]",
-        "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-CSV-019]"
+        "[GUIA-CANMAT-MANIA-001]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
@@ -142,10 +138,10 @@
       "caso_id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
       "categoria": "Farmacovigilancia y Cascadas de Prescripción (Haloperidol - Biperideno)",
       "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y se le prescribe medicación antiparkinsoniana como biperideno. ¿Cuál es el riesgo de cascada de prescripción y qué pauta de desprescripción se aconseja?",
-      "latencia_recuperacion_segundos": 0.0005,
-      "latencia_generacion_segundos": 0.0005,
-      "latencia_total_segundos": 0.0011,
-      "latencia_segundos": 0.0011,
+      "latencia_recuperacion_segundos": 0.0006,
+      "latencia_generacion_segundos": 0.0006,
+      "latencia_total_segundos": 0.0012,
+      "latencia_segundos": 0.0012,
       "top_documento": "Cascada de Prescripción Clásica: Haloperidol a Biperideno por Parkinsonismo Secundario",
       "top_doc_id": "CASC-HAL-BIP-001",
       "top_score_similitud": 0.3003,
@@ -165,8 +161,7 @@
         "[CASC-HAL-BIP-001]",
         "[CASC-HAL-BIP-001]",
         "[MONO-HALOPERIDOL-008]",
-        "[CASC-PROT-003]",
-        "[INTER-LAM-VAL-003]"
+        "[CASC-PROT-003]"
       ],
       "citas_validas_recuperadas": [
         "[CASC-HAL-BIP-001]",
@@ -174,8 +169,7 @@
         "[CASC-HAL-BIP-001]",
         "[CASC-HAL-BIP-001]",
         "[MONO-HALOPERIDOL-008]",
-        "[CASC-PROT-003]",
-        "[INTER-LAM-VAL-003]"
+        "[CASC-PROT-003]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,

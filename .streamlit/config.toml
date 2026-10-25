@@ -1,13 +1,13 @@
 [client]
-showErrorDetails = true
+# "type": solo el tipo de excepción en el navegador; el detalle completo queda en los logs del servidor
+showErrorDetails = "type"
 
 [browser]
 gatherUsageStats = false
 
 [server]
 headless = true
-enableCORS = false
-enableXsrfProtection = false
+# enableCORS y enableXsrfProtection se dejan en sus valores por defecto (activados)
 
 [theme]
 primaryColor = "#2563eb"
