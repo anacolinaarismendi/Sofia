@@ -1,10 +1,13 @@
 ---
 id: "INTER-LIT-RENAL-004"
-tipo: "interaccion_cyp450"
+tipo: "interaccion_farmacologica"
 titulo: "Interacciones Renales Críticas del Carbonato de Litio: AINEs, Tiazidas e Inhibidores del SRAA"
 enzimas_cyp: ["Ninguna (Manejo hemodinámico y tubular renal)"]
 farmacos_involucrados: ["Carbonato de Litio", "Ibuprofeno", "Naproxeno", "Hidroclorotiazida", "Enalapril", "Losartán"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT Guidelines", "Stahl"]
+revisado_por: "Comite Clinico"
+fecha_actualizacion: "2026-10-25"
+estado_revision: "aprobado"
 nivel_riesgo: "Crítico (Intoxicación por litemia tóxica y fallo renal agudo)"
 palabras_clave: ["litio", "litemia", "aines", "ibuprofeno", "tiazidas", "hidroclorotiazida", "ieca", "enalapril", "intoxicacion renal"]
 ---
@@ -12,7 +15,7 @@ palabras_clave: ["litio", "litemia", "aines", "ibuprofeno", "tiazidas", "hidrocl
 # Toxicidad Renal del Litio: Interacciones con AINEs, Diuréticos e IECA/ARA-II
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "El carbonato de litio carece de metabolismo hepático y se excreta íntegramente por filtración renal compitiendo con el sodio. Por tanto, fármacos que alteren el aclaramiento renal provocan intoxicación lítica severa. Los AINEs comunes como ibuprofeno o naproxeno, los diuréticos tiazídicos como hidroclorotiazida y los inhibidores de la ECA reducen drásticamente la eliminación de litio, disparando la litemia a rango tóxico (>1.5 mEq/L). La intoxicación produce temblor grosero, ataxia, confusión, convulsiones y daño renal crónico. Ante dolor en pacientes tratados con litio, el analgésico de elección siempre debe ser el paracetamol."
+> "El carbonato de litio carece de metabolismo hepático y se excreta íntegramente por filtración renal compitiendo con el sodio. Por tanto, fármacos que alteren el aclaramiento renal provocan intoxicación lítica severa. Los antiinflamatorios comunes como ibuprofeno o naproxeno, los diuréticos tiazídicos como hidroclorotiazida y los inhibidores del sistema renina-angiotensina reducen drásticamente la eliminación de litio, disparando la litemia a rango tóxico por encima de uno punto dos a uno punto cinco miliequivalentes por litro. La intoxicación produce temblor grosero, ataxia, confusión, convulsiones y daño renal agudo. Ante dolor en pacientes tratados con litio, el analgésico de primera elección siempre debe ser el paracetamol."
 
 ## 2. Mecanismo Fisiológico de la Excreción Renal de Litio
 El ion litio (Li+) es tratado fisiológicamente por el riñón de manera idéntica al ion sodio (Na+). Se reabsorbe en un 70-80% en el túbulo contorneado proximal. Todo factor o fármaco que genere depleción de sodio o reduzca la perfusión renal induce a las células tubulares a reabsorber con avidez tanto sodio como litio, reteniendo este último en el torrente sanguíneo.

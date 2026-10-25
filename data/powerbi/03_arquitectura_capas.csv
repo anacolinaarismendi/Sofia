@@ -1,5 +1,0 @@
-Capa_Num,Nombre,Modulos,Tecnologias,Funcion_Principal,Mecanismo_Clave
-1,Extracción y Enriquecimiento,"src/extractors/, src/enrichers/","pdfplumber, pypdf, Regex, ATC WHO",Ingesta no destructiva de PDFs clínicos y estandarización a CSV con códigos ATC.,CachedPDFExtractor en data/cache/ (carga instantánea sin consumo repetitivo de CPU).
-2,Corpus Clínico Curado,pre_training/,"Markdown, YAML Frontmatter, Voice Snippets","27 Documentos clínicos estructurados en 5 categorías (Monografías, CYP, Cascadas, CANMAT, Caja Negra).",Metadatos auditables por [DOC-ID] y síntesis ejecutivas orales de <40s.
-3,Motor RAG Vectorial,src/rag/engine.py,"Ollama (embeddinggemma, Qwen2.5), Scikit-Learn TF-IDF",Almacén vectorial dual para búsqueda semántica híbrida y generación clínica.,"Fallback automático e instantáneo a TF-IDF n-gram (1,2) ante ausencia de Ollama o GPU."
-4,Fine-Tuning y Evaluación,"finetunningpre/, scripts/evaluate_rag.py","ChatML JSONL, LoRA/Unsloth, RAG Triad Benchmark",29 Casos clínicos para adaptación de modelos y auditoría formal de fidelidad.,Reporte cuantitativo automatizado en data/processed/rag_evaluation_report.json.

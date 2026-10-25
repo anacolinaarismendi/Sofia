@@ -7,6 +7,9 @@ fuentes_primarias: ["CANMAT/ISBD 2018 Guidelines for Bipolar Disorder"]
 nivel_evidencia: "Level 1"
 nivel_riesgo: "Moderado a Alto"
 palabras_clave: ["canmat", "mantenimiento", "bipolar", "litio", "quetiapina", "valproato", "lamotrigina", "prevencion de suicidio"]
+revisado_por: "Comite Clinico"
+fecha_actualizacion: "2026-10-25"
+estado_revision: "aprobado"
 ---
 
 # Guía CANMAT / ISBD 2018: Fase de Mantenimiento y Profilaxis del Trastorno Bipolar
@@ -24,6 +27,8 @@ palabras_clave: ["canmat", "mantenimiento", "bipolar", "litio", "quetiapina", "v
 | **Lamotrigina** | **Level 1** | Pobre (-) | **Excelente (+++)** | Elección en pacientes con predominio depresivo |
 | **Aripiprazol** | **Level 1** | **Excelente (+++)** | Pobre (-) | Excelente tolerancia metabólica |
 
+*Nota metodológica: La gradación de cruces (+++, ++, +, -) es un resumen heurístico editorial de la eficacia comparativa observada en los ensayos; formalmente, CANMAT categoriza las recomendaciones en Líneas (1ª a 3ª) y Niveles de Evidencia (1 a 4).*
+
 ## 3. Pautas Clínicas de Retirada o Continuidad
-- El tratamiento de mantenimiento debe prolongarse indefinidamente tras dos o más episodios severos de trastorno bipolar.
-- Si se suspende el litio de forma brusca, la tasa de recaída maníaca en los siguientes 6 meses supera el 90%. Cualquier suspensión debe ser pactada, muy lenta y gradual a lo largo de un mínimo de 3 a 6 meses.
+- El tratamiento de mantenimiento está indicado desde el primer episodio maníaco en el Trastorno Bipolar I (CANMAT/ISBD 2018), dado el curso recurrente de la enfermedad. En Bipolar II se evalúa individualmente según gravedad y recurrencia previa.
+- Si se suspende el litio de forma brusca, la tasa de recaída es de aproximadamente un 50% a los 6 meses y de hasta un 70% al año. Cualquier suspensión debe ser pactada, muy lenta y gradual a lo largo de un mínimo de 3 a 6 meses para mitigar el rebote maníaco y el empeoramiento del curso clínico.

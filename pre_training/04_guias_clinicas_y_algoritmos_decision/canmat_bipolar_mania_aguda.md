@@ -7,6 +7,9 @@ fuentes_primarias: ["CANMAT/ISBD 2018 Guidelines for Bipolar Disorder"]
 nivel_evidencia: "Level 1"
 nivel_riesgo: "Alto (Emergencia Psiquiátrica)"
 palabras_clave: ["canmat", "bipolar", "mania aguda", "litio", "valproato", "quetiapina", "aripiprazol", "primera linea"]
+revisado_por: "Comite Clinico"
+fecha_actualizacion: "2026-10-25"
+estado_revision: "aprobado"
 ---
 
 # Guía CANMAT / ISBD 2018: Tratamiento de la Manía Bipolar Aguda
@@ -19,7 +22,7 @@ palabras_clave: ["canmat", "bipolar", "mania aguda", "litio", "valproato", "quet
 ### Primera Línea (Evidencia Level 1)
 - **Monoterapia:**
   - Carbonato de Litio (Litemia objetivo: 0.8 a 1.1 mEq/L).
-  - Divalproato de Sodio / Ácido Valproico (Nivel plasmático: 50 a 125 µg/mL).
+  - Divalproato de Sodio / Ácido Valproico (Valproemia objetivo: 50 a 100 µg/mL; en manía severa hasta 100-125 µg/mL).
   - Quetiapina (Dosis de 400 a 800 mg/día).
   - Aripiprazol (Dosis de 15 a 30 mg/día).
   - Risperidona (Dosis de 2 a 6 mg/día).

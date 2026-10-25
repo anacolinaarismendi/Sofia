@@ -5,10 +5,13 @@ farmaco: "Lamotrigina"
 atc_codigo: "N03AX09"
 atc_grupo: "Antiepilépticos / Estabilizadores del Ánimo"
 enzimas_cyp: ["Glucuronidación hepática por UGT1A4 (no dependiente de CYP450)"]
-marcas_principales: ["Lamictal (GSK)", "Tradox", "Labileno", "Lamicstar"]
+marcas_principales: ["Lamictal (GSK)", "Lamotrax (Montpellier)", "Tradox", "Labileno", "Lamicstar"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT/ISBD 2018 Guidelines", "Stahl"]
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-25"
+version_contenido: "2.0.0"
 nivel_riesgo: "Alto (riesgo de Síndrome de Stevens-Johnson ante titulación rápida o combinación con valproato)"
-palabras_clave: ["lamotrigina", "lamictal", "estabilizador del animo", "depresion bipolar", "acido valproico", "stevens johnson", "exantema", "ugt1a4"]
+palabras_clave: ["lamotrigina", "lamictal", "lamotrax", "estabilizador del animo", "depresion bipolar", "acido valproico", "stevens johnson", "exantema", "ugt1a4"]
 ---
 
 # Ficha Clínica y Conversacional: Lamotrigina (N03AX09)
@@ -17,7 +20,7 @@ palabras_clave: ["lamotrigina", "lamictal", "estabilizador del animo", "depresio
 > "La lamotrigina es un estabilizador del ánimo y antiepiléptico eficaz en la prevención y tratamiento de la depresión bipolar, sin inducir viraje maníaco ni ganancia de peso. Bloquea canales de sodio dependientes de voltaje y modula la liberación presináptica de glutamato. Su metabolismo ocurre por glucuronidación hepática vía UGT1A4. Su alerta de seguridad más crítica es el riesgo de síndrome de Stevens-Johnson y necrólisis epidérmica tóxica, lo que exige una titulación escalonada durante al menos seis semanas. La coadministración con ácido valproico duplica sus niveles y obliga a reducir la dosis a la mitad. Se comercializa como Lamictal de GSK o Lamotrax de Montpellier."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Conforme a la documentación técnica de [MONO-LAMOTRIGINA-009], la lamotrigina bloquea de forma voltaje-dependiente los canales de sodio sensibles a voltaje (NaV) en las neuronas presinápticas. Esta acción estabiliza la membrana neuronal y suprime la liberación excesiva del neurotransmisor excitatorio glutamato y aspartato, particularmente en circuitos córtico-límbicos hiperactivos en el trastorno bipolar, ejerciendo una acción estabilizadora orientada hacia el polo depresivo.
+La lamotrigina bloquea de forma voltaje-dependiente los canales de sodio sensibles a voltaje (NaV) en las neuronas presinápticas. Esta acción estabiliza la membrana neuronal y suprime la liberación excesiva del neurotransmisor excitatorio glutamato y aspartato, particularmente en circuitos córtico-límbicos hiperactivos en el trastorno bipolar, ejerciendo una acción estabilizadora orientada hacia el polo depresivo.
 
 ## 3. Farmacocinética e Interacción Vital con Ácido Valproico
 - **Vía Metabólica:** Se depura por glucuronidación mediada por la enzima uridina 5'-difosfo-glucuronosiltransferasa (UGT1A4).
@@ -34,11 +37,13 @@ Para evitar el Síndrome de Stevens-Johnson, debe respetarse el siguiente cronog
 - **En combinación con Ácido Valproico:**
   - Semanas 1 y 2: 25 mg **en días alternos** (cada 48 horas) o 12.5 mg/día.
   - Semanas 3 y 4: 25 mg/día.
-  - Semanas 5 y 6: 50 mg/día.
-  - Dosis de mantenimiento habitual: 100 mg/día (máximo 150 mg/día).
+  - Semana 5: 50 mg/día.
+  - Semana 6: 100 mg/día (objetivo habitual).
+  - Dosis de mantenimiento habitual: 100 a 200 mg/día (máximo 200 mg/día en biterapia).
 
 ## 5. Eventos Adversos: Frecuentes vs. Erupción Cutánea Grave
-- **Comunes y Benignos:** Cefalea leve, mareo, náuseas, visión borrosa diplópica y exantema cutáneo maculopapular benigno no confluente (ocurre en el 10% y remite espontáneamente).
+- **Comunes:** Cefalea leve, mareo, náuseas, diplopía/visión borrosa.
+- **Erupción Cutánea (Exantema):** Aunque puede presentarse un exantema maculopapular benigno (hasta en un 10%), clínicamente es indistinguible en sus fases iniciales de un pródromo de Síndrome de Stevens-Johnson / NET. Por seguridad estricta, la aparición de cualquier rash en las primeras 8 semanas obliga a la suspensión inmediata del fármaco y a valoración médica urgente.
 - **Alerta de Síndrome de Stevens-Johnson / NET:**
   - Incidencia: Aproximadamente 1 de cada 1000 adultos (más frecuente en niños).
   - Signos de Alarma: Fiebre alta, afectación de mucosas (labios, boca, ojos, genitales), ampollas en la piel o dolor cutáneo intenso.

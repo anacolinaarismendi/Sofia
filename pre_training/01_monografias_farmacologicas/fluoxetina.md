@@ -7,6 +7,9 @@ atc_grupo: "Antidepresivos / Inhibidores Selectivos de la Recaptación de Seroto
 enzimas_cyp: ["CYP2D6 (inhibidor potente)", "CYP2C9/CYP2C19 (inhibidor moderado)", "CYP3A4"]
 marcas_principales: ["Prozac (Eli Lilly)", "Foxetin (Gador)", "Sarafem", "Adofen"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-25"
+version_contenido: "2.0.0"
 nivel_riesgo: "Alto (por interacciones enzimáticas prolongadas)"
 palabras_clave: ["fluoxetina", "prozac", "isrs", "cyp2d6", "vida media larga", "bulimia", "activador", "norfluoxetina"]
 ---
@@ -17,11 +20,11 @@ palabras_clave: ["fluoxetina", "prozac", "isrs", "cyp2d6", "vida media larga", "
 > "La fluoxetina es un antidepresivo ISRS con un perfil marcadamente activador, indicado en depresión mayor, bulimia nerviosa y trastorno disfórico premenstrual. Su dosis habitual va de 20 a 60 miligramos diarios. Su principal característica diferencial es su prolongadísima vida media: su metabolito activo, la norfluoxetina, permanece en el organismo entre 7 y 15 días, lo que minimiza el síndrome de discontinuación por olvido de dosis. Sin embargo, es un potente inhibidor del citocromo CYP2D6, por lo que eleva drásticamente los niveles de antipsicóticos y betabloqueantes. Si se desea cambiar a un IMAO, exige un período de lavado estricto de cinco semanas. Su marca pionera es Prozac de Eli Lilly."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Conforme a la documentación técnica de [MONO-FLUOXETINA-002], la fluoxetina no solo inhibe el SERT, sino que también es antagonista de los receptores 5-HT2C. El bloqueo 5-HT2C desinhibe la liberación de noradrenalina y dopamina en la corteza prefrontal, confiriéndole propiedades energizantes y alertantes desde el inicio del tratamiento. Es ideal en pacientes con apatía, fatiga mental y fatiga psicomotora, pero puede inducir ansiedad paradójica inicial en individuos con perfil hiperactivado.
+La fluoxetina no solo inhibe el SERT, sino que también es antagonista de los receptores 5-HT2C. El bloqueo 5-HT2C desinhibe la liberación de noradrenalina y dopamina en la corteza prefrontal, confiriéndole propiedades energizantes y alertantes desde el inicio del tratamiento. Es ideal en pacientes con apatía, fatiga mental y fatiga psicomotora, pero puede inducir ansiedad paradójica inicial en individuos con perfil hiperactivado.
 
 ## 3. Farmacocinética e Interacciones Enzimáticas (CYP450)
 - **Vida Media Prolongada:** La fluoxetina tiene una semivida de 2 a 4 días, pero su metabolito norfluoxetina persiste entre 7 y 15 días.
-- **Inhibición Enzimática Extrema:** Es uno de los inhibidores más potentes conocidos del citocromo CYP2D6. Puede multiplicar por 3 a 5 veces las concentraciones de risperidona, haloperidol, aripiprazol, atomoxetina, antidepresivos tricíclicos y betabloqueantes lipofílicos (como metoprolol o propranolol).
+- **Inhibición Enzimática Extrema:** Es uno de los inhibidores más potentes conocidos del citocromo CYP2D6. La magnitud del incremento plasmático varía sustancialmente según el fármaco asociado: es muy pronunciada en sustratos sensibles o dependientes de 2D6 (multiplicando por 3 a 5 veces o más los niveles de atomoxetina, antidepresivos tricíclicos o la molécula madre de risperidona), pero mucho más discreta en fármacos con aclaramiento metabólico alternativo, como el haloperidol (cuyos niveles se incrementan habitualmente entre un 20% y un 50% por la presencia de vías como CYP3A4 y glucuronidación).
 - **Ventana de Lavado Mandatoria:** Para iniciar un IMAO se deben esperar como mínimo 5 semanas completas tras la última toma de fluoxetina para evitar toxicidad serotoninérgica letal.
 
 ## 4. Dosificación, Rangos y Poblaciones Especiales
@@ -36,7 +39,7 @@ Conforme a la documentación técnica de [MONO-FLUOXETINA-002], la fluoxetina no
 
 ## 6. Guía de Comunicación Clínica (Pregunta y Respuesta)
 - **Pregunta:** "¿Puedo combinar fluoxetina con risperidona para la depresión psicótica?"
-- **Respuesta:** "Se puede usar con precaución, pero teniendo presente que la fluoxetina inhibirá el metabolismo de la risperidona por CYP2D6, lo que multiplicará sus niveles plasmáticos y disparará el riesgo de rigidez extrapiramidal e hiperprolactinemia. Se debe reducir la dosis de risperidona a la mitad."
+- **Respuesta:** "Se puede utilizar con precaución, pero teniendo presente que la fluoxetina inhibirá potentemente el citocromo CYP2D6. Esto eleva los niveles de la molécula madre de risperidona y su fracción activa total, incrementando el riesgo de rigidez extrapiramidal e hiperprolactinemia. La conducta clínica prudente consiste en valorar reducir la dosis de risperidona y monitorizar estrechamente la respuesta antipsicótica y los efectos adversos motores."
 
 ## 7. Referencias y Validación
 - Ficha Técnica de Referencia: [MONO-FLUOXETINA-002] (Monografía Farmacológica).

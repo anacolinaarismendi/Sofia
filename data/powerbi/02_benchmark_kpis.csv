@@ -1,8 +1,0 @@
-Metrica,Categoria,Valor,Porcentaje,Objetivo_Minimo,Estado,Detalle
-Context Recall (Recuperación Canónica),Tríada de RAG,1.0,100.0,0.8,Superado,El documento canónico esperado se recuperó en el Top-1/Top-4 en el 100% de los casos.
-Answer Relevance (Relevancia y Cobertura),Tríada de RAG,0.95,95.0,0.85,Superado,"Cobertura exhaustiva de entidades clínicas (posologías, enzimas, riesgos)."
-Fidelidad al Contexto (Smoke Test N=4),Tríada de RAG,0.969,96.9,0.9,Superado,Validación preliminar en 4 casos canónicos; ausencia de alucinaciones mayores.
-Trazabilidad Ética [DOC-ID] (Cero Citas Apócrifas),Bioética y Auditoría,1.0,100.0,1.0,Superado,Cero falsas atribuciones a nombres personales; respaldo directo por código [DOC-ID] del contexto.
-Cobertura de Voice Snippets (<40s),Multimodalidad,1.0,100.0,1.0,Superado,100% de los casos cuentan con síntesis verbalizable fluida de menos de 110 palabras.
-Latencia de Recuperación Vectorial (s),Rendimiento,0.001,100.0,0.05,Óptimo,Latencia de búsqueda y ranking de contexto (~1 ms) sobre 57 documentos clínicos.
-Latencia End-to-End con LLM (s),Rendimiento,21.9,90.0,30.0,Satisfactorio,Inferencia completa de generación estructurada en 4 secciones con modelo Qwen.

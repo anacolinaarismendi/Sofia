@@ -7,6 +7,9 @@ atc_grupo: "Antidepresivos / Inhibidores Selectivos de la Recaptación de Seroto
 enzimas_cyp: ["CYP2D6 (inhibición leve/moderada a dosis altas)", "CYP2B6", "CYP3A4"]
 marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Almirall)", "Besitran (Pfizer)", "Altruline"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-25"
+version_contenido: "2.0.0"
 nivel_riesgo: "Moderado"
 palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular", "aremis", "almirall"]
 ---
@@ -17,7 +20,7 @@ palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d
 > "La sertralina es un antidepresivo inhibidor selectivo de la recaptación de serotonina, fármaco de primera línea para el trastorno depresivo mayor y cuadros de ansiedad como el pánico y el trastorno obsesivo-compulsivo. Su dosis inicial típica es de 25 a 50 miligramos diarios por la mañana, titulable hasta un máximo de 200 miligramos al día. Destaca por su seguridad cardiovascular comprobada y porque interfiere significativamente menos con el citocromo CYP2D6 que la paroxetina o la fluoxetina, lo que la convierte en una opción idónea en pacientes polimedicados. Comercialmente se encuentra como Zoloft o Besitran de Pfizer, Serlift de Roemmers y Aremis de Almirall."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
-Conforme a la documentación técnica de [MONO-SERTRALINA-001], la sertralina actúa como un potente inhibidor del transportador de serotonina (SERT). A diferencia de otros ISRS, posee una característica farmacodinámica diferencial única: un bloqueo débil pero clínicamente relevante del transportador de dopamina (DAT) y afinidad por receptores sigma-1. Esta suave acción dopaminérgica contribuye a una mejoría temprana de la anhedonia, el enlentecimiento psicomotor y la energía en comparación con otros serotoninérgicos puros.
+La sertralina actúa como un potente inhibidor del transportador de serotonina (SERT). A diferencia de otros ISRS, presenta una característica farmacodinámica complementaria: un bloqueo débil in vitro del transportador de dopamina (DAT) y afinidad por receptores sigma-1. Si bien este mecanismo ha sido postulado teóricamente para favorecer la motivación o la energía, la evidencia clínica de un impacto diferencial significativo sobre la anhedonia respecto a otros ISRS es débil o controvertida debido a la baja ocupación del DAT a dosis terapéuticas habituales (<10-20%).
 
 ## 3. Farmacocinética e Interacciones Enzimáticas (CYP450)
 - **Vías de Metabolización:** Es metabolizada a nivel hepático, principalmente por desmetilación (dismetilsertralina, metabolito menos activo).
@@ -30,7 +33,7 @@ Conforme a la documentación técnica de [MONO-SERTRALINA-001], la sertralina ac
 - **Poblaciones Especiales:**
   - *Adultos Mayores:* No requiere ajuste drástico de inicio, aunque se aconseja comenzar en 25 mg/día y evaluar hiponatremia secundaria a secreción inadecuada de hormona antidiurética (SIADH).
   - *Embarazo y Lactancia:* Considerada por las guías clínicas como uno de los antidepresivos de elección en el período perinatal debido a su baja excreción en leche materna y favorable perfil de seguridad fetal.
-  - *Cardiopatía:* Fármaco de primera elección en pacientes con infarto agudo de miocardio reciente o patología coronaria inestable (estudio SADHART).
+  - *Cardiopatía:* Opción preferente de primera línea en pacientes con infarto agudo de miocardio reciente o cardiopatía isquémica inestable (avalada por el estudio SADHART por su neutralidad sobre la agregación plaquetaria y seguridad arritmogénica).
 
 ## 5. Eventos Adversos: Frecuentes vs. Graves
 - **Efectos Comunes y Transitorios:** Náuseas, dispepsia, diarrea o heces blandas (por receptores 5-HT3 y 5-HT4 intestinales), insomnio inicial, cefalea y disfunción sexual (anorgasmia o retraso eyaculatorio persistente).
