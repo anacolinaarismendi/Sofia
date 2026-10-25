@@ -11,7 +11,7 @@ autor: "Equipo de Arquitectura y Farmacología Clínica"
 
 ## 1. Propósito del Corpus
 El directorio `pre_training/` reúne el conocimiento clínico estructurado del proyecto **Sofia** (Dra. Gabriela Jufe, Dr. Stephen Stahl, Guías CANMAT/ISBD, clasificación ATC de la OMS y catálogo de marcas y laboratorios). Este material ha sido convertido y curado con un estándar unificado de **modalidad dual (verbal y escrita)**:
-1. **Comunicación Verbal (Voice AI / Speech-to-Text / TTS):** Cada archivo contiene un bloque formal `Voice Snippet` (Resumen Ejecutivo Verbalizable) redactado en prosa fluida, sin tablas multidimensionales ni abreviaturas telegráficas, listo para ser sintetizado a audio en menos de 40 segundos sin distorsión prosódica.
+1. **Comunicación Verbal (Síntesis de voz / TTS):** Cada archivo contiene un bloque formal `Voice Snippet` (Resumen Ejecutivo Verbalizable) redactado en prosa fluida, sin tablas multidimensionales ni abreviaturas telegráficas, listo para ser sintetizado a audio en menos de 40 segundos sin distorsión prosódica.
 2. **Consultas Escritas y Recuperación Semántica (RAG / Embeddings):** Cada archivo profundiza en la farmacodinamia, farmacocinética, interacciones CYP450, cascadas de prescripción y algoritmos de decisión, calibrado en longitud semántica (400 a 900 tokens) para evitar truncamientos y maximizar la precisión de recuperación (*recall* y *MRR*).
 
 ---
@@ -60,7 +60,7 @@ def parse_markdown_chunk(file_path):
 
 ### Paso 2: Modelos de Embeddings Recomendados
 1. **Ollama Local (Entorno Sofia):** `embeddinggemma:latest` (o `bge-m3:latest` para embeddings densos multilingües con longitud de contexto de hasta 8192 tokens).
-2. **Servicios Cloud / OpenAI:** `text-embedding-3-small` o `text-embedding-3-large` con dimensión configurada en 1536 o 3072.
+2. **Modelos Cloud:** `text-embedding-3-small` o equivalentes con dimensión configurada en 1536 o 3072.
 3. **Métrica de Distancia Recomendada:** Distancia de Coseno (*Cosine Similarity*).
 
 ### Paso 3: Mapeo de Payload en Base de Datos Vectorial (Qdrant / Chroma / SQLite-vec)

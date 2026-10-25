@@ -111,7 +111,7 @@ flowchart TD
 
 ### 2. Modo Contingencia (Sin servidor LLM / Fallback Scikit-Learn)
 - **¿Qué significa que "el modelo conmuta a contingencia"?:**  
-  En este modo **no hay ningún modelo de IA en ejecución**. El modelo de lenguaje generativo está completamente apagado. En su lugar, el sistema recurre a un **algoritmo estadístico clásico de búsqueda de palabras de los años 70 (TF-IDF de Scikit-Learn)** que simplemente busca coincidencias léxicas exactas de términos en los archivos Markdown.
+  En este modo **no hay ningún modelo de lenguaje en ejecución**. La generación neural está completamente inactiva. En su lugar, el sistema recurre a un **algoritmo estadístico clásico de búsqueda de palabras (TF-IDF de Scikit-Learn)** que simplemente busca coincidencias léxicas exactas de términos en los archivos Markdown.
 - **¿Qué responde en contingencia?:**  
   No hay redacción ni razonamiento clínico. El sistema devuelve una **plantilla estática fija de 4 frases predefinidas (hardcoded en el código)** que rellena con el título y el resumen pregrabado del documento recuperado (`"Seguir la dosificación descrita en [DOC-ID]"`). No responderá dudas médicas personalizadas ni interpretará combinaciones farmacológicas que no estén escritas literalmente.
 - **¿Qué significa que "nunca se rompe"?:**  
@@ -210,7 +210,7 @@ streamlit run streamlit_app.py
 pip install -r requirements-dev.txt
 pytest tests
 ```
-> ℹ️ *Pipeline de datos y scripts:* El repositorio versiona [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) para evaluar el motor RAG. La base de datos y el archivo de conocimiento [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se construyen directamente a través de los cuadernos en [`notebooks/`](notebooks/) (`01 -> 02 -> 03 -> 00 -> 04`). Para ejecutar todos los cuadernos de forma secuencial y desatendida en local, se puede emplear el runner headless [`scripts/run_notebook_in_process.py`](scripts/run_notebook_in_process.py) (mantenido localmente en `.gitignore`).
+> ℹ️ *Pipeline de datos y scripts:* El repositorio versiona [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) para evaluar el motor RAG. La base de datos y el archivo de conocimiento [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se construyen directamente a través de los cuadernos en [`notebooks/`](notebooks/) (`01 -> 02 -> 03 -> 00 -> 04`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
 
 ---
 

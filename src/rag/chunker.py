@@ -1,7 +1,7 @@
 """
 chunker.py
 Módulo de segmentación estructural y enriquecimiento de fragmentos clínicos para el RAG de Sofia.
-Basado en los principios de chunking semántico y enriquecimiento de fragmentos de Clase_02_RAG:
+Principios de segmentación semántica y enriquecimiento de fragmentos clínicos:
 - Segmentación respetando encabezados H2 (secciones clínicas temáticas).
 - Enriquecimiento de fragmentos con metadatos de trazabilidad ([ID], Principio Activo, ATC, Sección).
 - Tokenización clínica especializada con normalización de acentos para BM25.
