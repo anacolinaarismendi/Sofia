@@ -142,11 +142,15 @@ def get_rag_engine(api_key: str = "", host: str = "", model: str = ""):
     sec_model = ""
     try:
         if hasattr(st, "secrets"):
-            sec_key = st.secrets.get("OLLAMA_API_KEY", "")
-            sec_host = st.secrets.get("OLLAMA_HOST", "")
-            sec_model = st.secrets.get("OLLAMA_MODEL", "")
+            sec_key = str(st.secrets.get("OLLAMA_API_KEY", "")).strip()
+            sec_host = str(st.secrets.get("OLLAMA_HOST", "")).strip()
+            sec_model = str(st.secrets.get("OLLAMA_MODEL", "")).strip()
     except Exception:
         pass
+
+    # Evitar interpretar el placeholder del ejemplo como clave válida
+    if sec_key in ("", "tu_ollama_api_key_aqui"):
+        sec_key = ""
 
     final_key = api_key or sec_key or None
     final_host = host or sec_host or None
@@ -244,8 +248,37 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🔌 Inferencia y Conectividad")
 
-    with st.expander("⚙️ Conexión Ollama Cloud / Remoto", expanded=False):
+    active_key = st.session_state.get("ollama_api_key", "")
+    active_host = st.session_state.get("ollama_host", "")
+    rag_engine = get_rag_engine(api_key=active_key, host=active_host)
+    data = load_datasets()
+
+    # Inspección segura de atributos del motor
+    _api_key = getattr(rag_engine, "api_key", None)
+    _host = getattr(rag_engine, "ollama_host", None) or ""
+    _modelo = getattr(rag_engine, "llm_model", "N/D")
+    _usa_ollama = getattr(getattr(rag_engine, "vector_store", None), "use_ollama", False)
+    _modo_idx = getattr(getattr(rag_engine, "vector_store", None), "modo_indice", "N/D")
+
+    # Detección de configuración de Ollama Cloud y validación de clave
+    es_ollama_cloud = "ollama.com" in _host
+    key_faltante = not _api_key or _api_key in ("", "tu_ollama_api_key_aqui")
+
+    with st.expander("⚙️ Conexión Ollama Cloud / Remoto", expanded=key_faltante and es_ollama_cloud):
         st.caption("Si despliegas fuera de tu entorno local (Streamlit Cloud), configura tu API Key:")
+        if key_faltante and es_ollama_cloud:
+            st.warning(
+                "🔑 **Falta la API Key de Ollama Cloud:**\n\n"
+                "Para habilitar el modelo generativo LLM en Streamlit Community Cloud:\n"
+                "1. Genera tu clave en [ollama.com/settings/keys](https://ollama.com/settings/keys)\n"
+                "2. En el panel de Streamlit Cloud ve a **App Settings → Secrets** y define:\n"
+                "```toml\n"
+                'OLLAMA_API_KEY = "tu_clave_real_aqui"\n'
+                'OLLAMA_HOST = "https://ollama.com"\n'
+                'OLLAMA_MODEL = "qwen2.5:7b"\n'
+                "```\n"
+                "O ingrésala a continuación para esta sesión:"
+            )
         user_key = st.text_input(
             "Ollama Cloud API Key:",
             type="password",
@@ -264,20 +297,10 @@ with st.sidebar:
             # incluye las credenciales, así que cambiarlas crea un motor nuevo.
             st.rerun()
 
-    active_key = st.session_state.get("ollama_api_key", "")
-    active_host = st.session_state.get("ollama_host", "")
-    rag_engine = get_rag_engine(api_key=active_key, host=active_host)
-    data = load_datasets()
-
-    # Inspección segura de atributos del motor
-    _api_key = getattr(rag_engine, "api_key", None)
-    _host = getattr(rag_engine, "ollama_host", None) or ""
-    _modelo = getattr(rag_engine, "llm_model", "N/D")
-    _usa_ollama = getattr(getattr(rag_engine, "vector_store", None), "use_ollama", False)
-    _modo_idx = getattr(getattr(rag_engine, "vector_store", None), "modo_indice", "N/D")
-
-    if _api_key or "ollama.com" in _host:
-        st.success(f"☁️ Ollama Cloud configurado (`{_modelo}`)")
+    if es_ollama_cloud and key_faltante:
+        st.warning("⚠️ **Ollama Cloud sin API Key:** Operando en modo contingencia.")
+    elif not key_faltante and es_ollama_cloud:
+        st.success(f"☁️ Ollama Cloud activo (`{_modelo}`)")
     elif _usa_ollama:
         st.success(f"🟢 Ollama Local Activo (`{_modelo}`)")
     else:

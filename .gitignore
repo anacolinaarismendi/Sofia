@@ -20,7 +20,11 @@ __pycache__/
 # Datos temporales y bases de datos local
 data/raw/
 data/cache/
+notebooks/data/
 *.db
+
+# Streamlit secrets (credenciales y API keys)
+.streamlit/secrets.toml
 
 # Logs y tests
 *.log
