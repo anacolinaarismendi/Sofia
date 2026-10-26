@@ -6,7 +6,7 @@
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D20%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
 
 > 🚀 **Aplicación Web Desplegada en Streamlit Cloud:**  
-> Accede a la interfaz interactiva en: **[https://sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)**
+
 
 ---
 
