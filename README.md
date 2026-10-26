@@ -102,23 +102,23 @@ flowchart TD
     Gen_Det --> Resp
 ```
 
-### 1. Modo Neural Completo (Ollama Local o Cloud API)
-- **Embeddings:** `embeddinggemma:latest` para búsqueda semántica vectorial densa basada en significado clínico.
-- **LLM:** `qwen3.5:2b-mlx` (temperatura 0.2) con el prompt clínico de Sofia (`SOFIA_CLINICAL_PROMPT`).
+### 1. Modo Neural Completo (Groq Cloud o Ollama Local)
+- **Generación en Nube (Streamlit Cloud):** Inferencia ultra-rápida vía **Groq Cloud API** con modelos como `qwen/qwen3.8-27b` o `openai/gpt-oss-120b`.
+- **Generación Local:** Ollama local (`qwen3.5:2b-mlx` o `qwen2.5:3b`) en `http://localhost:11434`.
+- **Embeddings:** `embeddinggemma:latest` (Ollama local) o recuperación léxica híbrida optimizada con TF-IDF + BM25 en la nube.
 - **Salida:** Respuesta clínica redactada dinámicamente en 4 apartados estructurados, razonando sobre el caso concreto, citando identificadores `[DOC-ID]` y extrayendo el *Voice Snippet* (<40s).
-- 📱 **Requisito en ordenadores básicos, teléfonos móviles o Streamlit Cloud:**  
-  Un teléfono móvil o un servidor web gratuito sin GPU (como Streamlit Community Cloud) **no puede correr `qwen` ni `embeddinggemma` localmente**. Si se abre la aplicación desde un teléfono o a través de internet sin hardware dedicado, **se necesita obligatoriamente conexión y una API Key de Ollama Cloud** (o un servidor Ollama remoto accesible) para que el modelo de lenguaje pueda redactar y responder.
+- 📱 **Requisito en Streamlit Cloud:**  
+  Un servidor web en la nube como Streamlit Community Cloud no cuenta con hardware GPU para correr un LLM localmente. Para activar la generación neural en la nube, basta con configurar una clave gratuita de Groq.
   
-  > 🔐 **Cómo configurar la clave en Streamlit Cloud:**
-  > 1. Obtén tu API Key gratuita en [ollama.com/settings/keys](https://ollama.com/settings/keys).
-  > 2. En tu panel de [Streamlit Community Cloud](https://share.streamlit.io), entra a la app y pulsa **Settings → Secrets**.
+  > 🔐 **Cómo activar el LLM en Streamlit Cloud en 1 minuto (Gratis con Groq):**
+  > 1. Obtén tu API Key gratuita en [console.groq.com/keys](https://console.groq.com/keys).
+  > 2. En tu panel de [Streamlit Community Cloud](https://share.streamlit.io), entra a tu app y pulsa **Settings (⚙️) → Secrets**.
   > 3. Pega la configuración basada en [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example):
   >    ```toml
-  >    OLLAMA_API_KEY = "tu_ollama_api_key_aqui"
-  >    OLLAMA_HOST = "https://ollama.com"
-  >    OLLAMA_MODEL = "qwen2.5:7b"
+  >    GROQ_API_KEY = "gsk_tu_clave_de_groq_aqui"
+  >    GROQ_MODEL = "qwen/qwen3.8-27b"
   >    ```
-  > 4. Guarda los cambios para que Sofia active el modelo generativo en la nube.
+  > 4. Guarda los cambios para que Sofia active el modelo generativo de inmediato.
 
 
 ### 2. Modo Contingencia (Sin servidor LLM / Fallback Scikit-Learn)

@@ -436,8 +436,12 @@ class ClinicalRAGEngine:
         ollama_host: Optional[str] = None,
         embedding_model: str = "embeddinggemma:latest",
         llm_model: Optional[str] = None,
-        api_key: Optional[str] = None
+        api_key: Optional[str] = None,
+        groq_api_key: Optional[str] = None,
+        groq_model: Optional[str] = None
     ):
+        self.groq_api_key = groq_api_key or os.environ.get("GROQ_API_KEY")
+        self.groq_model = groq_model or os.environ.get("GROQ_MODEL") or "qwen/qwen3.8-27b"
         self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
         env_host = os.environ.get("OLLAMA_HOST")
         if ollama_host:
@@ -562,93 +566,145 @@ class ClinicalRAGEngine:
         respuesta_texto = ""
         generado_con_llm = False
         citas_no_recuperadas: List[str] = []
+        proveedor_usado: Optional[str] = None
 
-        # Intentar llamada a Ollama (local o Cloud)
-        try:
-            payload = {
-                "model": self.llm_model,
-                "system": SOFIA_CLINICAL_PROMPT,
-                "prompt": prompt_usuario,
-                "stream": False,
-                "think": False,
-                "options": {
-                    "temperature": 0.2,
-                    "top_p": 0.9,
-                    "num_predict": NUM_PREDICT
+        # 1. Intentar generación con Groq Cloud si hay API key configurada
+        if self.groq_api_key:
+            try:
+                headers_groq = {
+                    "Authorization": f"Bearer {self.groq_api_key}",
+                    "Content-Type": "application/json"
                 }
-            }
-            res = requests.post(
-                f"{self.ollama_host}/api/generate",
-                headers=self.vector_store._get_headers(),
-                json=payload,
-                timeout=75
-            )
-            # Si /api/generate devuelve 404 (típico en Ollama Cloud o proxies), intentar /api/chat
-            if res.status_code == 404:
-                chat_payload = {
-                    "model": self.llm_model,
+                payload_groq = {
+                    "model": self.groq_model,
                     "messages": [
                         {"role": "system", "content": SOFIA_CLINICAL_PROMPT},
                         {"role": "user", "content": prompt_usuario}
                     ],
+                    "temperature": 0.2,
+                    "max_tokens": NUM_PREDICT
+                }
+                res_groq = requests.post(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    headers=headers_groq,
+                    json=payload_groq,
+                    timeout=30
+                )
+                # Auto-fallback si el modelo especificado no está disponible en la cuenta de Groq
+                if res_groq.status_code in (400, 404) and "model_not_found" in res_groq.text:
+                    logger.warning("Modelo de Groq '%s' no disponible; conmutando automáticamente a 'qwen/qwen3.8-27b'", self.groq_model)
+                    payload_groq["model"] = "qwen/qwen3.8-27b"
+                    res_groq = requests.post(
+                        "https://api.groq.com/openai/v1/chat/completions",
+                        headers=headers_groq,
+                        json=payload_groq,
+                        timeout=30
+                    )
+
+                if res_groq.status_code == 200:
+                    datos_groq = res_groq.json()
+                    choices = datos_groq.get("choices", [])
+                    if choices:
+                        msg_obj = choices[0].get("message", {})
+                        raw_resp = (msg_obj.get("content") or msg_obj.get("reasoning") or "").strip()
+                        if raw_resp:
+                            respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip() or raw_resp
+                            generado_con_llm = True
+                            proveedor_usado = f"Groq ({payload_groq['model']})"
+                else:
+                    logger.warning(
+                        "Groq API devolvió status %s (%s); intentando fallback a Ollama",
+                        res_groq.status_code, res_groq.text[:200]
+                    )
+            except Exception as exc:
+                logger.warning("Fallo al generar con Groq: %s", exc)
+
+        # 2. Si no se generó con Groq, intentar llamada a Ollama (local o Cloud)
+        if not generado_con_llm:
+            try:
+                payload = {
+                    "model": self.llm_model,
+                    "system": SOFIA_CLINICAL_PROMPT,
+                    "prompt": prompt_usuario,
                     "stream": False,
+                    "think": False,
                     "options": {
                         "temperature": 0.2,
                         "top_p": 0.9,
                         "num_predict": NUM_PREDICT
                     }
                 }
-                res_chat = requests.post(
-                    f"{self.ollama_host}/api/chat",
+                res = requests.post(
+                    f"{self.ollama_host}/api/generate",
                     headers=self.vector_store._get_headers(),
-                    json=chat_payload,
+                    json=payload,
                     timeout=75
                 )
-                if res_chat.status_code == 200:
-                    res = res_chat
-
-            if res.status_code == 200:
-                datos = res.json()
-                if "message" in datos:
-                    raw_resp = datos.get("message", {}).get("content", "").strip()
-                else:
-                    raw_resp = datos.get("response", "").strip()
-
-                if raw_resp:
-                    # Limpiar bloques internos de pensamiento si están presentes
-                    respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip()
-                    if not respuesta_texto:
-                        respuesta_texto = raw_resp
-                    generado_con_llm = True
-
-                    # Validar que todo [DOC-ID] citado pertenezca a los documentos recuperados
-                    ids_recuperados = {d.get("id", "").upper() for d, _ in docs_recuperados}
-                    citados = re.findall(
-                        r"\[((?:MONO|INTER|CASC|GUIA|ALERTA|MARCA|CYP|CANMAT)-[^\]\s]+)\]", respuesta_texto
+                # Si /api/generate devuelve 404 (típico en Ollama Cloud o proxies), intentar /api/chat
+                if res.status_code == 404:
+                    chat_payload = {
+                        "model": self.llm_model,
+                        "messages": [
+                            {"role": "system", "content": SOFIA_CLINICAL_PROMPT},
+                            {"role": "user", "content": prompt_usuario}
+                        ],
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.2,
+                            "top_p": 0.9,
+                            "num_predict": NUM_PREDICT
+                        }
+                    }
+                    res_chat = requests.post(
+                        f"{self.ollama_host}/api/chat",
+                        headers=self.vector_store._get_headers(),
+                        json=chat_payload,
+                        timeout=75
                     )
-                    citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
-                    if citas_no_recuperadas:
-                        logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
-                        respuesta_texto += (
-                            "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
-                            f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
-                            "Verifica esas referencias antes de usarlas."
-                        )
-                    if datos.get("done_reason") == "length":
-                        respuesta_texto += (
-                            "\n\n> ⚠️ **Respuesta truncada** por límite de longitud: revisa las alertas de seguridad "
-                            "en los documentos recuperados."
-                        )
-            else:
-                detalle = res.text.strip() if hasattr(res, "text") and res.text else "sin detalle"
-                logger.warning(
-                    "Ollama (%s) devolvió status %s (%s); se usa contingencia",
-                    self.ollama_host, res.status_code, detalle[:200]
-                )
-        except Exception as exc:
-            logger.warning("Fallo al generar con Ollama; se usa contingencia: %s", exc)
+                    if res_chat.status_code == 200:
+                        res = res_chat
 
-        # Si Ollama no está disponible, estructurar respuesta determinista a partir de los documentos recuperados
+                if res.status_code == 200:
+                    datos = res.json()
+                    if "message" in datos:
+                        raw_resp = datos.get("message", {}).get("content", "").strip()
+                    else:
+                        raw_resp = datos.get("response", "").strip()
+
+                    if raw_resp:
+                        respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip() or raw_resp
+                        generado_con_llm = True
+                        proveedor_usado = f"Ollama ({self.llm_model})"
+                        if datos.get("done_reason") == "length":
+                            respuesta_texto += (
+                                "\n\n> ⚠️ **Respuesta truncada** por límite de longitud: revisa las alertas de seguridad "
+                                "en los documentos recuperados."
+                            )
+                else:
+                    detalle = res.text.strip() if hasattr(res, "text") and res.text else "sin detalle"
+                    logger.warning(
+                        "Ollama (%s) devolvió status %s (%s); se usa contingencia",
+                        self.ollama_host, res.status_code, detalle[:200]
+                    )
+            except Exception as exc:
+                logger.warning("Fallo al generar con Ollama; se usa contingencia: %s", exc)
+
+        # 3. Validar citas si se generó con LLM (Groq u Ollama)
+        if generado_con_llm and respuesta_texto:
+            ids_recuperados = {d.get("id", "").upper() for d, _ in docs_recuperados}
+            citados = re.findall(
+                r"\[((?:MONO|INTER|CASC|GUIA|ALERTA|MARCA|CYP|CANMAT)-[^\]\s]+)\]", respuesta_texto
+            )
+            citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
+            if citas_no_recuperadas:
+                logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
+                respuesta_texto += (
+                    "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
+                    f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
+                    "Verifica esas referencias antes de usarlas."
+                )
+
+        # 4. Si ningún LLM está disponible, estructurar respuesta determinista a partir de los documentos recuperados
         if not respuesta_texto and docs_recuperados:
             top_doc = docs_recuperados[0][0]
             top_id = top_doc.get("id", "DOC-001")
@@ -672,6 +728,7 @@ class ClinicalRAGEngine:
             "voice_snippet": voice_snippet,
             "generado_con_llm": generado_con_llm,
             "modo_respuesta": "llm" if generado_con_llm else "contingencia",
+            "proveedor_llm": proveedor_usado,
             "fuera_de_alcance": False,
             "citas_no_recuperadas": citas_no_recuperadas,
             "documentos_recuperados": docs_recuperados,

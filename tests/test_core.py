@@ -137,3 +137,30 @@ def test_recuperacion_hibrida_identifica_seccion_relevante(rag_sin_ollama):
     assert "seccion_relevante" in top_doc
     assert top_doc["seccion_relevante"] != ""
 
+
+def test_generacion_con_groq_mock(monkeypatch):
+    """Verifica que el motor use Groq cuando GROQ_API_KEY está configurada."""
+    class MockGroqResponse:
+        status_code = 200
+        def json(self):
+            return {
+                "choices": [{
+                    "message": {
+                        "content": "Respuesta simulada de Groq con evidencia [MONO-BUPROPION-004]."
+                    }
+                }]
+            }
+
+    def _mock_post(url, *args, **kwargs):
+        if "api.groq.com" in url:
+            return MockGroqResponse()
+        raise engine_mod.requests.ConnectionError("no ollama")
+
+    monkeypatch.setattr(engine_mod.requests, "post", _mock_post)
+    rag = engine_mod.ClinicalRAGEngine(groq_api_key="gsk_mock_test_key")
+    res = rag.consultar("dosis bupropion")
+    assert res["generado_con_llm"] is True
+    assert res["modo_respuesta"] == "llm"
+    assert "Groq" in res["proveedor_llm"]
+    assert "Respuesta simulada de Groq" in res["respuesta"]
+

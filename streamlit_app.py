@@ -168,12 +168,29 @@ def resolver_credenciales_ollama() -> tuple[Optional[str], Optional[str], Option
     return (key or None), (host or None), (modelo or None)
 
 
+def resolver_credenciales_groq() -> tuple[Optional[str], Optional[str]]:
+    """Devuelve (api_key, modelo) para inferencia cloud de Groq."""
+    key = _leer_secreto("GROQ_API_KEY")
+    if key in ("", "tu_groq_api_key_aqui", "gsk_tu_clave_aqui"):
+        key = ""
+    modelo = _leer_secreto("GROQ_MODEL") or "qwen/qwen3.8-27b"
+    return (key or None), (modelo or None)
+
+
 @st.cache_resource(show_spinner="Inicializando base de conocimiento clínica de Sofia...")
-def get_rag_engine(api_key: Optional[str] = None, host: Optional[str] = None, model: Optional[str] = None):
+def get_rag_engine(
+    api_key: Optional[str] = None,
+    host: Optional[str] = None,
+    model: Optional[str] = None,
+    groq_api_key: Optional[str] = None,
+    groq_model: Optional[str] = None
+):
     return ClinicalRAGEngine(
         ollama_host=host,
         llm_model=model,
-        api_key=api_key
+        api_key=api_key,
+        groq_api_key=groq_api_key,
+        groq_model=groq_model
     )
 
 
@@ -210,10 +227,11 @@ def _md_a_html(texto: str) -> str:
     return "".join(bloques_html)
 
 
-def render_modo_respuesta(modo):
+def render_modo_respuesta(modo, proveedor=None):
     """Indica visiblemente cómo se generó la respuesta (LLM, plantilla sin LLM, sin cobertura o error)."""
     if modo == "llm":
-        st.caption("🤖 Respuesta generada por el modelo de lenguaje a partir de los documentos recuperados.")
+        prov_txt = f" [{proveedor}]" if proveedor else ""
+        st.caption(f"🤖 Respuesta generada por el modelo de lenguaje{prov_txt} a partir de los documentos recuperados.")
     elif modo == "contingencia":
         st.warning(
             "🟡 **Modo contingencia – sin modelo de lenguaje.** Esto es una plantilla fija rellenada con el documento "
@@ -255,10 +273,21 @@ def render_fuentes(fuentes):
 # Inicialización del motor RAG (fuera del sidebar)
 # -----------------------------------------------------------------------------
 _api_key_cfg, _host_cfg, _model_cfg = resolver_credenciales_ollama()
-rag_engine = get_rag_engine(api_key=_api_key_cfg, host=_host_cfg, model=_model_cfg)
+_groq_key_cfg, _groq_model_cfg = resolver_credenciales_groq()
+rag_engine = get_rag_engine(
+    api_key=_api_key_cfg,
+    host=_host_cfg,
+    model=_model_cfg,
+    groq_api_key=_groq_key_cfg,
+    groq_model=_groq_model_cfg
+)
 data = load_datasets()
 
 # Inspección segura de atributos del motor
+_groq_key = getattr(rag_engine, "groq_api_key", None)
+_groq_model = getattr(rag_engine, "groq_model", "qwen/qwen3.8-27b")
+es_groq = bool(_groq_key)
+
 _api_key = getattr(rag_engine, "api_key", None)
 _host = getattr(rag_engine, "ollama_host", None) or ""
 _modelo = getattr(rag_engine, "llm_model", "N/D")
@@ -279,7 +308,9 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🔌 Estado del motor")
 
-    if es_ollama_cloud and key_faltante:
+    if es_groq:
+        st.success(f"⚡ Groq Cloud activo (`{_groq_model}`)")
+    elif es_ollama_cloud and key_faltante:
         st.warning("⚠️ Ollama Cloud sin API Key: operando en modo contingencia.")
     elif es_ollama_cloud:
         st.success(f"☁️ Ollama Cloud activo (`{_modelo}`)")
@@ -370,7 +401,7 @@ with tab_chat:
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
-            render_modo_respuesta(msg.get("modo"))
+            render_modo_respuesta(msg.get("modo"), proveedor=msg.get("proveedor"))
             if msg.get("voice_snippet"):
                 st.markdown(
                     f'<div class="voice-card">🔊 <b>Voice Snippet Clínico (&lt; 40s):</b><br>{escape(msg["voice_snippet"])}</div>',
@@ -403,9 +434,10 @@ with tab_chat:
                 voice_snip = resultado.get("voice_snippet", "")
                 fuentes = resultado.get("documentos_recuperados", [])
                 modo = resultado.get("modo_respuesta") or ("llm" if resultado.get("generado_con_llm") else "contingencia")
+                proveedor_llm = resultado.get("proveedor_llm")
 
                 st.markdown(respuesta_texto)
-                render_modo_respuesta(modo)
+                render_modo_respuesta(modo, proveedor=proveedor_llm)
 
                 if voice_snip:
                     st.markdown(
@@ -419,6 +451,7 @@ with tab_chat:
             "role": "assistant",
             "content": respuesta_texto,
             "modo": modo,
+            "proveedor": proveedor_llm,
             "voice_snippet": voice_snip,
             "fuentes": fuentes
         })

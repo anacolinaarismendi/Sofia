@@ -28,6 +28,15 @@ def test_resolver_credenciales_ollama():
     assert model is None or isinstance(model, str)
 
 
+def test_resolver_credenciales_groq():
+    """Verifica la resolución defensiva de credenciales de Groq."""
+    from streamlit_app import resolver_credenciales_groq
+
+    key, model = resolver_credenciales_groq()
+    assert key is None or isinstance(key, str)
+    assert model is None or isinstance(model, str)
+
+
 def test_load_datasets():
     """Verifica que los datasets clínicos requeridos por la app se carguen correctamente."""
     from streamlit_app import load_datasets
