@@ -5,9 +5,10 @@ titulo: "Interacciones Renales Críticas del Carbonato de Litio: AINEs, Tiazidas
 enzimas_cyp: ["Ninguna (Manejo hemodinámico y tubular renal)"]
 farmacos_involucrados: ["Carbonato de Litio", "Ibuprofeno", "Naproxeno", "Hidroclorotiazida", "Enalapril", "Losartán"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT Guidelines", "Stahl"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+fecha_actualizacion: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Crítico (Intoxicación por litemia tóxica y fallo renal agudo)"
 palabras_clave: ["litio", "litemia", "aines", "ibuprofeno", "tiazidas", "hidroclorotiazida", "ieca", "enalapril", "intoxicacion renal"]
 ---
@@ -24,11 +25,11 @@ El ion litio (Li+) es tratado fisiológicamente por el riñón de manera idénti
 1. **Antiinflamatorios No Esteroideos (AINEs):**
    - *Fármacos:* Ibuprofeno, naproxeno, ketoprofeno, diclofenaco, celecoxib.
    - *Mecanismo:* Bloquean la síntesis de prostaglandinas renales vasodilatadoras, disminuyendo el flujo plasmático renal y la filtración glomerular.
-   - *Impacto:* Elevan la litemia entre un 30% y un 60% en pocos días.
+   - *Impacto:* Elevan la litemia entre un 30% y un 60% en pocos días (con una elevación promedio del 40-50%, mayor con indometacina o piroxicam).
 2. **Diuréticos Tiazídicos (La interacción más peligrosa):**
    - *Fármacos:* Hidroclorotiazida, clortalidona, indapamida.
    - *Mecanismo:* Bloquean la reabsorción de sodio en el túbulo distal, forzando una depleción salina que estimula una hiperreabsorción compensatoria proximal masiva de litio.
-   - *Impacto:* Reducen el aclaramiento de litio en un 50%.
+   - *Impacto:* Reducen el aclaramiento renal de litio e incrementan las concentraciones plasmáticas habitualmente en un 25% a 40% (estimación clínica habitual, pudiendo ser mayor ante deshidratación o hiponatremia marcada).
 3. **Inhibidores de la ECA y Antagonistas del Receptor de Angiotensina (ARA-II):**
    - *Fármacos:* Enalapril, ramipril, lisinopril, losartán, valsartán.
    - *Mecanismo:* Vasodilatación preferente de la arteriola eferente renal, reduciendo la presión intraglomerular.

@@ -7,9 +7,9 @@ fuentes_primarias: ["CANMAT/ISBD 2018 Guidelines for Bipolar Disorder"]
 nivel_evidencia: "Level 1 / No Recomendado en Monoterapia"
 nivel_riesgo: "Crítico"
 palabras_clave: ["depresion bipolar", "canmat", "viraje maniaco", "quetiapina", "lurasidona", "lamotrigina", "isrs no recomendados", "ciclos rapidos"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 ---
 
 # Guía CANMAT / ISBD 2018: Depresión Bipolar y Alerta Crítica de Viraje a Manía

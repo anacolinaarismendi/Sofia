@@ -4,13 +4,14 @@ tipo: "monografia_farmacologica"
 farmaco: "Ácido Valproico / Divalproato de Sodio"
 atc_codigo: "N03AG01"
 atc_grupo: "Antiepilépticos / Derivados de ácidos grasos y Estabilizadores del Ánimo"
-enzimas_cyp: ["Glucuronidación hepática (UGT1A6, UGT1A9, UGT2B7), beta-oxidación mitocondrial, CYP2C9; potente inhibidor de UGT1A4 y CYP2C9"]
+enzimas_cyp: ["Glucuronidación hepática (UGT1A6, UGT1A9, UGT2B7), beta-oxidación mitocondrial; potente inhibidor de UGT1A4 y de epóxido hidrolasa microsomal; inhibidor débil a moderado de CYP2C9"]
 marcas_principales: ["Depakote (divalproato de sodio, Abbott)", "Depakine (valproato sódico / ácido valproico, Sanofi)", "Logical (divalproato de sodio, Armstrong / Montpellier)"]
 fuentes_primarias: ["Ficha Técnica AEMPS Depakine / Depakote", "CANMAT/ISBD 2018 Guidelines for Bipolar Disorder", "Stahl - Prescriber's Guide", "Jufe - Psicofarmacología Práctica"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+fecha_actualizacion: "2026-10-26"
 estado_revision: "aprobado"
-version_contenido: "2.0.0"
+version_contenido: "2.1.0"
 nivel_riesgo: "Crítico (teratogenicidad grave con malformaciones fetales, hepatotoxicidad y pancreatitis)"
 palabras_clave: ["valproato", "divalproato", "depakote", "depakine", "logical", "bipolar", "mania", "valproemia", "teratogenicidad", "ugt1a4", "embarazo contraindicado"]
 ---
@@ -28,8 +29,8 @@ El valproato ejerce múltiples acciones neuroquímicas y epigenéticas sinérgic
 4. **Modulación de Vías de Señalización Intracelular:** Atenúa la señalización de la cascada del inositol y proteína quinasa C (PKC), compartiendo dianas moleculares con el litio.
 
 ## 3. Farmacocinética e Interacciones Farmacológicas Críticas
-- **Metabolismo Hepático:** Extenso metabolismo hepático (30-50% por glucuronidación vía UGT1A6, UGT1A9 y UGT2B7; 40% por beta-oxidación mitocondrial; y < 10% por citocromos CYP2C9 y CYP2C19). Vida media plasmática de 10 a 16 horas. Alta unión a proteínas plasmáticas (~90%), saturable a concentraciones elevadas.
-- **Inhibición de UGT1A4 (Interacción Vital con Lamotrigina):** El valproato es un inhibidor potente de la glucuronidación hepática vía UGT1A4. Al combinarse, duplica con creces la semivida de la lamotrigina (de 25 a > 60 horas), disparando el riesgo de Síndrome de Stevens-Johnson si no se titula la lamotrigina a la mitad o en días alternos.
+- **Metabolismo Hepático:** Extenso metabolismo hepático (30-50% por glucuronidación vía UGT1A6, UGT1A9 y UGT2B7; 40% por beta-oxidación mitocondrial; y < 10% por citocromos CYP2C9 y CYP2C19). Vida media plasmática de 10 a 16 horas. Alta unión a proteínas plasmáticas (~90%), saturable a concentraciones elevadas. Su inhibición sobre CYP2C9 es débil a moderada (puede elevar ligeramente fenitoína o warfarina).
+- **Inhibición de UGT1A4 (Interacción Vital con Lamotrigina):** El valproato es un inhibidor potente de la glucuronidación hepática vía UGT1A4 y de la epóxido hidrolasa microsomal. Al combinarse con lamotrigina, duplica con creces su semivida (de 25 a > 60 horas), disparando el riesgo de Síndrome de Stevens-Johnson si no se titula la lamotrigina a la mitad o en días alternos.
 - **Interacción con Antibióticos Carbapenémicos (Meropenem, Imipenem):** Provoca un colapso súbito y masivo (> 80%) de los niveles plasmáticos de valproato en 24 horas por inhibición de la hidrólisis del glucurónido y transporte intestinal, precipitando convulsiones o recaídas maníacas graves. Asociación formalmente contraindicada.
 - **Aspirina (Salicilatos):** Desplaza al valproato de su unión a la albúmina e inhibe su beta-oxidación, aumentando la fracción libre y la toxicidad.
 - **Interacción con Fenobarbital y Fenitoína:** Desplazamiento proteico e inducción enzimática cruzada; requiere monitorización estrecha de niveles libres.
@@ -52,7 +53,7 @@ El valproato ejerce múltiples acciones neuroquímicas y epigenéticas sinérgic
 ### Alerta de Caja Negra (Black Box Warnings)
 1. **Teratogenicidad y Trastornos del Neurodesarrollo (Programa de Prevención de Embarazos):**
    - *Malformaciones Mayores:* Incidencia de aproximadamente el 10% (defectos del tubo neural como espina bífida, hendiduras orofaciales, malformaciones cardiovasculares y defectos craneofaciales).
-   - *Neurodesarrollo:* Hasta un 30% a 40% de los niños expuestos presentan déficits cognitivos en la primera infancia, coeficiente intelectual reducido (7 a 10 puntos por debajo de sus pares), retraso motor y del lenguaje, y un riesgo de 3 a 5 veces mayor de Trastorno del Espectro Autista (TEA) y TDAH.
+   - *Neurodesarrollo:* Hasta un 30% a 40% de los niños expuestos presentan déficits cognitivos en la primera infancia, coeficiente intelectual reducido (7 a 10 puntos por debajo de sus pares), retraso motor y del lenguaje, un incremento de aproximadamente 3 veces en el riesgo de Trastorno del Espectro Autista (TEA en sentido global, alcanzando hasta 4.5 a 5 veces mayor para autismo infantil según evaluaciones de EMA/PRAC) y de 1.5 a 2.5 veces en el riesgo de TDAH respecto a la población no expuesta.
    - *Directriz AEMPS/EMA/FDA:* Contraindicado en el embarazo y en mujeres con potencial reproductivo, a menos que se cumplan las condiciones del Programa de Prevención de Embarazos (anticoncepción de alta eficacia, firma anual del formulario de riesgo y ausencia de alternativas válidas).
 2. **Hepatotoxicidad Fatal:** Mayor frecuencia en los primeros 6 meses de tratamiento; los síntomas prodrómicos incluyen astenia intensa, anorexia, náuseas, vómitos, ictericia y edema.
 3. **Pancreatitis Aguda:** Casos graves y potencialmente mortales reportados en niños y adultos, independientes de la dosis o tiempo de evolución. Dolor epigástrico con náuseas obliga a medir amilasa/lipasa y suspender el fármaco.

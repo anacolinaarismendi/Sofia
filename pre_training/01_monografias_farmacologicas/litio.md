@@ -8,8 +8,8 @@ enzimas_cyp: ["Ninguna (excreción renal exclusiva no hepática)"]
 marcas_principales: ["Plenur (España)", "Eskalith", "Carbolit", "Ceglution (LatAm)"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT/ISBD 2018 Guidelines", "Stahl"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Crítico (rango terapéutico estrecho y riesgo de toxicidad letal)"
 palabras_clave: ["litio", "carbonato de litio", "plenur", "bipolar", "mania", "litemia", "suicidio", "toxicidad renal", "aines", "tiazidas"]
 ---
@@ -25,8 +25,8 @@ El litio es un catión monovalente que modula múltiples cascadas intracelulares
 ## 3. Farmacocinética e Interacciones Farmacológicas Críticas
 - **Excreción Renal Exclusiva:** El litio se filtra por el glomérulo y se reabsorbe en un 70-80% en el túbulo proximal renal, compitiendo directamente con el sodio.
 - **Interacciones Fatales por Disminución de Excreción:**
-  - *AINEs (Ibuprofeno, Naproxeno, Diclofenaco, Ketorolaco):* Inhiben las prostaglandinas renales, reducen la tasa de filtración glomerular y aumentan la litemia hasta en un 40-60%.
-  - *Diuréticos Tiazídicos (Hidroclorotiazida):* Provocan depleción de sodio, lo que activa una reabsorción masiva compensatoria de sodio y litio en el túbulo proximal, desatando intoxicación severa.
+  - *AINEs (Ibuprofeno, Naproxeno, Diclofenaco, Ketorolaco):* Inhiben las prostaglandinas renales, reducen la tasa de filtración glomerular y aumentan la litemia entre un 30% y un 60% (promedio 40-50%, mayor con indometacina o piroxicam).
+  - *Diuréticos Tiazídicos (Hidroclorotiazida):* Provocan depleción de sodio, lo que activa una reabsorción masiva compensatoria de sodio y litio en el túbulo proximal, elevando la litemia habitualmente un 25-40% y desatando intoxicación severa.
   - *IECA / ARA-II (Enalapril, Losartán):* Reducen la presión intraglomerular elevando la litemia.
 - **Interacciones Seguras para el Dolor:** Paracetamol o ácido acetilsalicílico a dosis analgésicas habituales son los analgésicos de elección porque no alteran la eliminación renal de litio.
 

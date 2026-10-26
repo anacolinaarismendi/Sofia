@@ -5,9 +5,8 @@ titulo: "Interacción Farmacocinética Sinérgica: Lamotrigina y Ácido Valproic
 enzimas_cyp: ["UGT1A4 (Glucuronidación Hepática)"]
 farmacos_involucrados: ["Lamotrigina", "Ácido Valproico / Divalproato de Sodio"]
 fuentes_primarias: ["CANMAT/ISBD 2018", "Jufe - Psicofarmacología Práctica", "Stahl"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
 version_contenido: "2.1.0"
 nivel_riesgo: "Crítico (Riesgo letal de Síndrome de Stevens-Johnson / NET)"
 palabras_clave: ["lamotrigina", "valproato", "divalproato", "depakote", "lamictal", "stevens johnson", "ugt1a4", "titulacion lenta"]

@@ -6,9 +6,9 @@ farmacos_involucrados: ["Sertralina", "Fluoxetina", "Paroxetina", "Venlafaxina",
 fuentes_primarias: ["CANMAT/ISBD 2018 Guidelines", "Jufe - Psicofarmacología Práctica"]
 nivel_riesgo: "Alto a Crítico"
 palabras_clave: ["viraje maniaco", "bipolar", "isrs", "antidepresivos no recomendados en monoterapia", "ciclos rapidos", "canmat", "manic switch"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 ---
 
 # Alerta Clínica: Viraje Maníaco y Desestabilización por Antidepresivos

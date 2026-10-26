@@ -8,8 +8,8 @@ enzimas_cyp: ["Glucuronidación hepática por UGT1A4 (no dependiente de CYP450)"
 marcas_principales: ["Lamictal (GSK)", "Lamotrax (Montpellier)", "Tradox", "Labileno", "Lamicstar"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT/ISBD 2018 Guidelines", "Stahl"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto (riesgo de Síndrome de Stevens-Johnson ante titulación rápida o combinación con valproato)"
 palabras_clave: ["lamotrigina", "lamictal", "lamotrax", "estabilizador del animo", "depresion bipolar", "acido valproico", "stevens johnson", "exantema", "ugt1a4"]
 ---
@@ -51,7 +51,7 @@ Para evitar el Síndrome de Stevens-Johnson, debe respetarse el siguiente cronog
 
 ## 6. Guía de Comunicación Clínica (Pregunta y Respuesta)
 - **Pregunta:** "Un paciente estable con Lamictal 100 mg/día olvida tomar la medicación durante 6 días seguidos por viaje. ¿Puede retomar sus 100 mg al regresar?"
-- **Respuesta:** "Bajo ninguna circunstancia. Tras más de 5 vidas medias de interrupción (unos 5 días), el organismo ha eliminado el fármaco y se ha perdido la tolerancia cutánea. Reiniciar directamente con 100 mg expone al paciente a un riesgo inaceptable de Stevens-Johnson. Se debe reiniciar la titulación desde 25 mg/día siguiendo el protocolo."
+- **Respuesta:** "Bajo ninguna circunstancia. Tras más de 5 vidas medias de interrupción (≈ 5 a 7 días con su semivida habitual de 25-33 h, o más si toma valproato), el organismo ha depurado sustancialmente el fármaco y se ha perdido la tolerancia cutánea inmunológica. Reiniciar directamente con 100 mg expone al paciente a un riesgo crítico de Síndrome de Stevens-Johnson. Se debe reiniciar obligatoriamente la titulación escalonada desde 25 mg/día (o 25 mg en días alternos si coadministra valproato) siguiendo el protocolo estándar."
 
 ## 7. Referencias y Validación
 - Ficha Técnica de Referencia: [MONO-LAMOTRIGINA-009] (Monografía Farmacológica).

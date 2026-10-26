@@ -4,9 +4,9 @@ tipo: "cascada_prescripcion"
 titulo: "Protocolo Conversacional y Algoritmo Clínico para la Detección de Cascadas de Prescripción"
 farmacos_involucrados: ["Todos los psicofármacos"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Criterios STOPP/START"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Moderado a Alto"
 palabras_clave: ["cascada de prescripcion", "desprescripcion", "iatrogenia", "polifarmacia", "anamnesis farmacologica", "asistente de voz"]
 ---

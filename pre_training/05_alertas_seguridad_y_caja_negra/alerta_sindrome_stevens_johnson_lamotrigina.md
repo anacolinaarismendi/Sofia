@@ -5,8 +5,8 @@ titulo: "Alerta Crítica Dermatológica: Síndrome de Stevens-Johnson y Necróli
 farmacos_involucrados: ["Lamotrigina", "Ácido Valproico"]
 fuentes_primarias: ["FDA Boxed Warning", "AEMPS", "CANMAT Guidelines", "Jufe"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Crítico / Emergencia Médica"
 palabras_clave: ["lamotrigina", "stevens johnson", "net", "exantema", "reaccion medicamentosa", "desprendimiento epidermico", "caja negra"]
 ---

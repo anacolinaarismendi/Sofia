@@ -4,9 +4,9 @@ tipo: "cascada_prescripcion"
 titulo: "Cascada Metabólica por Antipsicóticos Atípicos: De Olanzapina/Clozapina a Polifarmacia Cardiometabólica"
 farmacos_involucrados: ["Olanzapina", "Clozapina", "Quetiapina", "Metformina", "Estatinas", "Antihipertensivos"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl", "Consenso ADA/APA sobre Antipsicóticos y Diabetes"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto"
 palabras_clave: ["sindrome metabolico", "olanzapina", "clozapina", "aumento de peso", "resistencia a insulina", "metformina", "desprescripcion"]
 ---

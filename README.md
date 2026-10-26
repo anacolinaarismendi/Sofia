@@ -15,7 +15,7 @@
 **Sofia** es un sistema de soporte a la decisión clínica, farmacovigilancia y generación aumentada por recuperación (RAG) especializado en **psicofarmacología basada en la evidencia**.
 
 Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo una política de *Grounding Estricto*:**
-> **El modelo responde únicamente en base a los 26 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (la base indexada, [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json), contiene 57 documentos: los 26 curados + 22 fichas de recomendaciones CANMAT + 9 fichas de marcas comerciales).  
+> **El modelo responde únicamente en base a los 27 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (la base indexada, [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json), contiene 58 documentos: los 27 curados + 22 fichas de recomendaciones CANMAT + 9 fichas de marcas comerciales).  
 > Si una consulta excede este corpus, el sistema **declara explícitamente su limitación**: con recuperación léxica (TF-IDF) lo hace mediante un umbral mínimo de similitud (heurística, puede fallar en consultas ambiguas) y, con LLM, mediante el prompt de *grounding estricto*. Las citas `[DOC-ID]` de las respuestas del LLM se validan contra los documentos recuperados y se avisa si alguna no figura.
 
 ---
@@ -230,14 +230,15 @@ El informe completo se encuentra versionado en [`data/processed/rag_evaluation_r
 
 ```text
 Sofia/
-├── pre_training/                               # 26 documentos clínicos Markdown + Manifiesto técnico
-│   ├── 01_monografias_farmacologicas/          # 9 monografías completas
+├── pre_training/                               # 27 documentos clínicos Markdown + Manifiesto técnico
+│   ├── 01_monografias_farmacologicas/          # 10 monografías completas
 │   ├── 02_interacciones_farmacologicas_cyp450/ # Interacciones enzimáticas críticas
 │   ├── 03_cascadas_prescripcion_y_desprescripcion/
 │   ├── 04_guias_clinicas_y_algoritmos_decision/ # Recomendaciones CANMAT
 │   └── 05_alertas_seguridad_y_caja_negra/      # Agranulocitosis, Stevens-Johnson, litemia
 ├── tests/                                      # Tests de regresión automatizados (pytest)
-│   └── test_core.py                            # 22 tests unitarios para ATC y motor RAG
+│   ├── test_core.py                            # 22 tests unitarios para ATC y motor RAG
+│   └── test_clinical_consistency.py            # 14 tests de consistencia clínica y metadatos
 ├── data/
 │   ├── raw/                                    # Fuentes originales en PDF (Jufe, CANMAT)
 │   └── processed/                              # CSVs limpios y base de conocimiento (rag_knowledge_base.json)

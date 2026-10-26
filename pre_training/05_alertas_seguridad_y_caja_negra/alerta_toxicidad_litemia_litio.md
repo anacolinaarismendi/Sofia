@@ -5,8 +5,8 @@ titulo: "Alerta Crítica Toxicológica: Intoxicación Aguda y Rango Terapéutico
 farmacos_involucrados: ["Carbonato de Litio"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "CANMAT 2018", "Stahl"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Crítico / Emergencia Médica"
 palabras_clave: ["litio", "litemia", "intoxicacion por litio", "ataxia", "hemodialisis", "rango estrecho", "neurotoxicidad"]
 ---

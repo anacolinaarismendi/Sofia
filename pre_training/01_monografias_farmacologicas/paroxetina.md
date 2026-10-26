@@ -8,8 +8,8 @@ enzimas_cyp: ["CYP2D6 (inhibidor potente / sustrato)", "CYP3A4"]
 marcas_principales: ["Paxil (GSK)", "Seroxat", "Aropax", "Motivan"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto (riesgo de interacciones, abstinencia y teratogenicidad)"
 palabras_clave: ["paroxetina", "paxil", "isrs", "anticolinergico", "sedacion", "sindrome discontinuacion", "teratogenico", "cyp2d6"]
 ---

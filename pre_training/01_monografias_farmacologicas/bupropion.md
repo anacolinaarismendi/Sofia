@@ -8,8 +8,8 @@ enzimas_cyp: ["CYP2B6 (sustrato principal)", "CYP2D6 (inhibidor potente)"]
 marcas_principales: ["Wellbutrin (GSK)", "Zyban (GSK)", "Odranal", "Elontril"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto (riesgo de crisis convulsivas y potente inhibición de CYP2D6)"
 palabras_clave: ["bupropion", "wellbutrin", "irnd", "dopamina", "noradrenalina", "convulsiones", "bulimia", "cyp2d6", "tabaquismo", "sin disfuncion sexual"]
 ---
@@ -29,7 +29,7 @@ El bupropión no posee acción serotoninérgica directa. Su mecanismo reside en 
 ## 4. Dosificación, Rangos y Poblaciones Especiales
 - **Dosis Habitual y Diferenciación de Formulaciones:**
   - *Formulación XL (liberación extendida 24 horas):* Iniciar con 150 mg/día matinales; titular a 300 mg/día tras 2 a 4 semanas. Dosis máxima: 300 mg/día según ficha técnica europea (AEMPS), pudiendo alcanzarse hasta 450 mg/día en una sola toma matinal según ficha técnica estadounidense (FDA) en depresión mayor severa resistente.
-  - *Formulación SR (liberación sostenida 12 horas):* Iniciar con 150 mg/día; titular a 150 mg dos veces al día (separadas por al menos 8 horas). Dosis máxima: 300 mg/día; nunca exceder 150 mg en una toma única para evitar picos plasmáticos proconvulsivos.
+  - *Formulación SR (liberación sostenida 12 horas):* Iniciar con 150 mg/día; titular a 150 mg dos veces al día (separadas por al menos 8 horas). Dosis máxima: 300 mg/día según ficha técnica europea (AEMPS / Zyban, sin superar 150 mg por toma), pudiendo prescribirse hasta 400 mg/día en dos tomas de 200 mg según ficha técnica estadounidense (FDA / Wellbutrin SR) en depresión mayor severa; nunca exceder 200 mg en una toma individual para evitar picos plasmáticos proconvulsivos.
 - **Contraindicaciones Absolutas:**
   - Antecedentes de crisis epilépticas o patología con umbral convulsivo disminuido.
   - Diagnóstico actual o previo de bulimia nerviosa o anorexia nerviosa (alto riesgo de crisis convulsivas inducidas por desequilibrios hidroelectrolíticos).

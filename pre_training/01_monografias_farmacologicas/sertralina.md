@@ -8,8 +8,8 @@ enzimas_cyp: ["CYP2D6 (inhibición leve/moderada a dosis altas)", "CYP2B6", "CYP
 marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Almirall)", "Besitran (Pfizer)", "Altruline"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Moderado"
 palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular", "aremis", "almirall"]
 ---

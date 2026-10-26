@@ -7,9 +7,9 @@ fuentes_primarias: ["CANMAT 2016 Guidelines for Major Depressive Disorder", "CAN
 nivel_evidencia: "Level 1"
 nivel_riesgo: "Moderado"
 palabras_clave: ["canmat", "tdm", "depresion mayor", "primera linea", "isrs", "irsn", "sertralina", "escitalopram", "fluoxetina", "paroxetina", "bupropion"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 ---
 
 # Guía CANMAT: Tratamiento de Primera Línea en el Trastorno Depresivo Mayor (2016 / 2023)

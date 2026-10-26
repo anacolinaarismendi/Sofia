@@ -7,9 +7,9 @@ fuentes_primarias: ["CANMAT 2016 Guidelines for Major Depressive Disorder", "CAN
 nivel_evidencia: "Level 1 y Level 2"
 nivel_riesgo: "Alto"
 palabras_clave: ["depresion resistente", "canmat", "potenciacion", "add on", "aripiprazol", "litio", "quetiapina", "cambio vs potenciacion"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 ---
 
 # Guía CANMAT: Estrategias en Depresión Resistente al Tratamiento (CANMAT 2016 / 2023)

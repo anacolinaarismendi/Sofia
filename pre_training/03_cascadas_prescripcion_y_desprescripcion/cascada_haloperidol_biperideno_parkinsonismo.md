@@ -4,9 +4,11 @@ tipo: "cascada_prescripcion"
 titulo: "Cascada de Prescripción Clásica: Haloperidol a Biperideno por Parkinsonismo Secundario"
 farmacos_involucrados: ["Haloperidol", "Biperideno", "Trihexifenidilo"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+fecha_actualizacion: "2026-10-26"
 estado_revision: "aprobado"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto"
 palabras_clave: ["cascada de prescripcion", "haloperidol", "biperideno", "parkinsonismo secundario", "carga anticolinergica", "discinesia tardia", "desprescripcion"]
 ---
@@ -30,6 +32,7 @@ palabras_clave: ["cascada de prescripcion", "haloperidol", "biperideno", "parkin
 flowchart TD
     A["Paciente con Haloperidol presenta Temblor/Rigidez"] --> B["¿Identificado como efecto adverso farmacológico?"]
     B -->|Sí| C["Paso 1: ¿Se puede reducir la dosis de Haloperidol?"]
+    B -->|No / Duda diagnóstica| H["Descartar diagnósticos diferenciales:<br>Síndrome Neuroléptico Maligno (SNM),<br>Enfermedad de Parkinson idiopática o catatonía"]
     C -->|Sí| D["Reducir a dosis mínima eficaz (≤ 2-4 mg/día) y evaluar"]
     C -->|No / Recaída| E["Paso 2: Rotar a Antipsicótico Atípico<br>(Aripiprazol, Quetiapina u Olanzapina; sopesar riesgo metabólico)"]
     D --> F["Paso 3: Retirada gradual del Biperideno<br>(Reducir 1-2 mg cada semana)"]

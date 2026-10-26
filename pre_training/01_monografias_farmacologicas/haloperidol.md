@@ -8,8 +8,8 @@ enzimas_cyp: ["CYP3A4 (sustrato principal)", "CYP2D6", "Glucuronidación"]
 marcas_principales: ["Haldol (Janssen)", "Halopidol (Neuval)", "Aloperidin"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 revisado_por: "Auditoría Farmacología Clínica"
-fecha_revision: "2026-10-25"
-version_contenido: "2.0.0"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 nivel_riesgo: "Alto (riesgo extrapiramidal severo, discinesia tardía y cascada con biperideno)"
 palabras_clave: ["haloperidol", "haldol", "antipsicotico tipico", "bloqueo d2", "parkinsonismo", "distonia aguda", "biperideno", "cascada de prescripcion", "sindrome neuroleptico maligno"]
 ---

@@ -7,9 +7,9 @@ fuentes_primarias: ["CANMAT/ISBD 2018 Guidelines for Bipolar Disorder"]
 nivel_evidencia: "Level 1"
 nivel_riesgo: "Alto (Emergencia Psiquiátrica)"
 palabras_clave: ["canmat", "bipolar", "mania aguda", "litio", "valproato", "quetiapina", "aripiprazol", "primera linea"]
-revisado_por: "Comite Clinico"
-fecha_actualizacion: "2026-10-25"
-estado_revision: "aprobado"
+revisado_por: "Auditoría Farmacología Clínica"
+fecha_revision: "2026-10-26"
+version_contenido: "2.1.0"
 ---
 
 # Guía CANMAT / ISBD 2018: Tratamiento de la Manía Bipolar Aguda
