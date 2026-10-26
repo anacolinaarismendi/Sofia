@@ -5,8 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D20%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
 
-> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:**  
-
+> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:** [sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
 
 ---
 
@@ -15,8 +14,8 @@
 **Sofia** es un sistema de soporte a la decisión clínica, farmacovigilancia y generación aumentada por recuperación (RAG) especializado en **psicofarmacología basada en la evidencia**.
 
 Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo una política de *Grounding Estricto*:**
-> **El modelo responde únicamente en base a los 27 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (la base indexada, [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json), contiene 58 documentos: los 27 curados + 22 fichas de recomendaciones CANMAT + 9 fichas de marcas comerciales).  
-> Si una consulta excede este corpus, el sistema **declara explícitamente su limitación**: con recuperación léxica (TF-IDF) lo hace mediante un umbral mínimo de similitud (heurística, puede fallar en consultas ambiguas) y, con LLM, mediante el prompt de *grounding estricto*. Las citas `[DOC-ID]` de las respuestas del LLM se validan contra los documentos recuperados y se avisa si alguna no figura.
+> **El modelo responde únicamente en base a los 27 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (la base indexada, [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json), contiene 59 documentos: los 27 curados + 22 fichas de recomendaciones CANMAT + 10 fichas de marcas comerciales y laboratorios).  
+> Si una consulta excede este corpus, el sistema **declara explícitamente su limitación**: con recuperación léxica (TF-IDF + BM25) lo hace mediante un umbral mínimo de similitud (heurística, puede fallar en consultas ambiguas) y, con LLM, mediante el prompt de *grounding estricto*. Las citas `[DOC-ID]` de las respuestas del LLM se validan contra los documentos recuperados y se avisa si alguna no figura.
 
 ---
 
@@ -24,7 +23,7 @@ Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo 
 
 El motor RAG cuenta con información detallada, validada y estructurada para responder con alto rigor científico a preguntas en las siguientes cinco áreas:
 
-### 1. Monografías y Posología de 9 Psicofármacos Clave
+### 1. Monografías y Posología de 10 Psicofármacos Clave
 Cada una de las siguientes moléculas dispone de una monografía completa (mecanismo neuroquímico, afinidad de receptores, rangos de dosificación según Jufe y Stahl, efectos comunes vs. graves y poblaciones especiales):
 
 | Principio Activo | Clase Terapéutica | Código ATC | Rango Terapéutico Usual | Aspectos Específicos Indexados |
@@ -38,8 +37,9 @@ Cada una de las siguientes moléculas dispone de una monografía completa (mecan
 | **Clozapina** | Antipsicótico Atípico | `N05AH02` | 300 – 600 mg/día | Dependencia de CYP1A2 (efecto tabaco), protocolo de agranulocitosis. |
 | **Carbonato de Litio**| Estabilizador del Ánimo | `N05AN01` | Litemia: 0.6–1.0 mEq/L | Eliminación renal exclusiva, litemias tóxicas (>1.5 mEq/L), AINEs/tiazidas. |
 | **Lamotrigina** | Estabilizador / Antiepiléptico | `N03AX09` | 100 – 200 mg/día | Glucuronidación UGT1A4, titulación lenta, prevención de Stevens-Johnson. |
+| **Ácido Valproico / Divalproato** | Estabilizador / Antiepiléptico | `N03AG01` | 750 – 2000 mg/día (Valproemia: 50–100 µg/mL) | Inhibición potente de UGT1A4 (duplica lamotrigina), teratogenicidad (contraindicado en embarazo), controles hepáticos y plaquetarios. |
 
-*(Nota: Fármacos adicionales como Quetiapina, Olanzapina, Aripiprazol, Valproato, Escitalopram, Citalopram, Venlafaxina o Duloxetina están indexados en las tablas CANMAT y el catálogo ATC, pero no cuentan con una monografía de texto largo independiente).*
+*(Nota: Fármacos adicionales como Quetiapina, Olanzapina, Aripiprazol, Escitalopram, Citalopram, Venlafaxina o Duloxetina están indexados en las tablas CANMAT y el catálogo ATC, pero no cuentan con una monografía de texto largo independiente).*
 
 ### 2. Interacciones Enzimáticas del Citocromo P450 y Aclaramiento Renal
 El RAG explica el mecanismo molecular y la conducta clínica esperada ante:
@@ -188,14 +188,14 @@ El informe completo se encuentra versionado en [`data/processed/rag_evaluation_r
 ### Métricas Agregadas del Benchmark (N=20)
 | Métrica | Resultado | Descripción Metodológica |
 | :--- | :---: | :--- |
-| **Context Recall@1** | **83.3%** | El documento principal exacto aparece en el rango #1 de recuperación. |
-| **Context Recall@3** | **100.0%** | El documento esperado aparece dentro del top 3 en todos los casos clínicos válidos. |
+| **Context Recall@1** | **94.4%** | El documento principal exacto aparece en el rango #1 de recuperación en 17 de 18 casos clínicos dentro de alcance. |
+| **Context Recall@3** | **100.0%** | El documento esperado aparece dentro del top 3 en el 100% de los casos clínicos evaluados. |
 | **Context Recall@5** | **100.0%** | Cobertura total de documentos requeridos en el top 5 de recuperación. |
-| **Mean Reciprocal Rank (MRR)** | **0.8981** | Calidad de ordenación jerárquica del ranking de recuperación semántica/léxica. |
-| **Answer Relevance** | **71.0%** | Presencia y alineación de las entidades clínicas clave esperadas en la respuesta. |
-| **Groundedness / Fidelidad** | **92.5%** | Respuestas fundamentadas estrictamente en el contexto sin contradicciones. |
+| **Mean Reciprocal Rank (MRR)** | **0.9722** | Calidad de ordenación jerárquica del ranking de recuperación híbrida (TF-IDF + BM25). |
+| **Answer Relevance** | **68.0%** | Presencia y alineación de las entidades clínicas clave esperadas en la respuesta. |
+| **Groundedness / Fidelidad** | **91.0%** | Respuestas fundamentadas estrictamente en el contexto sin contradicciones ni alucinaciones. |
 | **Trazabilidad Ética [DOC-ID]** | **100.0%** | Todas las afirmaciones citan identificadores válidos del contexto recuperado. |
-| **Latencia de Recuperación** | **0.89 ms** | Tiempo medio de indexación y búsqueda híbrida TF-IDF + BM25. |
+| **Latencia de Recuperación** | **0.51 ms** | Tiempo medio de indexación y búsqueda híbrida TF-IDF + BM25. |
 
 ### Detalle por Caso Clínico Evaluado
 | # | Identificador del Caso | Categoría Clínica | Top Documento Recuperado | R@3 | MRR | Groundedness |
@@ -204,24 +204,24 @@ El informe completo se encuentra versionado en [`data/processed/rag_evaluation_r
 | **02** | `CASO_02_INTERACCIONES_CYP450` | Farmacocinética y Citocromos (CYP2D6) | `[MONO-BUPROPION-004]` | 1.0 | 1.00 | 100% |
 | **03** | `CASO_03_DIRECTRICES_CANMAT` | Guías CANMAT (Manía y Viraje Bipolar) | `[ALERTA-ISRS-VIRAJE-004]` | 1.0 | 1.00 | 70% |
 | **04** | `CASO_04_FARMACOVIGILANCIA_CASCADA` | Farmacovigilancia y Cascada (Haloperidol - Biperideno) | `[MONO-HALOPERIDOL-008]` | 1.0 | 1.00 | 100% |
-| **05** | `CASO_05_LITIO_MONITORIZACION_Y_RANGOS` | Monitorización Estrecha (Carbonato de Litio) | `[MONO-LITIO-005]` | 1.0 | 1.00 | 100% |
+| **05** | `CASO_05_LITIO_MONITORIZACION_Y_RANGOS` | Monitorización Estrecha (Carbonato de Litio) | `[MONO-LITIO-005]` | 1.0 | 1.00 | 70% |
 | **06** | `CASO_06_LITIO_INTERACCION_AINES` | Interacciones Renales (Litio y AINEs) | `[INTER-LIT-RENAL-004]` | 1.0 | 1.00 | 100% |
-| **07** | `CASO_07_CLOZAPINA_AGRANULOCITOSIS` | Seguridad Hematológica (Clozapina) | `[MONO-CLOZAPINA-006]` | 1.0 | 1.00 | 100% |
+| **07** | `CASO_07_CLOZAPINA_AGRANULOCITOSIS` | Seguridad Hematológica (Clozapina) | `[ALERTA-CLOZ-AGRAN-001]` | 1.0 | 1.00 | 100% |
 | **08** | `CASO_08_CLOZAPINA_TABACO_CYP1A2` | Farmacocinética y Tabaco (CYP1A2) | `[MONO-CLOZAPINA-006]` | 1.0 | 1.00 | 100% |
 | **09** | `CASO_09_LAMOTRIGINA_VALPROATO` | Interacción Crítica (Lamotrigina y Valproato) | `[INTER-LAM-VAL-003]` | 1.0 | 1.00 | 100% |
-| **10** | `CASO_10_LAMOTRIGINA_TITULACION` | Seguridad Cutánea (Titulación de Lamotrigina) | `[INTER-LAM-VAL-003]` | 1.0 | 0.33 | 70% |
+| **10** | `CASO_10_LAMOTRIGINA_TITULACION` | Seguridad Cutánea (Titulación de Lamotrigina) | `[INTER-LAM-VAL-003]` | 1.0 | 1.00 | 70% |
 | **11** | `CASO_11_FLUOXETINA_VIDA_MEDIA_LAVADO` | Farmacocinética y Lavado (Fluoxetina) | `[MONO-FLUOXETINA-002]` | 1.0 | 1.00 | 100% |
-| **12** | `CASO_12_RISPERIDONA_HIPERPROLACTINEMIA` | Neuroendocrinología (Risperidona) | `[CASC-METAB-002]` | 1.0 | 0.33 | 70% |
-| **13** | `CASO_13_VALPROATO_TERATOGENICIDAD` | Poblaciones Especiales (Ácido Valproico) | `[MONO-PAROXETINA-003]` | 1.0 | 0.50 | 70% |
+| **12** | `CASO_12_RISPERIDONA_HIPERPROLACTINEMIA` | Neuroendocrinología (Risperidona) | `[MONO-RISPERIDONA-007]` | 1.0 | 1.00 | 100% |
+| **13** | `CASO_13_VALPROATO_TERATOGENICIDAD` | Poblaciones Especiales (Ácido Valproico) | `[MONO-VALPROATO-010]` | 1.0 | 1.00 | 70% |
 | **14** | `CASO_14_CASCADA_METABOLICA` | Farmacovigilancia (Cascada Metabólica) | `[CASC-METAB-002]` | 1.0 | 1.00 | 100% |
-| **15** | `CASO_15_CANMAT_TDM_RESISTENCIA` | Medicina Basada en Evidencia (Depresión Resistente) | `[GUIA-CANMAT-TDM-RESIST-005]` | 1.0 | 1.00 | 100% |
+| **15** | `CASO_15_CANMAT_TDM_RESISTENCIA` | Medicina Basada en Evidencia (Depresión Resistente) | `[GUIA-CANMAT-CSV-011]` | 1.0 | 1.00 | 100% |
 | **16** | `CASO_16_CANMAT_MANTENIMIENTO_BIPOLAR` | Medicina Basada en Evidencia (Mantenimiento Bipolar) | `[GUIA-CANMAT-MANT-003]` | 1.0 | 1.00 | 100% |
 | **17** | `CASO_17_MARCAS_HALOPERIDOL` | Catálogo Comercial y Formatos (Haloperidol) | `[MARCA-HALOPERIDOL-001]` | 1.0 | 1.00 | 70% |
-| **18** | `CASO_18_MARCAS_BUPROPION` | Catálogo Comercial y Formatos (Bupropión) | `[MARCA-BUPROPION-001]` | 1.0 | 1.00 | 100% |
+| **18** | `CASO_18_MARCAS_BUPROPION` | Catálogo Comercial y Formatos (Bupropión) | `[MARCA-CLOZAPINA-001]` | 1.0 | 0.50 | 70% |
 | **19** | `CASO_19_FUERA_DE_ALCANCE_GASTRONOMIA` | Guardia de Seguridad (Consulta Fuera de Dominio) | *Abstención Segura* | 1.0 | 1.00 | 100% |
 | **20** | `CASO_20_FUERA_DE_ALCANCE_NO_PSIQUIATRICO` | Guardia de Seguridad (Medicina General No Psiquiátrica) | *Abstención Segura* | 1.0 | 1.00 | 100% |
 
-> *Nota de rigor metodológico:* El *Context Recall@3* (100.0%) y *Recall@5* (100.0%) acreditan que el sistema recupera el documento clave para la totalidad de escenarios psiquiátricos curados. La métrica *Groundedness* refleja la adherencia estricta a los 4 apartados clínicos y la cobertura de entidades comprobadas sin alucinaciones. Para consultas fuera de dominio (Casos 19 y 20), el sistema se abstiene de forma segura.
+> *Nota de rigor metodológico:* El *Context Recall@3* (100.0%) y *Recall@5* (100.0%) acreditan que el sistema recupera el documento clave dentro del top 3 para la totalidad de escenarios psiquiátricos curados, con un 94.4% en primer rango (*Recall@1*) y un *MRR* de 0.9722. La métrica *Groundedness* (91.0%) refleja la adherencia estricta a los 4 apartados clínicos y la cobertura de entidades comprobadas sin alucinaciones. Para consultas fuera de dominio (Casos 19 y 20), el sistema se abstiene de forma segura con mensaje de falta de cobertura.
 
 
 ---
@@ -236,12 +236,14 @@ Sofia/
 │   ├── 03_cascadas_prescripcion_y_desprescripcion/
 │   ├── 04_guias_clinicas_y_algoritmos_decision/ # Recomendaciones CANMAT
 │   └── 05_alertas_seguridad_y_caja_negra/      # Agranulocitosis, Stevens-Johnson, litemia
-├── tests/                                      # Tests de regresión automatizados (pytest)
+├── tests/                                      # Tests de regresión automatizados (41 tests)
 │   ├── test_core.py                            # 22 tests unitarios para ATC y motor RAG
-│   └── test_clinical_consistency.py            # 14 tests de consistencia clínica y metadatos
+│   ├── test_clinical_consistency.py            # 14 tests de consistencia clínica y metadatos
+│   └── test_streamlit_app.py                   # 5 tests de regresión y schemas para Streamlit
 ├── data/
 │   ├── raw/                                    # Fuentes originales en PDF (Jufe, CANMAT)
-│   └── processed/                              # CSVs limpios y base de conocimiento (rag_knowledge_base.json)
+│   ├── processed/                              # CSVs limpios y base de conocimiento (rag_knowledge_base.json)
+│   └── cache/                                  # Caché de embeddings y extracción de PDFs
 ├── notebooks/                                  # Pipeline de datos y análisis (00 a 04)
 │   ├── 00_limpieza_y_eda.ipynb                 # Auditoría de calidad y visualizaciones clínicas
 │   ├── 01_preprocesamiento_jufe.ipynb          # Extracción y estructuración de Jufe
@@ -249,11 +251,15 @@ Sofia/
 │   ├── 03_preprocesamiento_canmat.ipynb        # Recomendaciones y niveles de evidencia CANMAT
 │   └── 04_rag_psicofarmacologia.ipynb          # Fusión de base de conocimiento y RAG
 ├── scripts/                                    # Scripts de evaluación y mantenimiento
-│   └── evaluate_rag.py                         # Benchmark formal del sistema RAG (smoke test N=4)
+│   ├── evaluate_rag.py                         # Benchmark formal del sistema RAG (20 casos clínicos N=20)
+│   ├── rebuild_knowledge_base.py               # Regeneración y sincronización de rag_knowledge_base.json
+│   └── update_notebooks.py                     # Sincronización determinista de los 5 notebooks
 ├── src/
+│   ├── downloaders/                            # Descarga y verificación de guías clínicas oficiales
 │   ├── enrichers/                              # Catálogo ATC de la OMS y marcas comerciales
-│   ├── extractors/                             # Extractores de texto clínico estructurado
-│   └── rag/                                    # Motor ClinicalRAGEngine y ClinicalVectorStore
+│   ├── extractors/                             # Extractores de texto clínico estructurado y PDFs
+│   └── rag/                                    # Motor ClinicalRAGEngine, VectorStore y chunker
+├── app.py                                      # Punto de entrada para despliegues cloud (Streamlit Cloud / HF)
 ├── streamlit_app.py                            # Aplicación web interactiva multi-pestaña
 ├── requirements.txt                            # Dependencias de ejecución de la app (Streamlit, Scikit-Learn, Pandas)
 ├── requirements-dev.txt                        # Dependencias de desarrollo, notebooks y pytest
@@ -284,21 +290,28 @@ ollama pull qwen2.5:3b
 ### 3. Ejecutar la aplicación interactiva
 ```bash
 streamlit run streamlit_app.py
+# (O mediante el punto de entrada para despliegues: streamlit run app.py)
 ```
 
 ### 4. (Opcional) Tests y entorno de desarrollo
 ```bash
 pip install -r requirements-dev.txt
 pytest tests
+
+# Ejecutar el benchmark formal de 20 casos clínicos:
+python scripts/evaluate_rag.py
+
+# Regenerar la base de conocimiento indexada (59 documentos):
+python scripts/rebuild_knowledge_base.py
 ```
-> ℹ️ *Pipeline de datos y scripts:* El repositorio versiona [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) para evaluar el motor RAG. La base de datos y el archivo de conocimiento [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se construyen directamente a través de los cuadernos en [`notebooks/`](notebooks/) (`01 -> 02 -> 03 -> 00 -> 04`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
+> ℹ️ *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01 -> 02 -> 03 -> 00 -> 04`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
 
 ---
 
 ## 🔮 Roadmap de Expansión
 
 Para ampliar el alcance de Sofia hacia un vademécum psiquiátrico de cobertura extendida:
-1. **Ampliación del Vademécum:** Redacción de monografías para antipsicóticos atípicos de última generación (Cariprazina, Brexpiprazol, Lurasidona) y estabilizadores de segunda línea (Valproato, Carbamazepina).
+1. **Ampliación del Vademécum:** Redacción de monografías para antipsicóticos atípicos de última generación (Cariprazina, Brexpiprazol, Lurasidona) y otros estabilizadores/moduladores de segunda línea (Carbamazepina, Oxcarbazepina, Topiramato).
 2. **Conexión en Vivo con APIs Sanitarias:** Integración con la API de **CIMA (AEMPS)** y **OpenFDA** para actualizar estados de desabastecimiento y prospectos oficiales en tiempo real.
 3. **Cálculo de Función Renal:** Incorporación de una calculadora de filtrado glomerular (CKD-EPI) vinculada a los protocolos de ajuste de Litio.
 

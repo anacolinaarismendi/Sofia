@@ -5,7 +5,7 @@ rebuild_knowledge_base.py
 Regenera data/processed/rag_knowledge_base.json integrando:
 1. Los 27 documentos Markdown actualizados de pre_training/.
 2. Las 22 fichas estructuradas de recomendaciones CANMAT (CSV).
-3. Las 9 fichas de marcas comerciales y laboratorios.
+3. Las 10 fichas de marcas comerciales y laboratorios.
 
 Garantiza que la base de conocimiento no quede obsoleta (kb_obsoleta == False).
 """

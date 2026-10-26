@@ -85,9 +85,9 @@ CASOS_BENCHMARK = [
         "categoria": "Seguridad Hematológica (Clozapina)",
         "pregunta": "¿Cuál es el protocolo de recuento absoluto de neutrófilos (RAN) para clozapina y con qué umbral de neutrófilos debe interrumpirse inmediatamente el tratamiento?",
         "entidades_esperadas": ["clozapina", "neutrófilos", "1000", "agranulocitosis", "hemograma"],
-        "documentos_esperados": ["ALERTA-AGRAN-CLOZ-001", "MONO-CLOZAPINA-006"],
+        "documentos_esperados": ["ALERTA-CLOZ-AGRAN-001", "MONO-CLOZAPINA-006"],
         "es_fuera_de_alcance": False,
-        "criterio_grounding": "Debe citar [ALERTA-AGRAN-CLOZ-001] o [MONO-CLOZAPINA-006] con umbral de suspensión en RAN < 1000/µL."
+        "criterio_grounding": "Debe citar [ALERTA-CLOZ-AGRAN-001] o [MONO-CLOZAPINA-006] con umbral de suspensión en RAN < 1000/µL."
     },
     {
         "id": "CASO_08_CLOZAPINA_TABACO_CYP1A2",
@@ -103,7 +103,7 @@ CASOS_BENCHMARK = [
         "categoria": "Interacción Enzimática Crítica (Lamotrigina y Valproato)",
         "pregunta": "¿Qué ocurre al coadministrar lamotrigina con ácido valproico y cómo debe ajustarse la dosis inicial de lamotrigina?",
         "entidades_esperadas": ["lamotrigina", "valproato", "Stevens-Johnson", "reducir", "UGT1A4"],
-        "documentos_esperados": ["INTER-LAM-VAL-003", "MONO-LAMOTRIGINA-009", "ALERTA-SJS-LAM-002"],
+        "documentos_esperados": ["INTER-LAM-VAL-003", "MONO-LAMOTRIGINA-009", "ALERTA-LAM-SJS-002"],
         "es_fuera_de_alcance": False,
         "criterio_grounding": "Debe citar [INTER-LAM-VAL-003], explicar la inhibición de glucuronidación y la pauta de inicio reducida al 50% o días alternos."
     },
@@ -112,7 +112,7 @@ CASOS_BENCHMARK = [
         "categoria": "Seguridad Cutánea (Titulación de Lamotrigina)",
         "pregunta": "¿Cuál es el cronograma de escalado de dosis de lamotrigina en monoterapia y qué debe hacerse si el paciente interrumpe el tratamiento más de 5 días?",
         "entidades_esperadas": ["lamotrigina", "25", "titulación", "reiniciar", "Stevens-Johnson"],
-        "documentos_esperados": ["MONO-LAMOTRIGINA-009", "ALERTA-SJS-LAM-002"],
+        "documentos_esperados": ["MONO-LAMOTRIGINA-009", "ALERTA-LAM-SJS-002", "INTER-LAM-VAL-003"],
         "es_fuera_de_alcance": False,
         "criterio_grounding": "Debe citar [MONO-LAMOTRIGINA-009], indicando inicio con 25 mg/día y necesidad de reiniciar la titulación si hubo interrupción prolongada."
     },
@@ -157,7 +157,7 @@ CASOS_BENCHMARK = [
         "categoria": "Medicina Basada en Evidencia (Depresión Resistente)",
         "pregunta": "Según las directrices CANMAT, ¿cuándo se aconseja potenciar un antidepresivo y qué agentes de primera línea se utilizan como add-on en TDM resistente?",
         "entidades_esperadas": ["CANMAT", "potenciación", "litio", "atípico", "Level 1"],
-        "documentos_esperados": ["GUIA-CANMAT-TDM-RESIST-005"],
+        "documentos_esperados": ["GUIA-CANMAT-TDM-RESIST-005", "GUIA-CANMAT-CSV-011"],
         "es_fuera_de_alcance": False,
         "criterio_grounding": "Debe citar [GUIA-CANMAT-TDM-RESIST-005] recomendando adición de Litio o antipsicóticos atípicos (quetiapina, aripiprazol)."
     },
