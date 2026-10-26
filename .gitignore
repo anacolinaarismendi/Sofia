@@ -23,8 +23,13 @@ data/cache/
 notebooks/data/
 *.db
 
-# Streamlit secrets (credenciales y API keys)
+# Streamlit secrets y variables de entorno (credenciales y API keys)
 .streamlit/secrets.toml
+secrets.toml
+.env
+.env.*
+*.env
+
 
 # Logs y tests
 *.log

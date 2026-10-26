@@ -174,9 +174,9 @@ class ClinicalVectorStore:
         self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
         env_host = os.environ.get("OLLAMA_HOST")
         if ollama_host:
-            self.ollama_host = ollama_host
+            self.ollama_host = ollama_host.rstrip("/")
         elif env_host:
-            self.ollama_host = env_host
+            self.ollama_host = env_host.rstrip("/")
         elif self.api_key:
             self.ollama_host = "https://ollama.com"
         else:
@@ -440,9 +440,9 @@ class ClinicalRAGEngine:
         self.api_key = api_key or os.environ.get("OLLAMA_API_KEY")
         env_host = os.environ.get("OLLAMA_HOST")
         if ollama_host:
-            self.ollama_host = ollama_host
+            self.ollama_host = ollama_host.rstrip("/")
         elif env_host:
-            self.ollama_host = env_host
+            self.ollama_host = env_host.rstrip("/")
         elif self.api_key:
             self.ollama_host = "https://ollama.com"
         else:

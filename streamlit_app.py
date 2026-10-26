@@ -135,11 +135,9 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 # Carga de Motor RAG y Datasets en Caché
 # -----------------------------------------------------------------------------
-@st.cache_resource(ttl=600, show_spinner="Inicializando base de conocimiento clínica de Sofia...")
-def get_rag_engine(api_key: str = "", host: str = "", model: str = ""):
-    sec_key = ""
-    sec_host = ""
-    sec_model = ""
+def resolver_credenciales_ollama() -> tuple[str, str, str]:
+    """Extrae y valida credenciales de st.secrets de manera segura."""
+    sec_key, sec_host, sec_model = "", "", ""
     try:
         if hasattr(st, "secrets"):
             sec_key = str(st.secrets.get("OLLAMA_API_KEY", "")).strip()
@@ -148,19 +146,20 @@ def get_rag_engine(api_key: str = "", host: str = "", model: str = ""):
     except Exception:
         pass
 
-    # Evitar interpretar el placeholder del ejemplo como clave válida
     if sec_key in ("", "tu_ollama_api_key_aqui"):
         sec_key = ""
 
-    final_key = api_key or sec_key or None
-    final_host = host or sec_host or None
-    final_model = model or sec_model or None
+    return sec_key, sec_host, sec_model
 
+
+@st.cache_resource(ttl=600, show_spinner="Inicializando base de conocimiento clínica de Sofia...")
+def get_rag_engine(api_key: Optional[str] = None, host: Optional[str] = None, model: Optional[str] = None):
     return ClinicalRAGEngine(
-        ollama_host=final_host,
-        llm_model=final_model,
-        api_key=final_key
+        ollama_host=host or None,
+        llm_model=model or None,
+        api_key=api_key or None
     )
+
 
 
 @st.cache_data
@@ -248,9 +247,12 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### 🔌 Inferencia y Conectividad")
 
-    active_key = st.session_state.get("ollama_api_key", "")
-    active_host = st.session_state.get("ollama_host", "")
-    rag_engine = get_rag_engine(api_key=active_key, host=active_host)
+    sec_key, sec_host, sec_model = resolver_credenciales_ollama()
+    active_key = st.session_state.get("ollama_api_key") or sec_key or None
+    active_host = st.session_state.get("ollama_host") or sec_host or None
+    active_model = st.session_state.get("ollama_model") or sec_model or None
+
+    rag_engine = get_rag_engine(api_key=active_key, host=active_host, model=active_model)
     data = load_datasets()
 
     # Inspección segura de atributos del motor
@@ -265,7 +267,11 @@ with st.sidebar:
     key_faltante = not _api_key or _api_key in ("", "tu_ollama_api_key_aqui")
 
     with st.expander("⚙️ Conexión Ollama Cloud / Remoto", expanded=key_faltante and es_ollama_cloud):
-        st.caption("Si despliegas fuera de tu entorno local (Streamlit Cloud), configura tu API Key:")
+        if sec_key:
+            st.success(f"🔑 Secrets detectados (`{sec_model or 'qwen2.5:7b'}`)")
+        else:
+            st.caption("Si despliegas fuera de tu entorno local (Streamlit Cloud), configura tu API Key:")
+
         if key_faltante and es_ollama_cloud:
             st.warning(
                 "🔑 **Falta la API Key de Ollama Cloud:**\n\n"
@@ -282,19 +288,24 @@ with st.sidebar:
         user_key = st.text_input(
             "Ollama Cloud API Key:",
             type="password",
-            value=st.session_state.get("ollama_api_key", ""),
+            value=st.session_state.get("ollama_api_key", "") or sec_key,
             help="Obtén tu API key en ollama.com/settings/keys"
         )
         user_host = st.text_input(
             "Host URL:",
-            value=st.session_state.get("ollama_host", ""),
+            value=st.session_state.get("ollama_host", "") or sec_host or "https://ollama.com",
             placeholder="https://ollama.com"
+        )
+        user_model = st.text_input(
+            "Modelo LLM:",
+            value=st.session_state.get("ollama_model", "") or sec_model or "qwen2.5:7b",
+            placeholder="qwen2.5:7b o gpt-oss:20b"
         )
         if st.button("Aplicar Credenciales", width="stretch"):
             st.session_state["ollama_api_key"] = user_key
             st.session_state["ollama_host"] = user_host
-            # No se vacía la caché global (afectaría a otras sesiones): la clave de caché
-            # incluye las credenciales, así que cambiarlas crea un motor nuevo.
+            st.session_state["ollama_model"] = user_model
+            st.cache_resource.clear()
             st.rerun()
 
     if es_ollama_cloud and key_faltante:
