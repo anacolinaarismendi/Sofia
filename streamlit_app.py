@@ -4,6 +4,7 @@ Aplicación Web Interactiva de Sofia: Asistente Clínico Inteligente y RAG de Ps
 Diseñado con estricta portabilidad relativa y cero rutas locales de usuario.
 """
 
+import os
 import re
 import sys
 import traceback
@@ -136,31 +137,44 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 # Carga de Motor RAG y Datasets en Caché
 # -----------------------------------------------------------------------------
-def resolver_credenciales_ollama() -> tuple[str, str, str]:
-    """Extrae y valida credenciales de st.secrets de manera segura."""
-    sec_key, sec_host, sec_model = "", "", ""
+def _leer_secreto(nombre: str) -> str:
+    """Lee un valor de st.secrets (Streamlit Cloud) o, en su defecto, de variables de entorno.
+
+    En local, sin .streamlit/secrets.toml, st.secrets lanza una excepción: se ignora
+    y la app arranca normalmente con Ollama local / modo contingencia.
+    """
+    valor = ""
     try:
-        if hasattr(st, "secrets"):
-            sec_key = str(st.secrets.get("OLLAMA_API_KEY", "")).strip()
-            sec_host = str(st.secrets.get("OLLAMA_HOST", "")).strip()
-            sec_model = str(st.secrets.get("OLLAMA_MODEL", "")).strip()
+        valor = str(st.secrets.get(nombre, "")).strip()
     except Exception:
-        pass
-
-    if sec_key in ("", "tu_ollama_api_key_aqui"):
-        sec_key = ""
-
-    return sec_key, sec_host, sec_model
+        valor = ""
+    if not valor:
+        valor = os.environ.get(nombre, "").strip()
+    return valor
 
 
-@st.cache_resource(ttl=600, show_spinner="Inicializando base de conocimiento clínica de Sofia...")
+def resolver_credenciales_ollama() -> tuple[Optional[str], Optional[str], Optional[str]]:
+    """Devuelve (api_key, host, modelo). Cualquiera puede ser None => el motor usa sus valores por defecto."""
+    key = _leer_secreto("OLLAMA_API_KEY")
+    if key in ("", "tu_ollama_api_key_aqui", "tu_clave_real_aqui"):
+        key = ""
+    host = _leer_secreto("OLLAMA_HOST")
+    modelo = _leer_secreto("OLLAMA_MODEL")
+
+    # Con API key y sin host explícito, lo razonable es Ollama Cloud
+    if key and not host:
+        host = "https://ollama.com"
+
+    return (key or None), (host or None), (modelo or None)
+
+
+@st.cache_resource(show_spinner="Inicializando base de conocimiento clínica de Sofia...")
 def get_rag_engine(api_key: Optional[str] = None, host: Optional[str] = None, model: Optional[str] = None):
     return ClinicalRAGEngine(
-        ollama_host=host or None,
-        llm_model=model or None,
-        api_key=api_key or None
+        ollama_host=host,
+        llm_model=model,
+        api_key=api_key
     )
-
 
 
 @st.cache_data
@@ -238,6 +252,23 @@ def render_fuentes(fuentes):
 
 
 # -----------------------------------------------------------------------------
+# Inicialización del motor RAG (fuera del sidebar)
+# -----------------------------------------------------------------------------
+_api_key_cfg, _host_cfg, _model_cfg = resolver_credenciales_ollama()
+rag_engine = get_rag_engine(api_key=_api_key_cfg, host=_host_cfg, model=_model_cfg)
+data = load_datasets()
+
+# Inspección segura de atributos del motor
+_api_key = getattr(rag_engine, "api_key", None)
+_host = getattr(rag_engine, "ollama_host", None) or ""
+_modelo = getattr(rag_engine, "llm_model", "N/D")
+_usa_ollama = getattr(getattr(rag_engine, "vector_store", None), "use_ollama", False)
+_modo_idx = getattr(getattr(rag_engine, "vector_store", None), "modo_indice", "N/D")
+es_ollama_cloud = "ollama.com" in _host
+key_faltante = not _api_key
+
+
+# -----------------------------------------------------------------------------
 # Barra Lateral (Sidebar)
 # -----------------------------------------------------------------------------
 with st.sidebar:
@@ -246,77 +277,16 @@ with st.sidebar:
     st.caption("Asistente de Soporte a la Decisión y Farmacovigilancia en Psiquiatría")
 
     st.markdown("---")
-    st.markdown("### 🔌 Inferencia y Conectividad")
-
-    sec_key, sec_host, sec_model = resolver_credenciales_ollama()
-    active_key = st.session_state.get("ollama_api_key") or sec_key or None
-    active_host = st.session_state.get("ollama_host") or sec_host or None
-    active_model = st.session_state.get("ollama_model") or sec_model or None
-
-    rag_engine = get_rag_engine(api_key=active_key, host=active_host, model=active_model)
-    data = load_datasets()
-
-    # Inspección segura de atributos del motor
-    _api_key = getattr(rag_engine, "api_key", None)
-    _host = getattr(rag_engine, "ollama_host", None) or ""
-    _modelo = getattr(rag_engine, "llm_model", "N/D")
-    _usa_ollama = getattr(getattr(rag_engine, "vector_store", None), "use_ollama", False)
-    _modo_idx = getattr(getattr(rag_engine, "vector_store", None), "modo_indice", "N/D")
-
-    # Detección de configuración de Ollama Cloud y validación de clave
-    es_ollama_cloud = "ollama.com" in _host
-    key_faltante = not _api_key or _api_key in ("", "tu_ollama_api_key_aqui")
-
-    with st.expander("⚙️ Conexión Ollama Cloud / Remoto", expanded=key_faltante and es_ollama_cloud):
-        if sec_key:
-            st.success(f"🔑 Secrets detectados (`{sec_model or 'qwen2.5:7b'}`)")
-        else:
-            st.caption("Si despliegas fuera de tu entorno local (Streamlit Cloud), configura tu API Key:")
-
-        if key_faltante and es_ollama_cloud:
-            st.warning(
-                "🔑 **Falta la API Key de Ollama Cloud:**\n\n"
-                "Para habilitar el modelo generativo LLM en Streamlit Community Cloud:\n"
-                "1. Genera tu clave en [ollama.com/settings/keys](https://ollama.com/settings/keys)\n"
-                "2. En el panel de Streamlit Cloud ve a **App Settings → Secrets** y define:\n"
-                "```toml\n"
-                'OLLAMA_API_KEY = "tu_clave_real_aqui"\n'
-                'OLLAMA_HOST = "https://ollama.com"\n'
-                'OLLAMA_MODEL = "qwen2.5:7b"\n'
-                "```\n"
-                "O ingrésala a continuación para esta sesión:"
-            )
-        user_key = st.text_input(
-            "Ollama Cloud API Key:",
-            type="password",
-            value=st.session_state.get("ollama_api_key", "") or sec_key,
-            help="Obtén tu API key en ollama.com/settings/keys"
-        )
-        user_host = st.text_input(
-            "Host URL:",
-            value=st.session_state.get("ollama_host", "") or sec_host or "https://ollama.com",
-            placeholder="https://ollama.com"
-        )
-        user_model = st.text_input(
-            "Modelo LLM:",
-            value=st.session_state.get("ollama_model", "") or sec_model or "qwen2.5:7b",
-            placeholder="qwen2.5:7b o gpt-oss:20b"
-        )
-        if st.button("Aplicar Credenciales", width="stretch"):
-            st.session_state["ollama_api_key"] = user_key
-            st.session_state["ollama_host"] = user_host
-            st.session_state["ollama_model"] = user_model
-            st.cache_resource.clear()
-            st.rerun()
+    st.markdown("### 🔌 Estado del motor")
 
     if es_ollama_cloud and key_faltante:
-        st.warning("⚠️ **Ollama Cloud sin API Key:** Operando en modo contingencia.")
-    elif not key_faltante and es_ollama_cloud:
+        st.warning("⚠️ Ollama Cloud sin API Key: operando en modo contingencia.")
+    elif es_ollama_cloud:
         st.success(f"☁️ Ollama Cloud activo (`{_modelo}`)")
     elif _usa_ollama:
-        st.success(f"🟢 Ollama Local Activo (`{_modelo}`)")
+        st.success(f"🟢 Ollama Local activo (`{_modelo}`)")
     else:
-        st.info("🟡 Inferencia Contingencia: TF-IDF + Fichas Estructuradas")
+        st.info("🟡 Inferencia contingencia: TF-IDF + fichas estructuradas")
     st.caption(
         "Recuperación: "
         + ("semántica densa (embeddings)" if _modo_idx == "ollama" else "léxica TF-IDF")
@@ -325,6 +295,8 @@ with st.sidebar:
 
     num_docs = len(getattr(rag_engine, "docs", []))
     st.metric("Base de Conocimiento", f"{num_docs} Documentos", delta="pre_training + CANMAT + marcas")
+    if num_docs == 0:
+        st.error("🔴 La base de conocimiento está vacía: el RAG no puede responder. Revisa rag_knowledge_base.json y los logs.")
     if getattr(rag_engine, "kb_obsoleta", False):
         st.warning("⚠️ Hay documentos de pre_training/ más recientes que la base de conocimiento indexada. Regenera rag_knowledge_base.json.")
 
@@ -425,6 +397,8 @@ with tab_chat:
                         "modo_respuesta": "error",
                         "documentos_recuperados": [],
                     }
+                if not isinstance(resultado, dict):
+                    resultado = {"respuesta": str(resultado), "modo_respuesta": "error", "documentos_recuperados": []}
                 respuesta_texto = resultado.get("respuesta", "")
                 voice_snip = resultado.get("voice_snippet", "")
                 fuentes = resultado.get("documentos_recuperados", [])

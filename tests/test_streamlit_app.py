@@ -23,9 +23,9 @@ def test_resolver_credenciales_ollama():
     from streamlit_app import resolver_credenciales_ollama
 
     key, host, model = resolver_credenciales_ollama()
-    assert isinstance(key, str)
-    assert isinstance(host, str)
-    assert isinstance(model, str)
+    assert key is None or isinstance(key, str)
+    assert host is None or isinstance(host, str)
+    assert model is None or isinstance(model, str)
 
 
 def test_load_datasets():

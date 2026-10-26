@@ -582,9 +582,37 @@ class ClinicalRAGEngine:
                 json=payload,
                 timeout=75
             )
+            # Si /api/generate devuelve 404 (típico en Ollama Cloud o proxies), intentar /api/chat
+            if res.status_code == 404:
+                chat_payload = {
+                    "model": self.llm_model,
+                    "messages": [
+                        {"role": "system", "content": SOFIA_CLINICAL_PROMPT},
+                        {"role": "user", "content": prompt_usuario}
+                    ],
+                    "stream": False,
+                    "options": {
+                        "temperature": 0.2,
+                        "top_p": 0.9,
+                        "num_predict": NUM_PREDICT
+                    }
+                }
+                res_chat = requests.post(
+                    f"{self.ollama_host}/api/chat",
+                    headers=self.vector_store._get_headers(),
+                    json=chat_payload,
+                    timeout=75
+                )
+                if res_chat.status_code == 200:
+                    res = res_chat
+
             if res.status_code == 200:
                 datos = res.json()
-                raw_resp = datos.get("response", "").strip()
+                if "message" in datos:
+                    raw_resp = datos.get("message", {}).get("content", "").strip()
+                else:
+                    raw_resp = datos.get("response", "").strip()
+
                 if raw_resp:
                     # Limpiar bloques internos de pensamiento si están presentes
                     respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip()
@@ -611,7 +639,11 @@ class ClinicalRAGEngine:
                             "en los documentos recuperados."
                         )
             else:
-                logger.warning("Ollama /api/generate devolvió status %s; se usa contingencia", res.status_code)
+                detalle = res.text.strip() if hasattr(res, "text") and res.text else "sin detalle"
+                logger.warning(
+                    "Ollama (%s) devolvió status %s (%s); se usa contingencia",
+                    self.ollama_host, res.status_code, detalle[:200]
+                )
         except Exception as exc:
             logger.warning("Fallo al generar con Ollama; se usa contingencia: %s", exc)
 
