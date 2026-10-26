@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D20%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
 
-> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:** [sofiaasistenteragdepsicofarmacolog.streamlit.app](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
+> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:** [appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 
 ---
 
