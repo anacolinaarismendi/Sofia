@@ -7,7 +7,7 @@ Evaluación sistemática del Motor RAG Clínico de Sofia:
   Guías CANMAT, Cascadas de Prescripción, Marcas Comerciales y Consultas Fuera de Cobertura).
 - Métricas estándar de recuperación y generación (Recall@1, Recall@3, Recall@5, MRR, Answer Relevance,
   Groundedness y Trazabilidad Ética [DOC-ID]).
-- Diseñado con estricta portabilidad relativa y cero rutas absolutas de usuario.
+- Evaluación cuantitativa de ranking, cobertura y precisión de citas documentales.
 """
 
 import sys

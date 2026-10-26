@@ -1,6 +1,6 @@
 # Sofia — Asistente Clínico Inteligente y RAG de Psicofarmacología
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sofiaasistenteragdepsicofarmacolog.streamlit.app)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D20%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
@@ -252,8 +252,7 @@ Sofia/
 │   └── 04_rag_psicofarmacologia.ipynb          # Fusión de base de conocimiento y RAG
 ├── scripts/                                    # Scripts de evaluación y mantenimiento
 │   ├── evaluate_rag.py                         # Benchmark formal del sistema RAG (20 casos clínicos N=20)
-│   ├── rebuild_knowledge_base.py               # Regeneración y sincronización de rag_knowledge_base.json
-│   └── update_notebooks.py                     # Sincronización determinista de los 5 notebooks
+│   └── rebuild_knowledge_base.py               # Regeneración y sincronización de rag_knowledge_base.json
 ├── src/
 │   ├── downloaders/                            # Descarga y verificación de guías clínicas oficiales
 │   ├── enrichers/                              # Catálogo ATC de la OMS y marcas comerciales

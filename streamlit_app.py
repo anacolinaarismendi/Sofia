@@ -1,7 +1,7 @@
 """
 streamlit_app.py
 Aplicación Web Interactiva de Sofia: Asistente Clínico Inteligente y RAG de Psicofarmacología.
-Diseñado con estricta portabilidad relativa y cero rutas locales de usuario.
+Plataforma interactiva de soporte a la decisión clínica y farmacovigilancia.
 """
 
 import os

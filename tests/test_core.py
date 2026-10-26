@@ -1,4 +1,4 @@
-"""Tests mínimos de regresión para los errores corregidos en la auditoría (E-01..E-11)."""
+"""Tests unitarios y de regresión para el catálogo ATC y el motor clínico RAG."""
 
 import json
 import re
@@ -15,7 +15,7 @@ from src.enrichers.atc_enricher import ATCEnricher  # noqa: E402
 from src.rag import engine as engine_mod  # noqa: E402
 
 
-# --------------------------------------------------------------------------- ATC (E-07)
+# --------------------------------------------------------------------------- Catálogo ATC y Normalización
 @pytest.mark.parametrize("entrada", ["", "  ", "a", "o", "ina", None])
 def test_atc_entradas_invalidas_no_devuelven_farmaco(entrada):
     assert ATCEnricher.get_info(entrada) is None

@@ -92,6 +92,7 @@ Estructura tu respuesta en los siguientes 4 apartados numerados. Si para cualqui
 - **4. Alertas de Seguridad y Trazabilidad Comercial:** Advertencias críticas (caja negra, litemia, agranulocitosis) y nombres comerciales / laboratorios aplicables (si no constan en el contexto, escribe "No consta").
 """
 
+SOFIA_SYSTEM_PROMPT = SOFIA_CLINICAL_PROMPT
 SOFIA_SOUL_PROMPT = SOFIA_CLINICAL_PROMPT  # Alias retrocompatible
 
 

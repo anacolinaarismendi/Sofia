@@ -42,7 +42,7 @@ def test_kb_sincronizada_y_no_obsoleta():
 
 
 def test_clozapina_umbrales_aemps_y_fda():
-    """Item 1: Clozapina debe diferenciar umbrales de suspensión AEMPS (1500) vs FDA (1000) y BEN."""
+    """Clozapina debe diferenciar umbrales de suspensión AEMPS (1500) vs FDA (1000) y BEN."""
     cloz_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "clozapina.md"
     alerta_path = DIR_PRETRAINING / "05_alertas_seguridad_y_caja_negra" / "alerta_agranulocitosis_clozapina.md"
 
@@ -55,7 +55,7 @@ def test_clozapina_umbrales_aemps_y_fda():
 
 
 def test_clozapina_carbamazepina_contraindicacion_mielosupresion():
-    """Item 2: Regla de la Carbamazepina debe contraindicar explícitamente clozapina por riesgo de agranulocitosis."""
+    """Regla de la Carbamazepina debe contraindicar explícitamente clozapina por riesgo de agranulocitosis."""
     matriz_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "matriz_clinica_cyp450_psicofarmacos.md"
     texto = matriz_path.read_text(encoding="utf-8")
     assert "carbamazepina" in texto.lower()
@@ -65,7 +65,7 @@ def test_clozapina_carbamazepina_contraindicacion_mielosupresion():
 
 
 def test_clozapina_cese_tabaco_unificado():
-    """Item 3: Protocolo de deshabituación tabáquica unificado (reducir 30-40% en 3-5 días con clozapinemia)."""
+    """Protocolo de deshabituación tabáquica unificado (reducir 30-40% en 3-5 días con clozapinemia)."""
     cloz_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "clozapina.md"
     inter_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "interacciones_cyp1a2_tabaco_clozapina.md"
 
@@ -77,7 +77,7 @@ def test_clozapina_cese_tabaco_unificado():
 
 
 def test_valproato_riesgo_tea_y_tdah_calibrado():
-    """Item 4: Valproato riesgo de TEA ~3x (hasta 4.5-5x autismo infantil) y TDAH 1.5-2.5x."""
+    """Valproato riesgo de TEA ~3x (hasta 4.5-5x autismo infantil) y TDAH 1.5-2.5x."""
     valp_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "valproato.md"
     texto = valp_path.read_text(encoding="utf-8")
     assert "TDAH" in texto
@@ -88,7 +88,7 @@ def test_valproato_riesgo_tea_y_tdah_calibrado():
 
 
 def test_litio_tiazidas_y_aines_rangos_precisos():
-    """Item 5: AINEs aumentan litio 30-60% (media 40-50%); tiazidas aumentan 25-40%."""
+    """AINEs aumentan litio 30-60% (media 40-50%); tiazidas aumentan 25-40%."""
     lit_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "litio.md"
     inter_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "interacciones_litio_aines_diureticos_ieca.md"
 
@@ -99,7 +99,7 @@ def test_litio_tiazidas_y_aines_rangos_precisos():
 
 
 def test_cyp2d6_porcentaje_farmacos():
-    """Item 6: Cobertura enzimática de CYP2D6 corregida (~20-25%)."""
+    """Cobertura enzimática de CYP2D6 calibrada (~20-25%)."""
     inter_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "interacciones_cyp2d6_inhibidores_sustratos.md"
     matriz_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "matriz_clinica_cyp450_psicofarmacos.md"
 
@@ -110,7 +110,7 @@ def test_cyp2d6_porcentaje_farmacos():
 
 
 def test_haloperidol_vias_secundarias_2d6():
-    """Item 7: Haloperidol aumento moderado 20-50%, co-dependencia CYP3A4 y glucuronidación, cita MONO-FLUOXETINA-002."""
+    """Haloperidol aumento moderado 20-50%, co-dependencia CYP3A4 y glucuronidación, cita MONO-FLUOXETINA-002."""
     inter_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "interacciones_cyp2d6_inhibidores_sustratos.md"
     texto = inter_path.read_text(encoding="utf-8")
     assert "Haloperidol" in texto
@@ -121,7 +121,7 @@ def test_haloperidol_vias_secundarias_2d6():
 
 
 def test_isrs_inhibicion_2d6_y_seguridad_farmaco_limpio():
-    """Items 8 y 9: ISRS débil a dosis estándar; sertralina preferred, citalopram alerta QTc."""
+    """ISRS débil a dosis estándar; sertralina de elección, citalopram alerta QTc."""
     inter_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "interacciones_cyp2d6_inhibidores_sustratos.md"
     matriz_path = DIR_PRETRAINING / "02_interacciones_farmacologicas_cyp450" / "matriz_clinica_cyp450_psicofarmacos.md"
 
@@ -135,7 +135,7 @@ def test_isrs_inhibicion_2d6_y_seguridad_farmaco_limpio():
 
 
 def test_risperidona_hiperprolactinemia_comparacion():
-    """Item 10: Risperidona destaca junto con paliperidona y amisulprida."""
+    """Risperidona destaca junto con paliperidona y amisulprida en perfil de prolactina."""
     risp_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "risperidona.md"
     texto = risp_path.read_text(encoding="utf-8")
     assert "paliperidona" in texto.lower()
@@ -143,7 +143,7 @@ def test_risperidona_hiperprolactinemia_comparacion():
 
 
 def test_bupropion_dosis_maxima_sr_aemps_vs_fda():
-    """Item 11: Bupropión SR 300 mg/día en AEMPS vs 400 mg/día en FDA."""
+    """Bupropión SR 300 mg/día en AEMPS vs 400 mg/día en FDA."""
     bup_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "bupropion.md"
     texto = bup_path.read_text(encoding="utf-8")
     assert "300 mg" in texto
@@ -153,7 +153,7 @@ def test_bupropion_dosis_maxima_sr_aemps_vs_fda():
 
 
 def test_lamotrigina_interrupcion_y_titulacion():
-    """Item 12: Lamotrigina interrupción >5 vidas medias (>5-7 días) reinicio a 25 mg/día."""
+    """Lamotrigina interrupción >5 vidas medias (>5-7 días) reinicio a 25 mg/día."""
     lam_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "lamotrigina.md"
     texto = lam_path.read_text(encoding="utf-8")
     assert "5 vidas medias" in texto
@@ -162,7 +162,7 @@ def test_lamotrigina_interrupcion_y_titulacion():
 
 
 def test_cascada_haloperidol_biperideno_mermaid_rama_no():
-    """Item 14: Diagrama Mermaid incluye rama de duda diagnóstica / No."""
+    """Diagrama Mermaid incluye rama de duda diagnóstica / No."""
     casc_path = DIR_PRETRAINING / "03_cascadas_prescripcion_y_desprescripcion" / "cascada_haloperidol_biperideno_parkinsonismo.md"
     texto = casc_path.read_text(encoding="utf-8")
     assert "Duda diagnóstica" in texto or "No / Duda diagnóstica" in texto
