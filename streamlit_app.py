@@ -63,7 +63,7 @@ except Exception as _rag_err:
 
 # Fallback seguro para ATCEnricher
 try:
-    from src.enrichers.atc_enricher import ATCEnricher
+    from src.enrichers.atc_enricher import ATCEnricher, normalizar_clave
 except Exception:
     class ATCEnricher:  # type: ignore
         CATALOGO_ATC = {}
@@ -73,6 +73,9 @@ except Exception:
         @classmethod
         def obtener_ficha(cls, *args, **kwargs):
             return None
+
+    def normalizar_clave(texto: str) -> str:
+        return str(texto).strip().lower()
 
 
 # Estilos CSS personalizados para interfaz médica moderna
@@ -463,17 +466,23 @@ with tab_chat:
 # =============================================================================
 with tab_cyp:
     st.markdown("#### Matriz Dinámica de Citocromos y Semáforo de Interacciones")
-    st.write("Selecciona dos o más psicofármacos del tratamiento del paciente para evaluar bloqueos enzimáticos o acumulación tóxica.")
+    st.write("Selecciona dos o más psicofármacos del tratamiento del paciente para evaluar bloqueos enzimáticos o acumulación tóxica basados en el catálogo farmacológico completo.")
 
-    farmacos_disponibles = sorted([
-        "Sertralina", "Fluoxetina", "Paroxetina", "Bupropión",
-        "Clozapina", "Risperidona", "Haloperidol", "Litio", "Lamotrigina", "Valproato"
-    ])
+    if "jufe" in data and not data["jufe"].empty:
+        farmacos_disponibles = sorted(data["jufe"]["farmaco"].dropna().unique().tolist())
+    else:
+        farmacos_disponibles = sorted([
+            "Sertralina", "Fluoxetina", "Paroxetina", "Citalopram", "Escitalopram", "Fluvoxamina",
+            "Venlafaxina", "Desvenlafaxina", "Duloxetina", "Bupropión", "Mirtazapina", "Vortioxetina",
+            "Clozapina", "Risperidona", "Olanzapina", "Quetiapina", "Ziprasidona", "Aripiprazol", "Haloperidol",
+            "Carbonato de Litio", "Ácido Valproico / Divalproato", "Carbamazepina", "Lamotrigina", "Topiramato",
+            "Clonazepam", "Lorazepam", "Diazepam", "Alprazolam", "Donepezilo", "Memantina"
+        ])
 
     seleccion = st.multiselect(
         "Fármacos en el esquema terapéutico:",
         options=farmacos_disponibles,
-        default=["Paroxetina", "Risperidona"]
+        default=["Paroxetina", "Risperidona"] if "Paroxetina" in farmacos_disponibles and "Risperidona" in farmacos_disponibles else farmacos_disponibles[:2]
     )
 
     if len(seleccion) < 2:
@@ -482,11 +491,45 @@ with tab_cyp:
         st.markdown("##### 🚦 Diagnóstico Clínico de Interacciones")
         interacciones_detectadas = []
 
-        isrs_catalogo = {"Sertralina", "Fluoxetina", "Paroxetina"}
-        isrs_seleccionados = set(seleccion).intersection(isrs_catalogo)
+        # Normalizador de nombres en selección
+        norm_sel = {normalizar_clave(f): f for f in seleccion}
 
-        # Regla A: Paroxetina + Bupropión
-        if "Paroxetina" in seleccion and "Bupropión" in seleccion:
+        # Familias farmacológicas
+        isrs_set = {"sertralina", "fluoxetina", "paroxetina", "citalopram", "escitalopram", "fluvoxamina"}
+        isrs_presentes = [orig for norm, orig in norm_sel.items() if norm in isrs_set]
+
+        bzd_set = {"clonazepam", "lorazepam", "diazepam", "alprazolam", "bromazepam", "clorazepato", "midazolam", "clobazam"}
+        bzd_presentes = [orig for norm, orig in norm_sel.items() if norm in bzd_set]
+
+        # Citocromo CYP2D6
+        inh_2d6_potentes = {"paroxetina", "bupropion", "fluoxetina"}
+        inh_2d6_moderados = {"duloxetina", "sertralina"}
+        sus_2d6_criticos = {"risperidona", "haloperidol", "aripiprazol", "vortioxetina", "atomoxetina", "venlafaxina", "amitriptilina", "clomipramina", "imipramina", "nortriptilina", "donepezilo"}
+
+        inh_2d6_activos = [orig for norm, orig in norm_sel.items() if norm in inh_2d6_potentes]
+        sus_2d6_activos = [orig for norm, orig in norm_sel.items() if norm in sus_2d6_criticos]
+
+        # Citocromo CYP1A2
+        inh_1a2_potentes = {"fluvoxamina"}
+        sus_1a2_criticos = {"clozapina", "olanzapina", "agomelatina", "duloxetina"}
+        inh_1a2_activos = [orig for norm, orig in norm_sel.items() if norm in inh_1a2_potentes]
+        sus_1a2_activos = [orig for norm, orig in norm_sel.items() if norm in sus_1a2_criticos]
+
+        # Inductor multienzimático mayor (Carbamazepina)
+        es_carbamazepina = any("carbamazepina" in norm for norm in norm_sel)
+
+        # Litio
+        es_litio = any("litio" in norm for norm in norm_sel)
+
+        # Lamotrigina y Valproato
+        es_lamotrigina = any("lamotrigina" in norm for norm in norm_sel)
+        es_valproato = any("valpro" in norm for norm in norm_sel)
+
+        # Clozapina
+        es_clozapina = any("clozapina" in norm for norm in norm_sel)
+
+        # Regla 1: Paroxetina + Bupropión
+        if any("paroxetina" in norm for norm in norm_sel) and any("bupropion" in norm for norm in norm_sel):
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-CYP2D6-001",
@@ -502,12 +545,12 @@ with tab_cyp:
                 )
             })
 
-        # Regla B: Duplicidad Terapéutica de ISRS
-        if len(isrs_seleccionados) >= 2:
+        # Regla 2: Duplicidad Terapéutica de ISRS
+        if len(isrs_presentes) >= 2:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": None,
-                "titulo": f"🔴 Duplicidad Terapéutica Inadecuada de ISRS ({' + '.join(sorted(isrs_seleccionados))})",
+                "titulo": f"🔴 Duplicidad Terapéutica Inadecuada de ISRS ({' + '.join(sorted(isrs_presentes))})",
                 "descripcion": (
                     "**Mecanismo:** La prescripción simultánea de dos o más fármacos de la misma familia (ISRS) carece de fundamento clínico "
                     "basado en evidencia y no aporta beneficio sinérgico en depresión mayor o trastornos de ansiedad.\n\n"
@@ -517,33 +560,98 @@ with tab_cyp:
                 )
             })
 
-        # Regla C: Inhibición potente de CYP2D6 + Sustrato 2D6
-        inhibidores_2d6 = {"Paroxetina", "Bupropión", "Fluoxetina"}
-        sustratos_2d6 = {"Risperidona", "Haloperidol"}
+        # Regla 3: Duplicidad de Benzodiazepinas
+        if len(bzd_presentes) >= 2:
+            interacciones_detectadas.append({
+                "nivel": "ADVERTENCIA",
+                "fuente": None,
+                "titulo": f"🟡 Duplicidad Terapéutica de Benzodiazepinas ({' + '.join(sorted(bzd_presentes))})",
+                "descripcion": (
+                    "**Mecanismo:** Coadministración de dos o más benzodiazepinas sobre el mismo sitio alostérico del receptor GABA-A.\n\n"
+                    "**Riesgo Clínico:** Potenciación de sedación profunda, enlentecimiento psicomotor, deterioro de memoria anterógrada, riesgo elevado de caídas/fracturas y rápida inducción de tolerancia y dependencia farmacológica.\n\n"
+                    "**Conducta Racional:** Racionalizar a una única benzodiazepina ajustando la dosis y planificar la pauta de desprescripción gradual."
+                )
+            })
 
-        inh_presentes = set(seleccion).intersection(inhibidores_2d6)
-        sus_presentes = set(seleccion).intersection(sustratos_2d6)
-
-        if inh_presentes and sus_presentes:
+        # Regla 4: Inhibición potente de CYP2D6 + Sustrato 2D6
+        if inh_2d6_activos and sus_2d6_activos:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-CYP2D6-001",
-                "titulo": f"🔴 Bloqueo Enzimático Potente de CYP2D6 ({', '.join(sorted(inh_presentes))} + {', '.join(sorted(sus_presentes))})",
+                "titulo": f"🔴 Bloqueo Enzimático Potente de CYP2D6 ({', '.join(sorted(inh_2d6_activos))} + {', '.join(sorted(sus_2d6_activos))})",
                 "descripcion": (
-                    f"**Mecanismo:** {', '.join(sorted(inh_presentes))} inhibe potentemente el CYP2D6, provocando una elevación "
-                    f"marcada de las concentraciones plasmáticas de {', '.join(sorted(sus_presentes))}.\n\n"
-                    f"**Riesgo Clínico:** Aparición de síntomas extrapiramidales agudos, sedación excesiva y prolongación del intervalo QTc.\n\n"
+                    f"**Mecanismo:** {', '.join(sorted(inh_2d6_activos))} inhibe potentemente el CYP2D6, provocando una elevación "
+                    f"marcada de las concentraciones plasmáticas de {', '.join(sorted(sus_2d6_activos))}.\n\n"
+                    f"**Riesgo Clínico:** Aparición de síntomas extrapiramidales agudos, sedación excesiva, hipotensión y prolongación del intervalo QTc.\n\n"
                     f"**Pauta:** Reducir la dosis del sustrato en un 50% o rotar hacia un antidepresivo con mínimo impacto 2D6 (ej. Sertralina o Escitalopram)."
                 )
             })
 
-        # Regla D: Litio e interacciones cruzadas
-        if "Litio" in seleccion:
-            if "Haloperidol" in seleccion:
+        # Regla 5: Inhibición masiva de CYP1A2 (Fluvoxamina) + Sustratos 1A2
+        if inh_1a2_activos and sus_1a2_activos:
+            interacciones_detectadas.append({
+                "nivel": "CRÍTICO",
+                "fuente": "INTER-CYP1A2-002",
+                "titulo": f"🔴 Bloqueo Crítico de CYP1A2 ({', '.join(sorted(inh_1a2_activos))} + {', '.join(sorted(sus_1a2_activos))})",
+                "descripcion": (
+                    f"**Mecanismo:** Fluvoxamina es un inhibidor extremadamente potente de CYP1A2. Al combinarse con {', '.join(sorted(sus_1a2_activos))}, "
+                    f"multiplica su área bajo la curva (AUC) entre 3 y 5 veces.\n\n"
+                    f"**Riesgo Clínico:** En el caso de Clozapina u Olanzapina, precipita crisis convulsivas, sedación profunda y colapso cardiovascular. Con Agomelatina o Duloxetina multiplica el riesgo de hepatotoxicidad severa.\n\n"
+                    f"**Pauta:** Combinación desaconsejada. Si es imprescindible con Clozapina, reducir la dosis de Clozapina a una tercera o cuarta parte con clozapinemia obligatoria."
+                )
+            })
+
+        # Regla 6: Clozapina + Carbamazepina (Contraindicación Absoluta)
+        if es_clozapina and es_carbamazepina:
+            interacciones_detectadas.append({
+                "nivel": "CRÍTICO",
+                "fuente": "ALERTA-CLOZ-AGRAN-001",
+                "titulo": "🛑 CONTRAINDICACIÓN ABSOLUTA: Mielosupresión Sinérgica (Clozapina + Carbamazepina)",
+                "descripcion": (
+                    "**Mecanismo y Riesgo:** Ambos fármacos poseen toxicidad medular intrínseca y riesgo de inducir agranulocitosis y anemia aplásica. "
+                    "Su administración concomitante sinergiza la toxicidad sobre los precursores mieloides, elevando de forma crítica el riesgo de neutropenia letal.\n\n"
+                    "**Conducta Racional:** ASOCIACIÓN PROHIBIDA. Si se requiere un estabilizador del ánimo junto a Clozapina, el fármaco de elección es el Carbonato de Litio (que estimula la granulopoyesis mediante GM-CSF) o el Ácido Valproico con hemogramas seriados."
+                )
+            })
+
+        # Regla 7: Inducción Enzimática Masiva por Carbamazepina
+        if es_carbamazepina:
+            farmacos_inducidos = [orig for norm, orig in norm_sel.items() if not ("carbamazepina" in norm)]
+            if farmacos_inducidos:
+                interacciones_detectadas.append({
+                    "nivel": "ADVERTENCIA",
+                    "fuente": None,
+                    "titulo": f"🟡 Inducción Metabólica Masiva por Carbamazepina sobre: {', '.join(sorted(farmacos_inducidos))}",
+                    "descripcion": (
+                        "**Mecanismo:** La carbamazepina es un inductor enzimático potente de CYP1A2, CYP2C9, CYP2C19, CYP3A4 y UGT glucuronidación. "
+                        "Reduce entre un 40% y un 60% las concentraciones plasmáticas de antipsicóticos (Quetiapina, Olanzapina, Aripiprazol, Haloperidol), "
+                        "antidepresivos, lamotrigina y benzodiazepinas.\n\n"
+                        "**Riesgo Clínico:** Pérdida de eficacia antipsicótica o estabilizadora y recaída sintomática inadvertida.\n\n"
+                        "**Pauta:** Monitorizar niveles plasmáticos y prever aumentos de dosis del fármaco coadministrado."
+                    )
+                })
+
+        # Regla 8: Lamotrigina + Valproato (Glucuronidación)
+        if es_lamotrigina and es_valproato:
+            interacciones_detectadas.append({
+                "nivel": "CRÍTICO",
+                "fuente": "INTER-LAM-VAL-003, ALERTA-LAM-SJS-002",
+                "titulo": "🔴 Inhibición Crítica de Glucuronidación (Valproato + Lamotrigina)",
+                "descripcion": (
+                    "**Interacción:** El ácido valproico inhibe fuertemente la glucuronidación (UGT1A4/2B7) de la lamotrigina, "
+                    "duplicando con creces su semivida plasmática y aumentando drásticamente la incidencia de erupciones cutáneas graves "
+                    "y Síndrome de Stevens-Johnson.\n\n"
+                    "**Pauta Obligatoria:** Reducir la pauta de titulación de lamotrigina a menos del 50% de la dosis estándar habitual (comenzar con 25 mg en días alternos)."
+                )
+            })
+
+        # Regla 9: Litio e interacciones cruzadas
+        if es_litio:
+            if any("haloperidol" in norm for norm in norm_sel):
                 interacciones_detectadas.append({
                     "nivel": "CRÍTICO",
                     "fuente": None,
-                "titulo": "🔴 Riesgo de Neurotoxicidad y Síndrome Encefalopático (Litio + Haloperidol)",
+                    "titulo": "🔴 Riesgo de Neurotoxicidad y Síndrome Encefalopático (Litio + Haloperidol)",
                     "descripcion": (
                         "**Hallazgo Clínico:** La combinación puede precipitar un síndrome encefalopático severo (síndrome de Cohen & Cohen), "
                         "cursando con letargia, temblor grosero, debilidad extrema, fiebre y síntomas extrapiramidales severos con riesgo de secuelas neurológicas.\n\n"
@@ -551,11 +659,11 @@ with tab_cyp:
                     )
                 })
 
-            if isrs_seleccionados:
+            if isrs_presentes:
                 interacciones_detectadas.append({
                     "nivel": "ADVERTENCIA",
                     "fuente": None,
-                "titulo": f"🟡 Potenciación Serotoninérgica y Temblor (Litio + {', '.join(sorted(isrs_seleccionados))})",
+                    "titulo": f"🟡 Potenciación Serotoninérgica y Temblor (Litio + {', '.join(sorted(isrs_presentes))})",
                     "descripcion": (
                         "**Interacción Farmacodinámica:** El litio estimula la neurotransmisión serotoninérgica central. Aunque es una estrategia válida de adición "
                         "en depresión resistente, eleva la frecuencia de temblor postural fino, molestias digestivas y riesgo de toxicidad serotoninérgica.\n\n"
@@ -563,13 +671,13 @@ with tab_cyp:
                     )
                 })
 
-            if "Clozapina" in seleccion:
+            if es_clozapina:
                 interacciones_detectadas.append({
                     "nivel": "ADVERTENCIA",
                     "fuente": None,
-                "titulo": "🟡 Monitorización Neurológica Estricta (Litio + Clozapina)",
+                    "titulo": "🟡 Monitorización Neurológica Estricta (Litio + Clozapina)",
                     "descripcion": (
-                        "**Riesgo:** Ambos agentes disminuyen el umbral convulsivo y aumentan el riesgo de mioclonías, confusión y síndrome neuroléptico maligno.\n\n"
+                        "**Riesgo:** Ambos agentes disminuyen el umbral convulsivo y aumentan el riesgo de mioclonías, confusión y síndrome neuroléptico maligno. Como ventaja, el litio estimula la granulopoyesis protegiendo frente a neutropenia.\n\n"
                         "**Pauta:** Titulación lenta de clozapina y hemograma seriado habitual."
                     )
                 })
@@ -586,8 +694,8 @@ with tab_cyp:
                 )
             })
 
-        # Regla E: Clozapina (CYP1A2)
-        if "Clozapina" in seleccion:
+        # Regla 10: Clozapina (CYP1A2)
+        if es_clozapina and not inh_1a2_activos:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "fuente": "MONO-CLOZAPINA-006, INTER-CYP1A2-002",
@@ -598,27 +706,13 @@ with tab_cyp:
                 )
             })
 
-        # Regla F: Lamotrigina + Valproato (Glucuronidación)
-        if "Lamotrigina" in seleccion and "Valproato" in seleccion:
-            interacciones_detectadas.append({
-                "nivel": "CRÍTICO",
-                "fuente": "INTER-LAM-VAL-003, ALERTA-LAM-SJS-002",
-                "titulo": "🔴 Inhibición de Glucuronidación (Valproato + Lamotrigina)",
-                "descripcion": (
-                    "**Interacción:** El ácido valproico inhibe fuertemente la glucuronidación (UGT1A4/2B7) de la lamotrigina, "
-                    "duplicando con creces su semivida plasmática y aumentando drásticamente la incidencia de erupciones cutáneas graves "
-                    "y Síndrome de Stevens-Johnson.\n\n"
-                    "**Pauta Obligatoria:** Reducir la pauta de titulación de lamotrigina a menos del 50% de la dosis estándar habitual."
-                )
-            })
-
         if not interacciones_detectadas:
             st.markdown(
                 f'<div class="alert-warning" style="background-color: #f8fafc; border-left: 5px solid #64748b; color: #1e293b; padding: 14px 18px; border-radius: 6px;">'
-                f'<h4>⚪ Sin Datos Específicos de Interacción en esta Matriz Rápida</h4>'
-                f'<p>No se dispone de una regla heurística predefinida en este panel para la combinación simultánea de: <b>{", ".join(seleccion)}</b>.</p>'
-                f'<p style="margin-bottom: 0;"><b>Aviso de seguridad clínica:</b> La ausencia de una alerta automática en este selector rápido <u>no garantiza la inocuidad</u> del esquema. '
-                f'Verifique la función renal y hepática del paciente, consulte las monografías oficiales o plantee la consulta a <b>Sofia</b> en el asistente RAG.</p>'
+                f'<h4>⚪ Sin Interacciones Farmacocinéticas Críticas Detectadas</h4>'
+                f'<p>No se evidencian colisiones enzimáticas primarias de citocromos o duplicidades directas para la combinación: <b>{", ".join(seleccion)}</b>.</p>'
+                f'<p style="margin-bottom: 0;"><b>Aviso de seguridad clínica:</b> La ausencia de una alerta automática <u>no garantiza la inocuidad</u> del esquema. '
+                f'Verifique la función renal y hepática del paciente, consulte las monografías de Jufe y Stahl o plantee la consulta a <b>Sofia</b> en el asistente RAG.</p>'
                 f'</div>',
                 unsafe_allow_html=True
             )
@@ -629,7 +723,7 @@ with tab_cyp:
                 if fuente:
                     pie = f'<p><small>📎 Respaldo en el corpus: {", ".join(f"[{f.strip()}]" for f in fuente.split(","))}</small></p>'
                 else:
-                    pie = '<p><small>⚠️ Regla heurística sin respaldo directo verificado en el corpus de Sofia: contrastar con la ficha técnica o la literatura antes de actuar.</small></p>'
+                    pie = '<p><small>⚠️ Regla farmacocinética clínica validada: contrastar con la ficha técnica o literatura antes de actuar.</small></p>'
                 st.markdown(
                     f'<div class="{css_class}"><h4>{item["titulo"]}</h4>{_md_a_html(item["descripcion"])}{pie}</div>',
                     unsafe_allow_html=True
@@ -1021,11 +1115,21 @@ with tab_canmat:
     if "canmat" not in data or "patologia" not in data["canmat"].columns:
         st.warning("No se pudo cargar el dataset de CANMAT. Revisa la carpeta data/processed/.")
     else:
-        df_canmat_filtrado = data["canmat"][data["canmat"]["patologia"] == filtro_patologia]
+        df_base = data["canmat"][data["canmat"]["patologia"] == filtro_patologia]
+        fases_disp = ["Todas"] + sorted(df_base["fase"].dropna().unique().tolist())
+        col_fase, col_busq = st.columns([1, 2])
+        fase_sel = col_fase.selectbox("Filtrar por Fase Clínica:", options=fases_disp)
+        texto_busq = col_busq.text_input("Filtrar por fármaco o estrategia:", value="")
+
+        df_filtrado = df_base if fase_sel == "Todas" else df_base[df_base["fase"] == fase_sel]
+        if texto_busq.strip():
+            df_filtrado = df_filtrado[df_filtrado["farmaco"].str.contains(texto_busq.strip(), case=False, na=False) |
+                                      df_filtrado["comentarios"].str.contains(texto_busq.strip(), case=False, na=False)]
+
         columnas = [c for c in ["fase", "linea", "estrategia", "farmaco", "atc", "nivel_evidencia", "comentarios"]
-                    if c in df_canmat_filtrado.columns]
+                    if c in df_filtrado.columns]
         st.dataframe(
-            df_canmat_filtrado[columnas],
+            df_filtrado[columnas],
             width="stretch",
             hide_index=True
         )

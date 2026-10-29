@@ -34,11 +34,11 @@ def test_todas_las_fichas_tienen_frontmatter_unificado():
 
 
 def test_kb_sincronizada_y_no_obsoleta():
-    """Verifica que rag_knowledge_base.json contenga los 59 documentos (27 pre-training + 22 CANMAT + 10 marcas) y no esté obsoleta."""
+    """Verifica que rag_knowledge_base.json contenga la base ampliada (>200 documentos) y no esté obsoleta."""
     from src.rag.engine import ClinicalRAGEngine
     rag = ClinicalRAGEngine()
     assert rag.kb_obsoleta is False, "rag_knowledge_base.json figura como obsoleta respecto a pre_training/"
-    assert len(rag.docs) == 59, f"Se esperaban 59 documentos en KB, encontrados {len(rag.docs)}"
+    assert len(rag.docs) >= 200, f"Se esperaban al menos 200 documentos en KB ampliada, encontrados {len(rag.docs)}"
 
 
 def test_clozapina_umbrales_aemps_y_fda():

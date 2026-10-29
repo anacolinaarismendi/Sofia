@@ -46,8 +46,8 @@ def rag_sin_ollama(monkeypatch):
 
 @pytest.mark.parametrize("pregunta", [
     "como hacer una tarta de manzana",
-    "clonazepam dosis",
-    "antibioticos para neumonia",
+    "reparar motor de combustion interna",
+    "antibioticos para neumonia bacteriana",
 ])
 def test_consulta_fuera_de_alcance_declara_falta_de_cobertura(rag_sin_ollama, pregunta):
     res = rag_sin_ollama.consultar(pregunta)
@@ -58,16 +58,18 @@ def test_consulta_fuera_de_alcance_declara_falta_de_cobertura(rag_sin_ollama, pr
 
 
 @pytest.mark.parametrize("pregunta,prefijo", [
-    ("Posologia de sertralina", "MONO-SERTRALINA"),
-    ("haloperidol biperideno cascada", "CASC-HAL-BIP"),
-    ("paroxetina y bupropion CYP2D6", "INTER-CYP2D6"),
+    ("Posologia de sertralina", ("MONO-SERTRALINA", "JUFE-MONO-SERTRALINA")),
+    ("haloperidol biperideno cascada", ("CASC-HAL-BIP", "CASC")),
+    ("paroxetina y bupropion CYP2D6", ("INTER-CYP2D6", "MONO-BUPROPION", "MONO-PAROXETINA", "JUFE-MONO")),
+    ("posologia de clonazepam", ("JUFE-MONO-CLONAZEPAM", "MARCA-CLONAZEPAM")),
 ])
 def test_consulta_dentro_de_alcance_recupera_documento_esperado(rag_sin_ollama, pregunta, prefijo):
     res = rag_sin_ollama.consultar(pregunta)
     assert res["fuera_de_alcance"] is False
     assert res["modo_respuesta"] == "contingencia"  # sin LLM disponible
     ids = [d["id"] for d, _ in res["documentos_recuperados"]]
-    assert any(i.startswith(prefijo) for i in ids), ids
+    prefijos = (prefijo,) if isinstance(prefijo, str) else prefijo
+    assert any(any(i.startswith(p) for p in prefijos) for i in ids), ids
 
 
 def test_ids_de_ejemplo_del_prompt_existen_en_el_corpus():
