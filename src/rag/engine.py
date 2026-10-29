@@ -708,17 +708,56 @@ class ClinicalRAGEngine:
         if not respuesta_texto and docs_recuperados:
             top_doc = docs_recuperados[0][0]
             top_id = top_doc.get("id", "DOC-001")
+
+            # Juicio clínico inmediato sintetizado a partir de los snippets recuperados
+            juicios = []
+            for d, sc in docs_recuperados[:3]:
+                if d.get("voice_snippet"):
+                    juicios.append(f"{d['voice_snippet']} [{d['id']}]")
+                elif d.get("titulo"):
+                    juicios.append(f"{d['titulo']} [{d['id']}].")
+            juicio_texto = " ".join(juicios) if juicios else f"{top_doc['titulo']} [{top_id}]."
+
+            # Pautas operativas y posología a partir de secciones documentales
+            pautas_operativas = []
+            alertas_seguridad = []
+            for d, _ in docs_recuperados[:3]:
+                cont = d.get("contenido", "")
+                doc_id = d.get("id", "")
+                for sec in cont.split("\n## "):
+                    sec_lower = sec.lower()
+                    if any(k in sec_lower for k in ["dosificación", "pauta", "posología", "monitorización", "directriz", "presentaciones"]):
+                        lineas_sec = [l.strip("- *>\t ") for l in sec.split("\n")[1:] if l.strip("- *>\t ")]
+                        if lineas_sec:
+                            pautas_operativas.append(f"[{doc_id}] {'. '.join(lineas_sec[:3])[:220]}.")
+                            break
+                    if any(k in sec_lower for k in ["alerta", "toxicidad", "contraindicación", "advertencia", "caja negra"]):
+                        lineas_sec = [l.strip("- *>\t ") for l in sec.split("\n")[1:] if l.strip("- *>\t ")]
+                        if lineas_sec:
+                            alertas_seguridad.append(f"[{doc_id}] {'. '.join(lineas_sec[:3])[:220]}.")
+                            break
+
             otros_ids = [f"[{d.get('id')}]" for d, _ in docs_recuperados[1:] if d.get('id')]
             citas_adicionales = f" y referencias complementarias en {', '.join(otros_ids)}" if otros_ids else ""
+
+            pauta_texto = (
+                " ".join(pautas_operativas) if pautas_operativas
+                else f"Seguir la dosificación, rango terapéutico y pauta de monitorización descritos en [{top_id}]."
+            )
+            alerta_texto = (
+                " ".join(alertas_seguridad) if alertas_seguridad
+                else f"Advertencias críticas y precauciones farmacovigiladas documentadas en [{top_id}]{citas_adicionales}."
+            )
+
             respuesta_texto = (
                 f"**1. Juicio Clínico Inmediato:**\n"
-                f"{voice_snippet or top_doc['titulo']} [{top_id}].\n\n"
+                f"{juicio_texto}\n\n"
                 f"**2. Mecanismo Farmacológico y Cinética:**\n"
-                f"Perfil farmacológico y enzimático validado en [{top_id}] (Código ATC: {top_doc.get('atc', 'N/D')}).\n\n"
+                f"Perfil farmacológico, enzimático y evidencia validada en [{top_id}] (Código ATC: {top_doc.get('atc', 'N/D')}).\n\n"
                 f"**3. Pauta Operativa y Recomendaciones:**\n"
-                f"Seguir la dosificación, rango terapéutico y pauta de monitorización descritos en [{top_id}].\n\n"
+                f"{pauta_texto}\n\n"
                 f"**4. Alertas de Seguridad y Trazabilidad Comercial:**\n"
-                f"Advertencias críticas y precauciones farmacovigiladas documentadas en [{top_id}]{citas_adicionales}."
+                f"{alerta_texto}"
             )
         lat_generacion = time.time() - t0_gen
 

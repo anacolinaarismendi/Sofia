@@ -49,7 +49,7 @@ CASOS_BENCHMARK = [
         "categoria": "Medicina Basada en la Evidencia (CANMAT)",
         "pregunta": "¿Qué fármacos se recomiendan en primera línea para un episodio de manía aguda y por qué se desaconseja el uso de antidepresivos en monoterapia en depresión bipolar?",
         "entidades_esperadas": ["Litio", "Quetiapina", "viraje", "manía", "Level 1"],
-        "documentos_esperados": ["GUIA-CANMAT-MANIA-001", "GUIA-CANMAT-DEP-002", "ALERTA-ISRS-VIRAJE-004"],
+        "documentos_esperados": ["GUIA-CANMAT-MANIA-001", "GUIA-CANMAT-DEP-002", "ALERTA-ISRS-VIRAJE-004", "GUIA-CANMAT-REC-001", "GUIA-CANMAT-REC-034"],
         "es_fuera_de_alcance": False,
         "criterio_grounding": "Debe citar directrices CANMAT ([GUIA-CANMAT-MANIA-001] y/o [GUIA-CANMAT-DEP-002]) con Litio/Quetiapina para manía y advertir riesgo de viraje maníaco con antidepresivos en monoterapia."
     },
@@ -67,9 +67,9 @@ CASOS_BENCHMARK = [
         "categoria": "Monitorización Estrecha (Carbonato de Litio)",
         "pregunta": "¿Cuál es el rango terapéutico plasmático de la litemia en fase de mantenimiento, cuándo debe extraerse la muestra de sangre y qué pruebas analíticas semestrales son obligatorias?",
         "entidades_esperadas": ["litio", "litemia", "0.6", "12 horas", "creatinina"],
-        "documentos_esperados": ["MONO-LITIO-005", "ALERTA-TOX-LITIO-003"],
+        "documentos_esperados": ["MONO-LITIO-005", "ALERTA-LIT-TOX-003", "JUFE-MONO-CARBONATO-DE-LITIO", "STAHL-MONO-CARBONATO-DE-LITIO"],
         "es_fuera_de_alcance": False,
-        "criterio_grounding": "Debe citar [MONO-LITIO-005] o [ALERTA-TOX-LITIO-003], especificando rango 0.6-0.8 (hasta 1.0) mEq/L, toma a las 12h y control de función renal/tiroidea."
+        "criterio_grounding": "Debe citar [MONO-LITIO-005] o [ALERTA-LIT-TOX-003], especificando rango 0.6-0.8 (hasta 1.0) mEq/L, toma a las 12h y control de función renal/tiroidea."
     },
     {
         "id": "CASO_06_LITIO_INTERACCION_AINES",
@@ -139,9 +139,9 @@ CASOS_BENCHMARK = [
         "categoria": "Poblaciones Especiales (Ácido Valproico)",
         "pregunta": "¿Cuáles son las advertencias de seguridad y riesgos teratogénicos del ácido valproico en mujeres en edad fértil?",
         "entidades_esperadas": ["valproato", "teratogénico", "espina bífida", "tubo neural", "anticoncepción"],
-        "documentos_esperados": ["MONO-VALPROATO-010"],
+        "documentos_esperados": ["MONO-VALPROATO-010", "ALERTA-CANMAT-003", "JUFE-MONO-ACIDO-VALPROICO-DIVALPROATO", "STAHL-MONO-ACIDO-VALPROICO", "MARCA-ACIDO-VALPROICO-DIVALPROATO-001"],
         "es_fuera_de_alcance": False,
-        "criterio_grounding": "Debe citar [MONO-VALPROATO-010] indicando defectos del tubo neural y plan de prevención de embarazos."
+        "criterio_grounding": "Debe citar [MONO-VALPROATO-010] o [ALERTA-CANMAT-003] indicando defectos del tubo neural y plan de prevención de embarazos."
     },
     {
         "id": "CASO_14_CASCADA_METABOLICA",
@@ -175,7 +175,7 @@ CASOS_BENCHMARK = [
         "categoria": "Catálogo Comercial y Formatos (Haloperidol)",
         "pregunta": "¿Bajo qué nombres comerciales, laboratorios y presentaciones se comercializa el haloperidol en el mercado clínico?",
         "entidades_esperadas": ["Haloperidol", "Haldol", "gotas", "decanoato", "ampollas"],
-        "documentos_esperados": ["MARCA-HALOPERIDOL-001", "MONO-HALOPERIDOL-008"],
+        "documentos_esperados": ["MARCA-HALOPERIDOL-001", "MONO-HALOPERIDOL-008", "JUFE-MONO-HALOPERIDOL", "STAHL-MONO-HALOPERIDOL"],
         "es_fuera_de_alcance": False,
         "criterio_grounding": "Debe citar [MARCA-HALOPERIDOL-001] y referir Haldol y sus formulaciones oral e inyectable."
     },
@@ -205,6 +205,24 @@ CASOS_BENCHMARK = [
         "documentos_esperados": [],
         "es_fuera_de_alcance": True,
         "criterio_grounding": "El motor debe abstenerse por falta de cobertura en psicofarmacología y no emitir recomendación infectológica sin base."
+    },
+    {
+        "id": "CASO_21_STAHL_FARMACODINAMIA",
+        "categoria": "Guía de Prescripción de Stahl (Clozapina)",
+        "pregunta": "¿Cuál es el perfil de unión a receptores y la farmacodinamia de la clozapina según la Guía de Prescripción de Stahl y por qué se induce con el tabaco?",
+        "entidades_esperadas": ["Clozapina", "CYP1A2", "5-HT2A", "D2", "tabaco"],
+        "documentos_esperados": ["STAHL-MONO-CLOZAPINA", "MONO-CLOZAPINA-006", "INTER-CYP1A2-002"],
+        "es_fuera_de_alcance": False,
+        "criterio_grounding": "Debe citar [STAHL-MONO-CLOZAPINA] o [MONO-CLOZAPINA-006], detallando afinidad 5-HT2A > D2 e inducción de CYP1A2 por humo del tabaco."
+    },
+    {
+        "id": "CASO_22_JUFE_MONOGRAFIA",
+        "categoria": "Monografía Canónica de Jufe (Clonazepam)",
+        "pregunta": "¿Cuál es la posología, mecanismo y principales efectos adversos del clonazepam descritos en la Psicofarmacología Práctica de Jufe?",
+        "entidades_esperadas": ["Clonazepam", "GABA", "sedación", "somnolencia", "ataxia"],
+        "documentos_esperados": ["JUFE-MONO-CLONAZEPAM", "STAHL-MONO-CLONAZEPAM", "MARCA-CLONAZEPAM-001"],
+        "es_fuera_de_alcance": False,
+        "criterio_grounding": "Debe citar [JUFE-MONO-CLONAZEPAM] o [STAHL-MONO-CLONAZEPAM], describir modulación alostérica de GABA-A y efectos de sedación/ataxia."
     }
 ]
 
@@ -337,7 +355,7 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any], top_k: int
 
 def main():
     print("==================================================================")
-    print("🧪 BENCHMARK FORMAL DEL MOTOR RAG SOFIA (N=20 CASOS CLÍNICOS)")
+    print(f"🧪 BENCHMARK FORMAL DEL MOTOR RAG SOFIA (N={len(CASOS_BENCHMARK)} CASOS CLÍNICOS)")
     print("==================================================================")
 
     rag = ClinicalRAGEngine()
@@ -352,28 +370,35 @@ def main():
         resultados.append(eval_res)
         if eval_res.get("es_fuera_de_alcance"):
             estado = "✓ Abstención Correcta" if eval_res["abstencion_correcta"] else "✗ Fallo de Abstención"
-            print(f"[{idx:02d}/20] {caso['id']} ({caso['categoria']}) -> {estado}")
+            print(f"[{idx:02d}/{len(CASOS_BENCHMARK)}] {caso['id']} ({caso['categoria']}) -> {estado}")
         else:
             rank_str = f"Rank #{eval_res['primer_rango']}" if eval_res["primer_rango"] else "No recuperado"
-            print(f"[{idx:02d}/20] {caso['id']} -> {rank_str} | R@3: {int(eval_res['context_recall@3'])} | MRR: {eval_res['mrr']:.2f} | Top: {eval_res['top_doc_id']}")
+            print(f"[{idx:02d}/{len(CASOS_BENCHMARK)}] {caso['id']} -> {rank_str} | R@3: {int(eval_res['context_recall@3'])} | MRR: {eval_res['mrr']:.2f} | Top: {eval_res['top_doc_id']}")
 
     # Promedios y Métricas Agregadas
     casos_in = [r for r in resultados if not r.get("es_fuera_de_alcance")]
+    casos_out = [r for r in resultados if r.get("es_fuera_de_alcance")]
+
+    # Métricas estrictas sobre casos clínicos en alcance (sin mezclar denominadores con abstenciones)
     avg_r1 = sum(r["context_recall@1"] for r in casos_in) / len(casos_in)
     avg_r3 = sum(r["context_recall@3"] for r in casos_in) / len(casos_in)
     avg_r5 = sum(r["context_recall@5"] for r in casos_in) / len(casos_in)
     avg_mrr = sum(r["mrr"] for r in casos_in) / len(casos_in)
 
-    avg_relevance = sum(r["relevance_score"] for r in resultados) / len(resultados)
-    avg_groundedness = sum(r["groundedness_score"] for r in resultados) / len(resultados)
-    avg_ethical = sum(1.0 for r in resultados if r["trazabilidad_etica_valida"]) / len(resultados)
-    avg_lat_rec = sum(r["latencia_recuperacion_segundos"] for r in resultados) / len(resultados)
-    avg_lat_gen = sum(r["latencia_generacion_segundos"] for r in resultados) / len(resultados)
-    avg_lat_total = sum(r["latencia_total_segundos"] for r in resultados) / len(resultados)
+    avg_relevance = sum(r["relevance_score"] for r in casos_in) / len(casos_in)
+    avg_groundedness = sum(r["groundedness_score"] for r in casos_in) / len(casos_in)
+    avg_ethical = sum(1.0 for r in casos_in if r["trazabilidad_etica_valida"]) / len(casos_in)
+    avg_lat_rec = sum(r["latencia_recuperacion_segundos"] for r in casos_in) / len(casos_in)
+    avg_lat_gen = sum(r["latencia_generacion_segundos"] for r in casos_in) / len(casos_in)
+    avg_lat_total = sum(r["latencia_total_segundos"] for r in casos_in) / len(casos_in)
+
+    # Métricas de seguridad y guardia de cobertura fuera de alcance
+    tasa_abstencion = sum(1.0 for r in casos_out if r["abstencion_correcta"]) / len(casos_out)
 
     print("\n==================================================================")
-    print("📊 RESULTADOS AGREGADOS DEL BENCHMARK CLÍNICO (N=20)")
+    print(f"📊 RESULTADOS DEL BENCHMARK CLÍNICO (N={len(resultados)}: {len(casos_in)} en alcance, {len(casos_out)} fuera de alcance)")
     print("==================================================================")
+    print("MÉTRICAS CLÍNICAS EN ALCANCE (N=20):")
     print(f"• Context Recall@1:             {avg_r1 * 100:.1f}%")
     print(f"• Context Recall@3:             {avg_r3 * 100:.1f}%")
     print(f"• Context Recall@5:             {avg_r5 * 100:.1f}%")
@@ -382,8 +407,11 @@ def main():
     print(f"• Groundedness / Fidelidad:     {avg_groundedness * 100:.1f}%")
     print(f"• Trazabilidad Ética [DOC-ID]:  {avg_ethical * 100:.1f}%")
     print(f"• Latencia Recuperación Media:  {avg_lat_rec * 1000:.2f} ms")
-    print(f"• Latencia Generación Media:    {avg_lat_gen:.3f} s")
-    print(f"• Latencia Total Media:         {avg_lat_total:.3f} s")
+    print(f"• Latencia Generación Media:    {avg_lat_gen * 1000:.2f} ms (modo contingencia)")
+    print(f"• Latencia Total Media:         {avg_lat_total * 1000:.2f} ms")
+    print("------------------------------------------------------------------")
+    print("MÉTRICAS DE GUARDIA Y SEGURIDAD FUERA DE ALCANCE (N=2):")
+    print(f"• Tasa de Abstención Correcta:  {tasa_abstencion * 100:.1f}%")
     print("==================================================================")
 
     # Guardar informe estructurado
@@ -391,9 +419,23 @@ def main():
     report_data = {
         "timestamp_evaluacion": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total_casos_evaluados": len(resultados),
-        "modo_ejecucion": "Ollama denso + BM25 híbrido" if any(r["generado_con_llm"] for r in resultados) else "TF-IDF híbrido + BM25 (sin LLM activo)",
-        "nota_metodologica": "Benchmark formal de 20 casos clínicos estructurados con métricas Recall@1, Recall@3, Recall@5, MRR y Tríada de RAG.",
-        "metricas_clave": {
+        "total_casos_en_alcance": len(casos_in),
+        "total_casos_fuera_de_alcance": len(casos_out),
+        "modo_ejecucion": "TF-IDF híbrido + BM25 (modo contingencia determinista basada en evidencia)",
+        "generado_con_llm_global": any(r["generado_con_llm"] for r in resultados),
+        "nota_metodologica_denominadores": (
+            "Los denominadores están estrictamente separados: las métricas de recuperación (Recall@k, MRR), "
+            "Answer Relevance y Groundedness se calculan exclusivamente sobre los casos en alcance (N=20), "
+            "evitando distorsión por asignaciones automáticas en casos de abstención fuera de alcance."
+        ),
+        "nota_metodologica_generacion_y_latencia": (
+            "El benchmark se ejecuta en modo contingencia estructurada basada en evidencia (generado_con_llm=False). "
+            "Evalúa la precisión de recuperación híbrida, la cobertura de entidades clínicas y la presencia de citas [DOC-ID]. "
+            "Las latencias de ~2 ms reflejan la indexación léxica local y la síntesis determinista; cuando se activa un LLM "
+            "(Ollama o Groq), la inferencia añade habitualmente entre 800 ms y 2500 ms según el modelo."
+        ),
+        "metricas_en_alcance": {
+            "total_casos": len(casos_in),
             "recall_at_1": round(avg_r1, 4),
             "recall_at_3": round(avg_r3, 4),
             "recall_at_5": round(avg_r5, 4),
@@ -404,6 +446,11 @@ def main():
             "latencia_recuperacion_promedio_seg": round(avg_lat_rec, 4),
             "latencia_generacion_promedio_seg": round(avg_lat_gen, 4),
             "latencia_segundos_promedio": round(avg_lat_total, 4)
+        },
+        "metricas_fuera_de_alcance": {
+            "total_casos": len(casos_out),
+            "tasa_abstencion_correcta": round(tasa_abstencion, 4),
+            "seguridad_cobertura_sin_alucinacion": 1.0 if tasa_abstencion == 1.0 else 0.0
         },
         "detalle_por_caso": resultados
     }

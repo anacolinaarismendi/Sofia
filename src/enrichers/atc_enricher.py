@@ -33,7 +33,9 @@ class ATCEnricher:
             "atc_nivel2": "Psicoanalépticos (N06)",
             "atc_nivel3": "Antidepresivos",
             "atc_nivel4": "Inhibidores selectivos de la recaptación de serotonina (ISRS)",
-            "marcas_comerciales": ["Zoloft", "Serlift", "Aremis", "Besitran", "Altruline", "Aserin"]
+            "marcas_comerciales": ["Zoloft", "Serlift", "Aremis", "Besitran", "Altruline", "Aserin"],
+            "laboratorios": ["Pfizer", "Roemmers", "Almirall", "Ranbaxy"],
+            "presentaciones": ["Comprimidos recubiertos ranurados (50 mg y 100 mg)", "Concentrado para solución oral (20 mg/ml)"]
         },
         "fluoxetina": {
             "nombre_oficial": "Fluoxetina",
@@ -127,7 +129,9 @@ class ATCEnricher:
             "atc_nivel2": "Psicoanalépticos (N06)",
             "atc_nivel3": "Otros antidepresivos",
             "atc_nivel4": "Inhibidor de recaptación de noradrenalina y dopamina (IRND)",
-            "marcas_comerciales": ["Wellbutrin", "Zyban", "Elontril", "Odranal"]
+            "marcas_comerciales": ["Wellbutrin", "Zyban", "Elontril", "Odranal"],
+            "laboratorios": ["GlaxoSmithKline (GSK)", "Laboratorios Almirall", "Valeant"],
+            "presentaciones": ["Comprimidos de liberación modificada / extendida (150 mg, 300 mg)", "Comprimidos de liberación prolongada Zyban 150 mg para deshabituación tabáquica"]
         },
         "bupropión": {
             "nombre_oficial": "Bupropión",
@@ -136,7 +140,9 @@ class ATCEnricher:
             "atc_nivel2": "Psicoanalépticos (N06)",
             "atc_nivel3": "Otros antidepresivos",
             "atc_nivel4": "Inhibidor de recaptación de noradrenalina y dopamina (IRND)",
-            "marcas_comerciales": ["Wellbutrin", "Zyban", "Elontril", "Odranal"]
+            "marcas_comerciales": ["Wellbutrin", "Zyban", "Elontril", "Odranal"],
+            "laboratorios": ["GlaxoSmithKline (GSK)", "Laboratorios Almirall", "Valeant"],
+            "presentaciones": ["Comprimidos de liberación modificada / extendida (150 mg, 300 mg)", "Comprimidos de liberación prolongada Zyban 150 mg para deshabituación tabáquica"]
         },
         "mirtazapina": {
             "nombre_oficial": "Mirtazapina",
@@ -367,7 +373,9 @@ class ATCEnricher:
             "atc_nivel2": "Psicolépticos (N05)",
             "atc_nivel3": "Antipsicóticos",
             "atc_nivel4": "Derivados de butirofenona (Típico / Primera generación)",
-            "marcas_comerciales": ["Haldol", "Halopidol", "Haldol Decanoato"]
+            "marcas_comerciales": ["Haldol", "Halopidol", "Haldol Decanoato", "Haloperidol Esteve", "Haloperidol Kern Pharma", "Haloperidol Prodes"],
+            "laboratorios": ["Janssen-Cilag", "Laboratorios Esteve", "Kern Pharma", "Prodesfarma"],
+            "presentaciones": ["Gotas orales en solución (2 mg/ml y 10 mg/ml)", "Comprimidos ranurados (0.5 mg, 2 mg, 10 mg)", "Ampollas inyectables (5 mg en 1 ml para vía IM/IV)", "Solución inyectable depot Haldol Decanoato (50 mg/ml y 100 mg/ml)"]
         },
         "clorpromazina": {
             "nombre_oficial": "Clorpromazina",
@@ -727,3 +735,14 @@ class ATCEnricher:
         df_out["atc_grupo"] = df_out[drug_column].apply(_obtener_grupo)
 
         return df_out
+
+    @classmethod
+    def get_canonical_catalog(cls) -> Dict[str, Dict[str, Any]]:
+        """Devuelve el catálogo consolidado sin duplicados por código ATC / nombre oficial."""
+        canonicos = {}
+        for k, v in cls.CATALOGO_ATC.items():
+            atc = v.get("atc_codigo")
+            if not atc or atc in canonicos:
+                continue
+            canonicos[atc] = v
+        return canonicos
