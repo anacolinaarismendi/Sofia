@@ -1,24 +1,25 @@
 {
-  "timestamp_evaluacion": "2026-10-29 14:25:02",
+  "timestamp_evaluacion": "2026-10-29 16:42:21",
   "total_casos_evaluados": 22,
   "total_casos_en_alcance": 20,
   "total_casos_fuera_de_alcance": 2,
-  "modo_ejecucion": "TF-IDF híbrido + BM25 (modo contingencia determinista basada en evidencia)",
-  "generado_con_llm_global": false,
+  "modo_ejecucion": "Ollama denso + BM25 con LLM qwen3.5:2b-mlx",
+  "generado_con_llm_global": true,
+  "modelo_evaluado": "qwen3.5:2b-mlx (Apple Silicon MLX runner)",
   "nota_metodologica_denominadores": "Los denominadores están estrictamente separados: las métricas de recuperación (Recall@k, MRR), Answer Relevance y Groundedness se calculan exclusivamente sobre los casos en alcance (N=20), evitando distorsión por asignaciones automáticas en casos de abstención fuera de alcance.",
-  "nota_metodologica_generacion_y_latencia": "El benchmark se ejecuta en modo contingencia estructurada basada en evidencia (generado_con_llm=False). Evalúa la precisión de recuperación híbrida, la cobertura de entidades clínicas y la presencia de citas [DOC-ID]. Las latencias de ~2 ms reflejan la indexación léxica local y la síntesis determinista; cuando se activa un LLM (Ollama o Groq), la inferencia añade habitualmente entre 800 ms y 2500 ms según el modelo.",
+  "nota_metodologica_generacion_y_latencia": "El benchmark se ejecuta con generación en tiempo real mediante qwen3.5:2b-mlx. Evalúa la exactitud farmacológica de las respuestas generadas por el LLM, la ausencia de alucinaciones en receptores y enzimas CYP, y el cumplimiento estricto del formato clínico en 4 secciones con citas [DOC-ID].",
   "metricas_en_alcance": {
     "total_casos": 20,
     "recall_at_1": 1.0,
     "recall_at_3": 1.0,
     "recall_at_5": 1.0,
     "mrr": 1.0,
-    "answer_relevance": 0.76,
-    "faithfulness_groundedness": 0.955,
-    "trazabilidad_etica_doc_id": 0.95,
-    "latencia_recuperacion_promedio_seg": 0.0016,
-    "latencia_generacion_promedio_seg": 0.0007,
-    "latencia_segundos_promedio": 0.0023
+    "answer_relevance": 0.93,
+    "faithfulness_groundedness": 1.0,
+    "trazabilidad_etica_doc_id": 1.0,
+    "latencia_recuperacion_promedio_seg": 0.0364,
+    "latencia_generacion_promedio_seg": 19.1007,
+    "latencia_segundos_promedio": 19.1372
   },
   "metricas_fuera_de_alcance": {
     "total_casos": 2,
@@ -31,12 +32,12 @@
       "categoria": "Monografía y Posología (Sertralina)",
       "pregunta": "¿Qué laboratorios comercializan la Sertralina, cuáles son sus marcas comerciales principales y cuál es su posología recomendada de inicio y mantenimiento?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0017,
-      "latencia_generacion_segundos": 0.001,
-      "latencia_total_segundos": 0.0027,
+      "latencia_recuperacion_segundos": 0.0492,
+      "latencia_generacion_segundos": 13.092,
+      "latencia_total_segundos": 13.1412,
       "top_documento": "Marcas Comerciales, Laboratorios y Presentaciones: Sertralina",
       "top_doc_id": "MARCA-SERTRALINA-001",
-      "top_score_similitud": 0.4612,
+      "top_score_similitud": 0.7922,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -55,36 +56,28 @@
       "citas_identificadores_halladas": [
         "[MARCA-SERTRALINA-001]",
         "[MONO-SERTRALINA-001]",
-        "[MARCA-FLUVOXAMINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-FLUVOXAMINA-001]",
-        "[MONO-SERTRALINA-001]"
+        "[JUFE-MONO-SERTRALINA]"
       ],
       "citas_validas_recuperadas": [
         "[MARCA-SERTRALINA-001]",
         "[MONO-SERTRALINA-001]",
-        "[MARCA-FLUVOXAMINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-FLUVOXAMINA-001]",
-        "[MONO-SERTRALINA-001]"
+        "[JUFE-MONO-SERTRALINA]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_02_INTERACCIONES_CYP450",
       "categoria": "Farmacocinética y Citocromos (CYP2D6)",
       "pregunta": "¿Qué interacciones farmacocinéticas y precauciones enzimáticas con el citocromo CYP2D6 se describen para Paroxetina y Bupropión?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0016,
-      "latencia_generacion_segundos": 0.0009,
-      "latencia_total_segundos": 0.0025,
+      "latencia_recuperacion_segundos": 0.0359,
+      "latencia_generacion_segundos": 17.171,
+      "latencia_total_segundos": 17.2069,
       "top_documento": "Bupropión",
       "top_doc_id": "MONO-BUPROPION-004",
-      "top_score_similitud": 0.5021,
+      "top_score_similitud": 0.8202,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -103,34 +96,28 @@
       "citas_identificadores_halladas": [
         "[MONO-BUPROPION-004]",
         "[MONO-PAROXETINA-003]",
-        "[INTER-CYP2D6-001]",
-        "[MONO-BUPROPION-004]",
-        "[MONO-BUPROPION-004]",
-        "[MONO-PAROXETINA-003]"
+        "[INTER-CYP2D6-001]"
       ],
       "citas_validas_recuperadas": [
         "[MONO-BUPROPION-004]",
         "[MONO-PAROXETINA-003]",
-        "[INTER-CYP2D6-001]",
-        "[MONO-BUPROPION-004]",
-        "[MONO-BUPROPION-004]",
-        "[MONO-PAROXETINA-003]"
+        "[INTER-CYP2D6-001]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_03_DIRECTRICES_CANMAT",
       "categoria": "Medicina Basada en la Evidencia (CANMAT)",
       "pregunta": "¿Qué fármacos se recomiendan en primera línea para un episodio de manía aguda y por qué se desaconseja el uso de antidepresivos en monoterapia en depresión bipolar?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.002,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0026,
+      "latencia_recuperacion_segundos": 0.0367,
+      "latencia_generacion_segundos": 16.6657,
+      "latencia_total_segundos": 16.7024,
       "top_documento": "Alerta de Práctica Clínica: Riesgo de Viraje Maníaco y Ciclación Rápida por Antidepresivos en Trastorno Bipolar",
       "top_doc_id": "ALERTA-ISRS-VIRAJE-004",
-      "top_score_similitud": 0.5281,
+      "top_score_similitud": 0.7565,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -148,44 +135,32 @@
       "citas_identificadores_halladas": [
         "[ALERTA-ISRS-VIRAJE-004]",
         "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-REC-032]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[GUIA-CANMAT-REC-032]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-REC-032]",
+        "[GUIA-CANMAT-DEP-002]",
         "[GUIA-CANMAT-REC-034]",
-        "[GUIA-CANMAT-DEP-002]"
+        "[GUIA-CANMAT-REC-034]"
       ],
       "citas_validas_recuperadas": [
         "[ALERTA-ISRS-VIRAJE-004]",
         "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-REC-032]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[GUIA-CANMAT-REC-032]",
-        "[ALERTA-ISRS-VIRAJE-004]",
-        "[GUIA-CANMAT-MANIA-001]",
-        "[GUIA-CANMAT-REC-032]",
+        "[GUIA-CANMAT-DEP-002]",
         "[GUIA-CANMAT-REC-034]",
-        "[GUIA-CANMAT-DEP-002]"
+        "[GUIA-CANMAT-REC-034]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_04_FARMACOVIGILANCIA_CASCADA",
       "categoria": "Farmacovigilancia y Cascadas de Prescripción (Haloperidol - Biperideno)",
       "pregunta": "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y se le prescribe medicación antiparkinsoniana como biperideno. ¿Cuál es el riesgo de cascada de prescripción y qué pauta de desprescripción se aconseja?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.002,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0027,
+      "latencia_recuperacion_segundos": 0.0381,
+      "latencia_generacion_segundos": 15.5073,
+      "latencia_total_segundos": 15.5453,
       "top_documento": "Haloperidol",
       "top_doc_id": "MONO-HALOPERIDOL-008",
-      "top_score_similitud": 0.5504,
+      "top_score_similitud": 0.8553,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -194,42 +169,37 @@
       "entidades_halladas": [
         "Haloperidol",
         "Biperideno",
-        "cascada"
+        "cascada",
+        "desprescripción"
       ],
-      "cobertura_entidades": "3/5",
-      "relevance_score": 0.6,
+      "cobertura_entidades": "4/5",
+      "relevance_score": 0.8,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[MONO-HALOPERIDOL-008]",
         "[CASC-HAL-BIP-001]",
-        "[CASC-PROT-003]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-HALOPERIDOL-008]",
         "[CASC-PROT-003]"
       ],
       "citas_validas_recuperadas": [
         "[MONO-HALOPERIDOL-008]",
         "[CASC-HAL-BIP-001]",
-        "[CASC-PROT-003]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-HALOPERIDOL-008]",
         "[CASC-PROT-003]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_05_LITIO_MONITORIZACION_Y_RANGOS",
       "categoria": "Monitorización Estrecha (Carbonato de Litio)",
       "pregunta": "¿Cuál es el rango terapéutico plasmático de la litemia en fase de mantenimiento, cuándo debe extraerse la muestra de sangre y qué pruebas analíticas semestrales son obligatorias?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0018,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0024,
+      "latencia_recuperacion_segundos": 0.0362,
+      "latencia_generacion_segundos": 18.4465,
+      "latencia_total_segundos": 18.4827,
       "top_documento": "Litio (Carbonato de Litio)",
       "top_doc_id": "MONO-LITIO-005",
-      "top_score_similitud": 0.4986,
+      "top_score_similitud": 0.7564,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -237,44 +207,35 @@
       "mrr": 1.0,
       "entidades_halladas": [
         "litio",
-        "litemia"
+        "litemia",
+        "0.6",
+        "12 horas",
+        "creatinina"
       ],
-      "cobertura_entidades": "2/5",
-      "relevance_score": 0.4,
-      "groundedness_score": 0.7,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
+      "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[MONO-LITIO-005]",
-        "[ALERTA-LIT-TOX-003]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[MONO-LITIO-005]",
-        "[ALERTA-LIT-TOX-003]"
+        "[MONO-LITIO-005]"
       ],
       "citas_validas_recuperadas": [
-        "[MONO-LITIO-005]",
-        "[ALERTA-LIT-TOX-003]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[MONO-LITIO-005]",
-        "[ALERTA-LIT-TOX-003]"
+        "[MONO-LITIO-005]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_06_LITIO_INTERACCION_AINES",
       "categoria": "Interacciones Críticas Renales (Litio y AINEs)",
       "pregunta": "¿Por qué están contraindicados el ibuprofeno y los diuréticos tiazídicos en pacientes que reciben litio y qué analgésico se recomienda para el dolor?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0015,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0022,
+      "latencia_recuperacion_segundos": 0.0359,
+      "latencia_generacion_segundos": 20.0159,
+      "latencia_total_segundos": 20.0518,
       "top_documento": "Interacciones Renales Críticas del Carbonato de Litio: AINEs, Tiazidas e Inhibidores del SRAA",
       "top_doc_id": "INTER-LIT-RENAL-004",
-      "top_score_similitud": 0.4899,
+      "top_score_similitud": 0.7943,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -284,44 +245,35 @@
         "litio",
         "ibuprofeno",
         "renal",
-        "intoxicación"
+        "intoxicación",
+        "paracetamol"
       ],
-      "cobertura_entidades": "4/5",
-      "relevance_score": 0.8,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[INTER-LIT-RENAL-004]",
         "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-DEP-002]",
-        "[INTER-LIT-RENAL-004]",
-        "[INTER-LIT-RENAL-004]",
-        "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-DEP-002]"
+        "[INTER-LIT-RENAL-004]"
       ],
       "citas_validas_recuperadas": [
-        "[INTER-LIT-RENAL-004]",
         "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-DEP-002]",
-        "[INTER-LIT-RENAL-004]",
-        "[INTER-LIT-RENAL-004]",
-        "[MONO-LITIO-005]",
-        "[GUIA-CANMAT-DEP-002]"
+        "[INTER-LIT-RENAL-004]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_07_CLOZAPINA_AGRANULOCITOSIS",
       "categoria": "Seguridad Hematológica (Clozapina)",
       "pregunta": "¿Cuál es el protocolo de recuento absoluto de neutrófilos (RAN) para clozapina y con qué umbral de neutrófilos debe interrumpirse inmediatamente el tratamiento?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0014,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0021,
+      "latencia_recuperacion_segundos": 0.0365,
+      "latencia_generacion_segundos": 16.7429,
+      "latencia_total_segundos": 16.7794,
       "top_documento": "Clozapina",
       "top_doc_id": "MONO-CLOZAPINA-006",
-      "top_score_similitud": 0.5137,
+      "top_score_similitud": 0.8484,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -340,32 +292,28 @@
       "citas_identificadores_halladas": [
         "[MONO-CLOZAPINA-006]",
         "[ALERTA-CLOZ-AGRAN-001]",
-        "[MONO-CLOZAPINA-006]",
-        "[MONO-CLOZAPINA-006]",
-        "[ALERTA-CLOZ-AGRAN-001]"
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "citas_validas_recuperadas": [
         "[MONO-CLOZAPINA-006]",
         "[ALERTA-CLOZ-AGRAN-001]",
-        "[MONO-CLOZAPINA-006]",
-        "[MONO-CLOZAPINA-006]",
-        "[ALERTA-CLOZ-AGRAN-001]"
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_08_CLOZAPINA_TABACO_CYP1A2",
       "categoria": "Farmacocinética y Tabaco (CYP1A2)",
       "pregunta": "Un paciente estabilizado con clozapina ingresa en un hospital y deja de fumar abruptamente. ¿Qué ocurre con sus niveles plasmáticos y qué citocromo está involucrado?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0018,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0025,
+      "latencia_recuperacion_segundos": 0.0361,
+      "latencia_generacion_segundos": 18.6891,
+      "latencia_total_segundos": 18.7252,
       "top_documento": "Clozapina",
       "top_doc_id": "MONO-CLOZAPINA-006",
-      "top_score_similitud": 0.5294,
+      "top_score_similitud": 0.7871,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -375,44 +323,37 @@
         "clozapina",
         "CYP1A2",
         "tabaco",
-        "humo"
+        "humo",
+        "reducir"
       ],
-      "cobertura_entidades": "4/5",
-      "relevance_score": 0.8,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[MONO-CLOZAPINA-006]",
         "[INTER-CYP1A2-002]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-CLOZAPINA-006]",
-        "[INTER-CYP1A2-002]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-CLOZAPINA-006]"
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "citas_validas_recuperadas": [
         "[MONO-CLOZAPINA-006]",
         "[INTER-CYP1A2-002]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-CLOZAPINA-006]",
-        "[INTER-CYP1A2-002]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-CLOZAPINA-006]"
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_09_LAMOTRIGINA_VALPROATO",
       "categoria": "Interacción Enzimática Crítica (Lamotrigina y Valproato)",
       "pregunta": "¿Qué ocurre al coadministrar lamotrigina con ácido valproico y cómo debe ajustarse la dosis inicial de lamotrigina?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0013,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0019,
+      "latencia_recuperacion_segundos": 0.0383,
+      "latencia_generacion_segundos": 17.586,
+      "latencia_total_segundos": 17.6244,
       "top_documento": "Interacción Farmacocinética Sinérgica: Lamotrigina y Ácido Valproico (Glucuronidación UGT1A4)",
       "top_doc_id": "INTER-LAM-VAL-003",
-      "top_score_similitud": 0.5704,
+      "top_score_similitud": 0.8005,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -422,40 +363,33 @@
         "lamotrigina",
         "valproato",
         "Stevens-Johnson",
+        "reducir",
         "UGT1A4"
       ],
-      "cobertura_entidades": "4/5",
-      "relevance_score": 0.8,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[INTER-LAM-VAL-003]",
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-LAMOTRIGINA-009]"
+        "[INTER-LAM-VAL-003]"
       ],
       "citas_validas_recuperadas": [
-        "[INTER-LAM-VAL-003]",
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-LAMOTRIGINA-009]"
+        "[INTER-LAM-VAL-003]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_10_LAMOTRIGINA_TITULACION",
       "categoria": "Seguridad Cutánea (Titulación de Lamotrigina)",
       "pregunta": "¿Cuál es el cronograma de escalado de dosis de lamotrigina en monoterapia y qué debe hacerse si el paciente interrumpe el tratamiento más de 5 días?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0018,
-      "latencia_generacion_segundos": 0.0008,
-      "latencia_total_segundos": 0.0025,
+      "latencia_recuperacion_segundos": 0.037,
+      "latencia_generacion_segundos": 18.089,
+      "latencia_total_segundos": 18.1261,
       "top_documento": "Lamotrigina",
       "top_doc_id": "MONO-LAMOTRIGINA-009",
-      "top_score_similitud": 0.4586,
+      "top_score_similitud": 0.7891,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -463,45 +397,34 @@
       "mrr": 1.0,
       "entidades_halladas": [
         "lamotrigina",
+        "25",
         "titulación",
         "Stevens-Johnson"
       ],
-      "cobertura_entidades": "3/5",
-      "relevance_score": 0.6,
+      "cobertura_entidades": "4/5",
+      "relevance_score": 0.8,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-HALOPERIDOL-008]",
         "[MONO-LAMOTRIGINA-009]"
       ],
       "citas_validas_recuperadas": [
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-LAMOTRIGINA-009]",
-        "[INTER-LAM-VAL-003]",
-        "[MONO-HALOPERIDOL-008]",
         "[MONO-LAMOTRIGINA-009]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_11_FLUOXETINA_VIDA_MEDIA_LAVADO",
       "categoria": "Farmacocinética y Lavado (Fluoxetina)",
       "pregunta": "¿Cuál es la vida media de la norfluoxetina y cuánto tiempo de lavado debe esperarse antes de introducir un IMAO?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0015,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0022,
+      "latencia_recuperacion_segundos": 0.0364,
+      "latencia_generacion_segundos": 15.496,
+      "latencia_total_segundos": 15.5324,
       "top_documento": "Fluoxetina",
       "top_doc_id": "MONO-FLUOXETINA-002",
-      "top_score_similitud": 0.4834,
+      "top_score_similitud": 0.751,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -510,40 +433,34 @@
       "entidades_halladas": [
         "fluoxetina",
         "norfluoxetina",
-        "semanas"
+        "semanas",
+        "IMAO",
+        "serotoninérgico"
       ],
-      "cobertura_entidades": "3/5",
-      "relevance_score": 0.6,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[MONO-FLUOXETINA-002]",
-        "[GUIA-CANMAT-REC-050]",
-        "[MONO-FLUOXETINA-002]",
-        "[GUIA-CANMAT-REC-050]",
         "[MONO-FLUOXETINA-002]"
       ],
       "citas_validas_recuperadas": [
-        "[MONO-FLUOXETINA-002]",
-        "[GUIA-CANMAT-REC-050]",
-        "[MONO-FLUOXETINA-002]",
-        "[GUIA-CANMAT-REC-050]",
         "[MONO-FLUOXETINA-002]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_12_RISPERIDONA_HIPERPROLACTINEMIA",
       "categoria": "Neuroendocrinología (Risperidona)",
       "pregunta": "¿Por qué la risperidona provoca hiperprolactinemia y galactorrea con mayor frecuencia que otros antipsicóticos atípicos?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0013,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0019,
+      "latencia_recuperacion_segundos": 0.0363,
+      "latencia_generacion_segundos": 17.9511,
+      "latencia_total_segundos": 17.9875,
       "top_documento": "Risperidona",
       "top_doc_id": "MONO-RISPERIDONA-007",
-      "top_score_similitud": 0.437,
+      "top_score_similitud": 0.7958,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -560,33 +477,27 @@
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[MONO-RISPERIDONA-007]",
-        "[CASC-METAB-002]",
-        "[MONO-RISPERIDONA-007]",
-        "[CASC-METAB-002]",
-        "[MONO-RISPERIDONA-007]"
+        "[JUFE-MONO-RISPERIDONA]"
       ],
       "citas_validas_recuperadas": [
         "[MONO-RISPERIDONA-007]",
-        "[CASC-METAB-002]",
-        "[MONO-RISPERIDONA-007]",
-        "[CASC-METAB-002]",
-        "[MONO-RISPERIDONA-007]"
+        "[JUFE-MONO-RISPERIDONA]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_13_VALPROATO_TERATOGENICIDAD",
       "categoria": "Poblaciones Especiales (Ácido Valproico)",
       "pregunta": "¿Cuáles son las advertencias de seguridad y riesgos teratogénicos del ácido valproico en mujeres en edad fértil?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0013,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0019,
+      "latencia_recuperacion_segundos": 0.0374,
+      "latencia_generacion_segundos": 20.107,
+      "latencia_total_segundos": 20.1444,
       "top_documento": "Alerta Clínica: Ácido Valproico en Mujeres en Edad Fértil",
       "top_doc_id": "ALERTA-CANMAT-003",
-      "top_score_similitud": 0.6405,
+      "top_score_similitud": 0.7792,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -594,42 +505,38 @@
       "mrr": 1.0,
       "entidades_halladas": [
         "valproato",
-        "espina bífida"
+        "teratogénico",
+        "espina bífida",
+        "anticoncepción"
       ],
-      "cobertura_entidades": "2/5",
-      "relevance_score": 0.4,
-      "groundedness_score": 0.7,
+      "cobertura_entidades": "4/5",
+      "relevance_score": 0.8,
+      "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[ALERTA-CANMAT-003]",
         "[MONO-VALPROATO-010]",
-        "[ALERTA-CANMAT-003]",
-        "[ALERTA-CANMAT-003]",
-        "[ALERTA-CANMAT-003]",
-        "[MONO-VALPROATO-010]"
+        "[STAHL-MONO-ACIDO-VALPROICO]"
       ],
       "citas_validas_recuperadas": [
         "[ALERTA-CANMAT-003]",
         "[MONO-VALPROATO-010]",
-        "[ALERTA-CANMAT-003]",
-        "[ALERTA-CANMAT-003]",
-        "[ALERTA-CANMAT-003]",
-        "[MONO-VALPROATO-010]"
+        "[STAHL-MONO-ACIDO-VALPROICO]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_14_CASCADA_METABOLICA",
       "categoria": "Farmacovigilancia (Cascada Metabólica)",
       "pregunta": "¿Qué cascada de prescripción ocurre frecuentemente tras iniciar antipsicóticos atípicos con alta ganancia de peso como olanzapina o clozapina?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0014,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0021,
+      "latencia_recuperacion_segundos": 0.0374,
+      "latencia_generacion_segundos": 19.8196,
+      "latencia_total_segundos": 19.8569,
       "top_documento": "Cascada Metabólica por Antipsicóticos Atípicos: De Olanzapina/Clozapina a Polifarmacia Cardiometabólica",
       "top_doc_id": "CASC-METAB-002",
-      "top_score_similitud": 0.5316,
+      "top_score_similitud": 0.8165,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -646,37 +553,29 @@
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[CASC-METAB-002]",
-        "[MONO-HALOPERIDOL-008]",
         "[CASC-PROT-003]",
-        "[CASC-METAB-002]",
-        "[CASC-METAB-002]",
-        "[MONO-HALOPERIDOL-008]",
-        "[CASC-PROT-003]"
+        "[ALERTA-ISRS-VIRAJE-004]"
       ],
       "citas_validas_recuperadas": [
         "[CASC-METAB-002]",
-        "[MONO-HALOPERIDOL-008]",
         "[CASC-PROT-003]",
-        "[CASC-METAB-002]",
-        "[CASC-METAB-002]",
-        "[MONO-HALOPERIDOL-008]",
-        "[CASC-PROT-003]"
+        "[ALERTA-ISRS-VIRAJE-004]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_15_CANMAT_TDM_RESISTENCIA",
       "categoria": "Medicina Basada en Evidencia (Depresión Resistente)",
       "pregunta": "Según las directrices CANMAT, ¿cuándo se aconseja potenciar un antidepresivo y qué agentes de primera línea se utilizan como add-on en TDM resistente?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0021,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0027,
+      "latencia_recuperacion_segundos": 0.0394,
+      "latencia_generacion_segundos": 39.8764,
+      "latencia_total_segundos": 39.9158,
       "top_documento": "Canmat Tdm Resistencia Y Potenciacion",
       "top_doc_id": "GUIA-CANMAT-TDM-RESIST-005",
-      "top_score_similitud": 0.4849,
+      "top_score_similitud": 0.8176,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -686,52 +585,36 @@
         "CANMAT",
         "potenciación",
         "litio",
-        "Level 1"
+        "atípico"
       ],
       "cobertura_entidades": "4/5",
       "relevance_score": 0.8,
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
-        "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
-        "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
         "[GUIA-CANMAT-REC-064]",
-        "[GUIA-CANMAT-REC-063]"
+        "[GUIA-CANMAT-REC-065]"
       ],
       "citas_validas_recuperadas": [
         "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
-        "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
-        "[GUIA-CANMAT-TDM-RESIST-005]",
-        "[GUIA-CANMAT-REC-062]",
-        "[GUIA-CANMAT-REC-065]",
         "[GUIA-CANMAT-REC-064]",
-        "[GUIA-CANMAT-REC-063]"
+        "[GUIA-CANMAT-REC-065]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_16_CANMAT_MANTENIMIENTO_BIPOLAR",
       "categoria": "Medicina Basada en Evidencia (Mantenimiento Bipolar)",
       "pregunta": "¿Qué fármacos se sitúan en primera línea de mantenimiento según CANMAT 2018 y cuál es la polaridad de prevención del litio versus lamotrigina?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0019,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0025,
+      "latencia_recuperacion_segundos": 0.0354,
+      "latencia_generacion_segundos": 19.3356,
+      "latencia_total_segundos": 19.3711,
       "top_documento": "Canmat Bipolar Mantenimiento",
       "top_doc_id": "GUIA-CANMAT-MANT-003",
-      "top_score_similitud": 0.5007,
+      "top_score_similitud": 0.7986,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -749,47 +632,27 @@
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-REC-038]",
-        "[GUIA-CANMAT-REC-027]"
+        "[GUIA-CANMAT-REC-039]"
       ],
       "citas_validas_recuperadas": [
         "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-MANT-003]",
-        "[GUIA-CANMAT-REC-039]",
-        "[GUIA-CANMAT-REC-024]",
-        "[GUIA-CANMAT-REC-038]",
-        "[GUIA-CANMAT-REC-027]"
+        "[GUIA-CANMAT-REC-039]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_17_MARCAS_HALOPERIDOL",
       "categoria": "Catálogo Comercial y Formatos (Haloperidol)",
       "pregunta": "¿Bajo qué nombres comerciales, laboratorios y presentaciones se comercializa el haloperidol en el mercado clínico?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0013,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.002,
+      "latencia_recuperacion_segundos": 0.0339,
+      "latencia_generacion_segundos": 19.2948,
+      "latencia_total_segundos": 19.3288,
       "top_documento": "Marcas Comerciales, Laboratorios y Presentaciones: Haloperidol",
       "top_doc_id": "MARCA-HALOPERIDOL-001",
-      "top_score_similitud": 0.464,
+      "top_score_similitud": 0.8248,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -807,45 +670,29 @@
       "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
         "[MARCA-HALOPERIDOL-001]",
-        "[CASC-HAL-BIP-001]",
         "[MONO-HALOPERIDOL-008]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[CASC-HAL-BIP-001]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-RISPERIDONA-007]",
-        "[MARCA-OLANZAPINA-001]"
+        "[CASC-HAL-BIP-001]"
       ],
       "citas_validas_recuperadas": [
         "[MARCA-HALOPERIDOL-001]",
-        "[CASC-HAL-BIP-001]",
         "[MONO-HALOPERIDOL-008]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MARCA-HALOPERIDOL-001]",
-        "[CASC-HAL-BIP-001]",
-        "[MONO-HALOPERIDOL-008]",
-        "[MONO-RISPERIDONA-007]",
-        "[MARCA-OLANZAPINA-001]"
+        "[CASC-HAL-BIP-001]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_18_MARCAS_BUPROPION",
       "categoria": "Catálogo Comercial y Formatos (Bupropión)",
       "pregunta": "¿Cuáles son las marcas comerciales y laboratorios de referencia para el bupropión en depresión mayor y cesación tabáquica?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0013,
-      "latencia_generacion_segundos": 0.0006,
-      "latencia_total_segundos": 0.0019,
+      "latencia_recuperacion_segundos": 0.0364,
+      "latencia_generacion_segundos": 19.4385,
+      "latencia_total_segundos": 19.4748,
       "top_documento": "Marcas Comerciales, Laboratorios y Presentaciones: Bupropión",
       "top_doc_id": "MARCA-BUPROPION-001",
-      "top_score_similitud": 0.4778,
+      "top_score_similitud": 0.8,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -864,34 +711,16 @@
       "citas_identificadores_halladas": [
         "[MARCA-BUPROPION-001]",
         "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-DESVENLAFAXINA-001]"
+        "[GUIA-CANMAT-TDM-AGUDA-004]"
       ],
       "citas_validas_recuperadas": [
         "[MARCA-BUPROPION-001]",
         "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-BUPROPION-001]",
-        "[MONO-BUPROPION-004]",
-        "[MARCA-ATOMOXETINA-001]",
-        "[MARCA-SERTRALINA-001]",
-        "[MARCA-DESVENLAFAXINA-001]"
+        "[GUIA-CANMAT-TDM-AGUDA-004]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_19_FUERA_DE_ALCANCE_GASTRONOMIA",
@@ -908,9 +737,9 @@
       "top_doc_id": "Ninguno (Abstención Segura)",
       "top_documento": "Sin cobertura",
       "top_score_similitud": 0.0,
-      "latencia_recuperacion_segundos": 0.0011,
+      "latencia_recuperacion_segundos": 0.034,
       "latencia_generacion_segundos": 0.0,
-      "latencia_total_segundos": 0.0011,
+      "latencia_total_segundos": 0.034,
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
       "generado_con_llm": false
@@ -930,9 +759,9 @@
       "top_doc_id": "Ninguno (Abstención Segura)",
       "top_documento": "Sin cobertura",
       "top_score_similitud": 0.0,
-      "latencia_recuperacion_segundos": 0.0012,
+      "latencia_recuperacion_segundos": 0.017,
       "latencia_generacion_segundos": 0.0,
-      "latencia_total_segundos": 0.0012,
+      "latencia_total_segundos": 0.017,
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
       "generado_con_llm": false
@@ -942,12 +771,12 @@
       "categoria": "Guía de Prescripción de Stahl (Clozapina)",
       "pregunta": "¿Cuál es el perfil de unión a receptores y la farmacodinamia de la clozapina según la Guía de Prescripción de Stahl y por qué se induce con el tabaco?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0019,
-      "latencia_generacion_segundos": 0.0008,
-      "latencia_total_segundos": 0.0026,
+      "latencia_recuperacion_segundos": 0.0189,
+      "latencia_generacion_segundos": 19.6863,
+      "latencia_total_segundos": 19.7052,
       "top_documento": "Guía de Prescripción de Stahl: Clozapina",
       "top_doc_id": "STAHL-MONO-CLOZAPINA",
-      "top_score_similitud": 0.5981,
+      "top_score_similitud": 0.7917,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -955,29 +784,39 @@
       "mrr": 1.0,
       "entidades_halladas": [
         "Clozapina",
+        "CYP1A2",
         "5-HT2A",
-        "D2"
+        "D2",
+        "tabaco"
       ],
-      "cobertura_entidades": "3/5",
-      "relevance_score": 0.6,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
       "groundedness_score": 1.0,
-      "citas_identificadores_halladas": [],
-      "citas_validas_recuperadas": [],
-      "trazabilidad_etica_valida": false,
+      "citas_identificadores_halladas": [
+        "[STAHL-MONO-CLOZAPINA]",
+        "[MONO-CLOZAPINA-006]",
+        "[INTER-CYP1A2-002]"
+      ],
+      "citas_validas_recuperadas": [
+        "[STAHL-MONO-CLOZAPINA]",
+        "[MONO-CLOZAPINA-006]",
+        "[INTER-CYP1A2-002]"
+      ],
+      "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     },
     {
       "caso_id": "CASO_22_JUFE_MONOGRAFIA",
       "categoria": "Monografía Canónica de Jufe (Clonazepam)",
       "pregunta": "¿Cuál es la posología, mecanismo y principales efectos adversos del clonazepam descritos en la Psicofarmacología Práctica de Jufe?",
       "es_fuera_de_alcance": false,
-      "latencia_recuperacion_segundos": 0.0015,
-      "latencia_generacion_segundos": 0.0007,
-      "latencia_total_segundos": 0.0022,
+      "latencia_recuperacion_segundos": 0.0374,
+      "latencia_generacion_segundos": 19.0042,
+      "latencia_total_segundos": 19.0416,
       "top_documento": "Monografía Jufe: Clonazepam",
       "top_doc_id": "JUFE-MONO-CLONAZEPAM",
-      "top_score_similitud": 0.4653,
+      "top_score_similitud": 0.8064,
       "primer_rango": 1,
       "context_recall@1": 1.0,
       "context_recall@3": 1.0,
@@ -985,22 +824,27 @@
       "mrr": 1.0,
       "entidades_halladas": [
         "Clonazepam",
-        "GABA"
+        "GABA",
+        "sedación",
+        "somnolencia",
+        "ataxia"
       ],
-      "cobertura_entidades": "2/5",
-      "relevance_score": 0.4,
-      "groundedness_score": 0.7,
+      "cobertura_entidades": "5/5",
+      "relevance_score": 1.0,
+      "groundedness_score": 1.0,
       "citas_identificadores_halladas": [
-        "[INTER-MATRIZ-CYP-005]",
-        "[INTER-MATRIZ-CYP-005]"
+        "[JUFE-MONO-CLONAZEPAM]",
+        "[STAHL-MONO-CLONAZEPAM]",
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "citas_validas_recuperadas": [
-        "[INTER-MATRIZ-CYP-005]",
-        "[INTER-MATRIZ-CYP-005]"
+        "[JUFE-MONO-CLONAZEPAM]",
+        "[STAHL-MONO-CLONAZEPAM]",
+        "[JUFE-MONO-CLOZAPINA]"
       ],
       "trazabilidad_etica_valida": true,
       "voice_snippet_valido": true,
-      "generado_con_llm": false
+      "generado_con_llm": true
     }
   ]
 }

@@ -307,7 +307,7 @@ def evaluar_caso(rag_engine: ClinicalRAGEngine, caso: Dict[str, Any], top_k: int
     citas_brutas = re.findall(r"\[([A-ZÁÉÍÓÚÑ0-9_\-]+)\]", respuesta)
     citas_doc_id = [
         c for c in citas_brutas
-        if any(c.startswith(p) for p in ["MONO-", "INTER-", "CASC-", "GUIA-", "ALERTA-", "MARCA-"])
+        if any(c.startswith(p) for p in ["MONO-", "INTER-", "CASC-", "GUIA-", "ALERTA-", "MARCA-", "STAHL-", "JUFE-", "CYP-", "CANMAT-"])
     ]
     ids_recuperados_set = set(ids_recuperados)
     citas_validas = [c for c in citas_doc_id if c.upper() in ids_recuperados_set]
@@ -407,7 +407,7 @@ def main():
     print(f"• Groundedness / Fidelidad:     {avg_groundedness * 100:.1f}%")
     print(f"• Trazabilidad Ética [DOC-ID]:  {avg_ethical * 100:.1f}%")
     print(f"• Latencia Recuperación Media:  {avg_lat_rec * 1000:.2f} ms")
-    print(f"• Latencia Generación Media:    {avg_lat_gen * 1000:.2f} ms (modo contingencia)")
+    print(f"• Latencia Generación Media:    {avg_lat_gen * 1000:.2f} ms ({'Ollama qwen3.5:2b-mlx' if any(r.get('generado_con_llm') for r in casos_in) else 'modo contingencia'})")
     print(f"• Latencia Total Media:         {avg_lat_total * 1000:.2f} ms")
     print("------------------------------------------------------------------")
     print("MÉTRICAS DE GUARDIA Y SEGURIDAD FUERA DE ALCANCE (N=2):")
@@ -416,23 +416,24 @@ def main():
 
     # Guardar informe estructurado
     out_report = WORKSPACE_ROOT / "data" / "processed" / "rag_evaluation_report.json"
+    usa_llm = any(r.get("generado_con_llm") for r in resultados)
     report_data = {
         "timestamp_evaluacion": time.strftime("%Y-%m-%d %H:%M:%S"),
         "total_casos_evaluados": len(resultados),
         "total_casos_en_alcance": len(casos_in),
         "total_casos_fuera_de_alcance": len(casos_out),
-        "modo_ejecucion": "TF-IDF híbrido + BM25 (modo contingencia determinista basada en evidencia)",
-        "generado_con_llm_global": any(r["generado_con_llm"] for r in resultados),
+        "modo_ejecucion": "Ollama denso + BM25 con LLM qwen3.5:2b-mlx" if usa_llm else "TF-IDF híbrido + BM25 (modo contingencia determinista)",
+        "generado_con_llm_global": usa_llm,
+        "modelo_evaluado": "qwen3.5:2b-mlx (Apple Silicon MLX runner)" if usa_llm else "Ninguno (modo contingencia)",
         "nota_metodologica_denominadores": (
             "Los denominadores están estrictamente separados: las métricas de recuperación (Recall@k, MRR), "
             "Answer Relevance y Groundedness se calculan exclusivamente sobre los casos en alcance (N=20), "
             "evitando distorsión por asignaciones automáticas en casos de abstención fuera de alcance."
         ),
         "nota_metodologica_generacion_y_latencia": (
-            "El benchmark se ejecuta en modo contingencia estructurada basada en evidencia (generado_con_llm=False). "
-            "Evalúa la precisión de recuperación híbrida, la cobertura de entidades clínicas y la presencia de citas [DOC-ID]. "
-            "Las latencias de ~2 ms reflejan la indexación léxica local y la síntesis determinista; cuando se activa un LLM "
-            "(Ollama o Groq), la inferencia añade habitualmente entre 800 ms y 2500 ms según el modelo."
+            f"El benchmark se ejecuta con generación en tiempo real mediante {report_data_model if 'report_data_model' in locals() else ('qwen3.5:2b-mlx' if usa_llm else 'modo contingencia')}. "
+            "Evalúa la exactitud farmacológica de las respuestas generadas por el LLM, la ausencia de alucinaciones en "
+            "receptores y enzimas CYP, y el cumplimiento estricto del formato clínico en 4 secciones con citas [DOC-ID]."
         ),
         "metricas_en_alcance": {
             "total_casos": len(casos_in),

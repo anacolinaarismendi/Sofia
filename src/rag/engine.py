@@ -64,7 +64,7 @@ SPANISH_STOPWORDS = [
 MIN_SCORE_TFIDF = 0.12
 
 # Una respuesta cortada por num_predict se detecta con done_reason == "length".
-NUM_PREDICT = 1200
+NUM_PREDICT = 700
 
 MENSAJE_SIN_COBERTURA = (
     "**Sin cobertura en el corpus clínico de Sofia.**\n\n"
@@ -514,36 +514,34 @@ class ClinicalRAGEngine:
         docs_recuperados = self.vector_store.buscar(pregunta, top_k=top_k)
         lat_recuperacion = time.time() - t0_ret
 
-        # Guardia de cobertura: con recuperación léxica (TF-IDF/BM25)
-        # Evaluamos la similitud documental para garantizar que el corpus contiene
-        # vocabulario clínico relevante para la consulta antes de proceder.
-        if self.vector_store.modo_indice != "ollama":
-            top_score_cobertura = 0.0
-            if (
-                self.vector_store.vectorizer_doc is not None
-                and self.vector_store.tfidf_matrix_doc is not None
-                and cosine_similarity is not None
-            ):
-                q_vec_doc = self.vector_store.vectorizer_doc.transform([pregunta])
-                sims_doc = cosine_similarity(q_vec_doc, self.vector_store.tfidf_matrix_doc)[0]
-                top_score_cobertura = float(sims_doc.max()) if sims_doc.size > 0 else 0.0
-            elif docs_recuperados:
-                top_score_cobertura = docs_recuperados[0][1]
+        # Guardia de cobertura: evaluamos la similitud léxica/documental con el corpus
+        # para garantizar que la consulta pertenece al dominio de psicofarmacología antes de proceder.
+        top_score_cobertura = 0.0
+        if (
+            self.vector_store.vectorizer_doc is not None
+            and self.vector_store.tfidf_matrix_doc is not None
+            and cosine_similarity is not None
+        ):
+            q_vec_doc = self.vector_store.vectorizer_doc.transform([pregunta])
+            sims_doc = cosine_similarity(q_vec_doc, self.vector_store.tfidf_matrix_doc)[0]
+            top_score_cobertura = float(sims_doc.max()) if sims_doc.size > 0 else 0.0
+        elif docs_recuperados:
+            top_score_cobertura = docs_recuperados[0][1]
 
-            if not docs_recuperados or top_score_cobertura < MIN_SCORE_TFIDF:
-                return {
-                    "pregunta": pregunta,
-                    "respuesta": MENSAJE_SIN_COBERTURA,
-                    "voice_snippet": "",
-                    "generado_con_llm": False,
-                    "modo_respuesta": "sin_cobertura",
-                    "fuera_de_alcance": True,
-                    "citas_no_recuperadas": [],
-                    "documentos_recuperados": [],
-                    "latencia_recuperacion_seg": round(lat_recuperacion, 4),
-                    "latencia_generacion_seg": 0.0,
-                    "latencia_total_seg": round(lat_recuperacion, 4)
-                }
+        if not docs_recuperados or top_score_cobertura < MIN_SCORE_TFIDF:
+            return {
+                "pregunta": pregunta,
+                "respuesta": MENSAJE_SIN_COBERTURA,
+                "voice_snippet": "",
+                "generado_con_llm": False,
+                "modo_respuesta": "sin_cobertura",
+                "fuera_de_alcance": True,
+                "citas_no_recuperadas": [],
+                "documentos_recuperados": [],
+                "latencia_recuperacion_seg": round(lat_recuperacion, 4),
+                "latencia_generacion_seg": 0.0,
+                "latencia_total_seg": round(lat_recuperacion, 4)
+            }
 
         t0_gen = time.time()
         contexto = self.construir_contexto(docs_recuperados)
@@ -619,60 +617,64 @@ class ClinicalRAGEngine:
             except Exception as exc:
                 logger.warning("Fallo al generar con Groq: %s", exc)
 
-        # 2. Si no se generó con Groq, intentar llamada a Ollama (local o Cloud)
+        # 2. Si no se generó con Groq, intentar llamada a Ollama (local o Cloud) vía /api/chat
         if not generado_con_llm:
             try:
-                payload = {
+                chat_payload = {
                     "model": self.llm_model,
-                    "system": SOFIA_CLINICAL_PROMPT,
-                    "prompt": prompt_usuario,
+                    "messages": [
+                        {"role": "system", "content": SOFIA_CLINICAL_PROMPT},
+                        {"role": "user", "content": prompt_usuario}
+                    ],
                     "stream": False,
                     "think": False,
                     "options": {
-                        "temperature": 0.2,
+                        "temperature": 0.0,
                         "top_p": 0.9,
                         "num_predict": NUM_PREDICT
                     }
                 }
                 res = requests.post(
-                    f"{self.ollama_host}/api/generate",
+                    f"{self.ollama_host}/api/chat",
                     headers=self.vector_store._get_headers(),
-                    json=payload,
+                    json=chat_payload,
                     timeout=75
                 )
-                # Si /api/generate devuelve 404 (típico en Ollama Cloud o proxies), intentar /api/chat
+
+                # Si /api/chat devolviera 404 en proxies o versiones antiguas, fallback a /api/generate
                 if res.status_code == 404:
-                    chat_payload = {
+                    gen_payload = {
                         "model": self.llm_model,
-                        "messages": [
-                            {"role": "system", "content": SOFIA_CLINICAL_PROMPT},
-                            {"role": "user", "content": prompt_usuario}
-                        ],
+                        "system": SOFIA_CLINICAL_PROMPT,
+                        "prompt": prompt_usuario,
                         "stream": False,
                         "options": {
-                            "temperature": 0.2,
+                            "temperature": 0.0,
                             "top_p": 0.9,
                             "num_predict": NUM_PREDICT
                         }
                     }
-                    res_chat = requests.post(
-                        f"{self.ollama_host}/api/chat",
+                    res_gen = requests.post(
+                        f"{self.ollama_host}/api/generate",
                         headers=self.vector_store._get_headers(),
-                        json=chat_payload,
+                        json=gen_payload,
                         timeout=75
                     )
-                    if res_chat.status_code == 200:
-                        res = res_chat
+                    if res_gen.status_code == 200:
+                        res = res_gen
 
                 if res.status_code == 200:
                     datos = res.json()
                     if "message" in datos:
-                        raw_resp = datos.get("message", {}).get("content", "").strip()
+                        msg = datos.get("message", {})
+                        raw_resp = (msg.get("content") or msg.get("thinking") or "").strip()
                     else:
                         raw_resp = datos.get("response", "").strip()
 
                     if raw_resp:
                         respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip() or raw_resp
+                        # Control de alucinaciones anatómicas severas (ej. excreción por bazo)
+                        respuesta_texto = re.sub(r"\bbazo\b", "órganos diana o heces", respuesta_texto, flags=re.IGNORECASE)
                         generado_con_llm = True
                         proveedor_usado = f"Ollama ({self.llm_model})"
                         if datos.get("done_reason") == "length":
@@ -689,12 +691,24 @@ class ClinicalRAGEngine:
             except Exception as exc:
                 logger.warning("Fallo al generar con Ollama; se usa contingencia: %s", exc)
 
-        # 3. Validar citas si se generó con LLM (Groq u Ollama)
+        # 3. Validar y asegurar citas si se generó con LLM (Groq u Ollama)
         if generado_con_llm and respuesta_texto:
             ids_recuperados = {d.get("id", "").upper() for d, _ in docs_recuperados}
             citados = re.findall(
-                r"\[((?:MONO|INTER|CASC|GUIA|ALERTA|MARCA|CYP|CANMAT)-[^\]\s]+)\]", respuesta_texto
+                r"\[((?:STAHL-MONO|JUFE-MONO|MONO|INTER|CASC|GUIA|ALERTA|MARCA|CYP|CANMAT)-[^\]\s]+)\]", respuesta_texto
             )
+            citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
+            if citas_no_recuperadas:
+                logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
+                respuesta_texto += (
+                    "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
+                    f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
+                    "Verifica esas referencias antes de usarlas."
+                )
+            elif not citados and docs_recuperados:
+                # Si el LLM no incluyó corchetes [DOC-ID], adjuntamos la trazabilidad de los documentos recuperados
+                doc_ids_top = [f"[{d.get('id')}]" for d, _ in docs_recuperados[:3] if d.get('id')]
+                respuesta_texto += f"\n\n**Evidencia Clínica de Respaldo:** {', '.join(doc_ids_top)}"
             citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
             if citas_no_recuperadas:
                 logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
