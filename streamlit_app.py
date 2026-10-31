@@ -344,7 +344,7 @@ with st.sidebar:
     )
 
     num_docs = len(getattr(rag_engine, "docs", []))
-    st.metric("Base de Conocimiento", f"{num_docs} Documentos", delta="pre_training + CANMAT + marcas")
+    st.metric("Base de Conocimiento", f"{num_docs} Documentos", delta="Jufe + Stahl + CANMAT + Marcas")
     if num_docs == 0:
         st.error("🔴 La base de conocimiento está vacía: el RAG no puede responder. Revisa rag_knowledge_base.json y los logs.")
     if getattr(rag_engine, "kb_obsoleta", False):

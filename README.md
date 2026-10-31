@@ -14,7 +14,7 @@
 **Sofia** es un sistema de soporte a la decisión clínica, farmacovigilancia y generación aumentada por recuperación (RAG) especializado en **psicofarmacología basada en la evidencia**.
 
 Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo una política de *Grounding Estricto*:**
-> **El modelo responde únicamente en base a los 27 documentos clínicos curados en [`pre_training/`](pre_training/) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (la base indexada, [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json), contiene 59 documentos: los 27 curados + 22 fichas de recomendaciones CANMAT + 10 fichas de marcas comerciales y laboratorios).  
+> **El modelo responde únicamente en base a los 244 documentos clínicos consolidados en [`data/processed/rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) y a las tablas estructuradas de [`data/processed/`](data/processed/)** (los 27 documentos curados de `pre_training/` + 57 monografías de Jufe + 22 monografías de Stahl + 72 recomendaciones y alertas de CANMAT + 66 fichas del catálogo de marcas comerciales y laboratorios).  
 > Si una consulta excede este corpus, el sistema **declara explícitamente su limitación**: con recuperación léxica (TF-IDF + BM25) lo hace mediante un umbral mínimo de similitud (heurística, puede fallar en consultas ambiguas) y, con LLM, mediante el prompt de *grounding estricto*. Las citas `[DOC-ID]` de las respuestas del LLM se validan contra los documentos recuperados y se avisa si alguna no figura.
 
 ---
@@ -412,10 +412,10 @@ streamlit run streamlit_app.py
 pip install -r requirements-dev.txt
 pytest tests
 
-# Ejecutar el benchmark formal de 20 casos clínicos:
+# Ejecutar el benchmark formal de 22 casos clínicos:
 python scripts/evaluate_rag.py
 
-# Regenerar la base de conocimiento indexada (59 documentos):
+# Regenerar la base de conocimiento indexada (244 documentos clínicos):
 python scripts/rebuild_knowledge_base.py
 ```
 > ℹ️ *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01_limpieza_y_preprocesamiento.ipynb -> 02_analisis_exploratorio_eda.ipynb -> 03_rag_psicofarmacologia.ipynb`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
