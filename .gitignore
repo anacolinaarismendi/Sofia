@@ -2,6 +2,7 @@
 .venv/
 env/
 venv/
+ana/
 
 # Python cache
 __pycache__/
@@ -19,6 +20,8 @@ __pycache__/
 # Datos temporales y bases de datos local
 data/raw/
 data/cache/
+data/processed/embeddings_*.npy
+*.npy
 notebooks/data/
 *.db
 

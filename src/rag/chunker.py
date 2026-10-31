@@ -1,6 +1,7 @@
 """
 chunker.py
-Módulo de segmentación estructural y enriquecimiento de fragmentos clínicos para el RAG de Sofia.
+Módulo único y unificado de segmentación estructural y enriquecimiento
+de fragmentos clínicos para el RAG de Sofia.
 Principios de segmentación semántica y enriquecimiento de fragmentos clínicos:
 - Segmentación respetando encabezados H2 (secciones clínicas temáticas).
 - Enriquecimiento de fragmentos con metadatos de trazabilidad ([ID], Principio Activo, ATC, Sección).
@@ -49,6 +50,8 @@ def crear_chunks_enriquecidos(
         atc = doc.get("atc", "N/D")
         tipo = doc.get("tipo", "general")
         contenido = doc.get("contenido", "").strip()
+        voice_snippet = doc.get("voice_snippet", "")
+        archivo_origen = doc.get("archivo_origen", "")
 
         # Separar por encabezados de segundo nivel (##)
         partes_h2 = re.split(r"\n(?=##\s+)", contenido)
@@ -60,17 +63,21 @@ def crear_chunks_enriquecidos(
             chunks.append({
                 "chunk_id": doc_id,
                 "doc_id": doc_id,
+                "id": doc_id,
                 "titulo": titulo,
                 "seccion": "Documento Completo",
+                "seccion_relevante": "Documento Completo",
                 "atc": atc,
                 "tipo": tipo,
+                "voice_snippet": voice_snippet,
+                "archivo_origen": archivo_origen,
                 "contenido": contenido,
+                "contenido_chunk": contenido,
                 "texto_indexable": texto_indexable,
                 "doc_padre": doc
             })
         else:
             # Documento estructurado: generar sub-chunks temáticos enriquecidos
-            # Si la primera parte no comienza con ## es un preámbulo o título H1
             secciones = partes_h2
             if not partes_h2[0].strip().startswith("##"):
                 secciones = partes_h2[1:]
@@ -91,11 +98,16 @@ def crear_chunks_enriquecidos(
                 chunks.append({
                     "chunk_id": f"{doc_id}__sec_{idx}",
                     "doc_id": doc_id,
+                    "id": doc_id,
                     "titulo": titulo,
                     "seccion": sec_titulo,
+                    "seccion_relevante": sec_titulo,
                     "atc": atc,
                     "tipo": tipo,
+                    "voice_snippet": voice_snippet,
+                    "archivo_origen": archivo_origen,
                     "contenido": parte_limpia,
+                    "contenido_chunk": parte_limpia,
                     "texto_indexable": texto_indexable,
                     "doc_padre": doc
                 })
@@ -125,12 +137,10 @@ def agregar_chunks_a_documentos(
         if doc_id not in docs_agregados:
             docs_agregados[doc_id] = (doc_padre, score, seccion)
         else:
-            # Mantener el máximo score alcanzado
             doc_existente, mejor_score, sec_existente = docs_agregados[doc_id]
             if score > mejor_score:
                 docs_agregados[doc_id] = (doc_existente, score, seccion)
 
-    # Ordenar por score descendente
     ordenados = sorted(docs_agregados.values(), key=lambda x: x[1], reverse=True)
 
     resultado: List[Tuple[Dict[str, Any], float]] = []

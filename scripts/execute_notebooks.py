@@ -1,20 +1,25 @@
 """Ejecutor determinista de notebooks para el proyecto Sofia.
-Ejecuta las celdas secuencialmente en el entorno virtual, capturando stdout/stderr y figuras.
-Evita bloqueos de sockets y GUI de matplotlib en entornos headless o sandboxed.
+Ejecuta las celdas secuencialmente en el entorno virtual, capturando stdout/stderr
+y persistiendo todas las figuras generadas como imágenes PNG en base64 en los outputs.
 """
 import io
 import os
 import sys
+import base64
 from pathlib import Path
 import nbformat
 import matplotlib
 
-# Forzar backend headless no bloqueante
+# Forzar backend headless y directorio temporal aislado
 matplotlib.use('Agg')
 os.environ['MPLCONFIGDIR'] = '/tmp/matplotlib_sofia'
 Path('/tmp/matplotlib_sofia').mkdir(parents=True, exist_ok=True)
+import matplotlib.pyplot as plt
 
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent
+if str(WORKSPACE_ROOT) not in sys.path:
+    sys.path.insert(0, str(WORKSPACE_ROOT))
+os.chdir(WORKSPACE_ROOT)
 
 def execute_notebook(nb_path: Path):
     print(f"\n{'='*70}\nIniciando ejecución de: {nb_path.name}\n{'='*70}")
@@ -50,11 +55,44 @@ def execute_notebook(nb_path: Path):
             sys.stdout = f_out
             sys.stderr = f_err
             
+            cell_outputs = []
+            
+            # Interceptar plt.show() para capturar figuras como PNG base64
+            def custom_show(*args, **kwargs):
+                for fignum in plt.get_fignums():
+                    fig = plt.figure(fignum)
+                    buf = io.BytesIO()
+                    fig.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+                    buf.seek(0)
+                    img_b64 = base64.b64encode(buf.read()).decode('utf-8')
+                    cell_outputs.append(nbformat.v4.new_output(
+                        output_type='display_data',
+                        data={'image/png': img_b64, 'text/plain': f'<Figure size {fig.get_size_inches()} with {len(fig.axes)} Axes>'}
+                    ))
+                    plt.close(fig)
+
+            orig_show = plt.show
+            plt.show = custom_show
+            gl['plt'] = plt
+            
             try:
                 exec(clean_code, gl)
+                # Capturar cualquier figura que haya quedado abierta sin show()
+                for fignum in plt.get_fignums():
+                    fig = plt.figure(fignum)
+                    buf = io.BytesIO()
+                    fig.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+                    buf.seek(0)
+                    img_b64 = base64.b64encode(buf.read()).decode('utf-8')
+                    cell_outputs.append(nbformat.v4.new_output(
+                        output_type='display_data',
+                        data={'image/png': img_b64, 'text/plain': f'<Figure size {fig.get_size_inches()} with {len(fig.axes)} Axes>'}
+                    ))
+                    plt.close(fig)
             except Exception as e:
                 sys.stdout = orig_stdout
                 sys.stderr = orig_stderr
+                plt.show = orig_show
                 print(f"❌ Error en celda {idx} de {nb_path.name}: {e}")
                 print("--- Código con error ---")
                 print(clean_code)
@@ -66,26 +104,42 @@ def execute_notebook(nb_path: Path):
             finally:
                 sys.stdout = orig_stdout
                 sys.stderr = orig_stderr
+                plt.show = orig_show
             
-            # Asignar salidas limpias a la celda
-            cell.outputs = []
+            # Limpiar stderr filtrando avisos no bloqueantes de backend Agg
+            raw_stderr = f_err.getvalue()
+            filtered_stderr_lines = [
+                l for l in raw_stderr.split('\n')
+                if 'FigureCanvasAgg is non-interactive' not in l
+                and 'Matplotlib is building the font cache' not in l
+                and 'is not a writable directory' not in l
+            ]
+            clean_stderr = '\n'.join(filtered_stderr_lines).strip()
+            
+            # Asignar salidas a la celda
             stdout_text = f_out.getvalue()
-            stderr_text = f_err.getvalue()
             
+            outputs_final = []
             if stdout_text:
-                cell.outputs.append(nbformat.v4.new_output(
+                outputs_final.append(nbformat.v4.new_output(
                     output_type='stream',
                     name='stdout',
                     text=stdout_text
                 ))
-            if stderr_text:
-                cell.outputs.append(nbformat.v4.new_output(
+            if clean_stderr:
+                outputs_final.append(nbformat.v4.new_output(
                     output_type='stream',
                     name='stderr',
-                    text=stderr_text
+                    text=clean_stderr + '\n'
                 ))
+            # Agregar imágenes PNG
+            outputs_final.extend(cell_outputs)
+            
+            cell.outputs = outputs_final
             cell.execution_count = idx + 1
-            print(f"  ✓ Celda {idx:02d} ejecutada con éxito")
+            num_figs = len(cell_outputs)
+            fig_str = f" ({num_figs} figuras PNG guardadas)" if num_figs > 0 else ""
+            print(f"  ✓ Celda {idx:02d} ejecutada con éxito{fig_str}")
 
     # Guardar notebook con salidas persistidas
     nbformat.write(nb, nb_path)
@@ -93,11 +147,9 @@ def execute_notebook(nb_path: Path):
 
 def main():
     notebooks = [
-        WORKSPACE_ROOT / "notebooks" / "00_limpieza_y_eda.ipynb",
-        WORKSPACE_ROOT / "notebooks" / "01_preprocesamiento_jufe.ipynb",
-        WORKSPACE_ROOT / "notebooks" / "02_preprocesamiento_stahl.ipynb",
-        WORKSPACE_ROOT / "notebooks" / "03_preprocesamiento_canmat.ipynb",
-        WORKSPACE_ROOT / "notebooks" / "04_rag_psicofarmacologia.ipynb"
+        WORKSPACE_ROOT / "notebooks" / "01_limpieza_y_preprocesamiento.ipynb",
+        WORKSPACE_ROOT / "notebooks" / "02_analisis_exploratorio_eda.ipynb",
+        WORKSPACE_ROOT / "notebooks" / "03_rag_psicofarmacologia.ipynb"
     ]
     
     for nb in notebooks:

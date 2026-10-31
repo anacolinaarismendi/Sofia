@@ -3,7 +3,7 @@
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D20%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
+[![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D22%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
 
 > 🚀 **Aplicación Web Desplegada en Streamlit Cloud:** [appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 
@@ -161,67 +161,182 @@ Explorador interactivo de las directrices CANMAT e ISBD con filtros jerárquicos
 
 ---
 
-## 🔬 Análisis Exploratorio de Datos (EDA) y Hallazgos Clínicos
+## 🔬 Análisis Exploratorio de Datos (EDA) y Hallazgos del Corpus
 
-El cuaderno [`notebooks/00_limpieza_y_eda.ipynb`](notebooks/00_limpieza_y_eda.ipynb) consolida la auditoría de calidad, la normalización relacional y el análisis estadístico sobre las fuentes clínicas primarias (Jufe, Stahl y CANMAT 2018). De este proceso se derivaron decisiones arquitectónicas determinantes para el sistema:
+El análisis exploratorio exhaustivo se desarrolló en el cuaderno [`notebooks/02_analisis_exploratorio_eda.ipynb`](notebooks/02_analisis_exploratorio_eda.ipynb) siguiendo una metodología estricta de preprocesamiento clínico sin fuga de datos (*data leakage*). Abarca tanto los datasets tabulares estructurados (Jufe, Stahl y CANMAT en formato CSV y SQLite [`sofia_clinica.db`](data/processed/sofia_clinica.db)) como los **244 documentos padre y 702 fragmentos temáticos (*chunks*)** de la base de conocimiento RAG.
 
-### Hallazgos Clínicos Principales
-1. **Asimetría de Riesgo en CYP2D6:** Se constató una alta concentración de inhibidores potentes (Paroxetina, Bupropión, Fluoxetina) coadministrados frecuentemente con sustratos de índice estrecho (Risperidona, Haloperidol), con riesgo inminente de toxicidad extrapiramidal severa.
-2. **Evidencia de Daño (CANMAT Level 1):** Identificación formal de la contraindicación absoluta de antidepresivos ISRS en monoterapia en Depresión Bipolar por riesgo probado de viraje maníaco y ciclación rápida.
-3. **Vía No Citocromal del Litio:** El aclaramiento del carbonato de litio es 100% renal; las interacciones críticas derivan de fármacos no psiquiátricos masivos (AINEs como ibuprofeno, diuréticos tiazídicos e IECA) que reducen la filtración y provocan intoxicación lítica.
-4. **Aislamiento de Alertas Potencialmente Letales:** Detección de 4 eventos de severidad máxima: agranulocitosis (Clozapina), Síndrome de Stevens-Johnson (Lamotrigina), toxicidad por litemia (Litio) y viraje a manía (ISRS en bipolar).
-
-### Decisiones de Diseño y Procesamiento
-- **Normalización Fonética y Léxica:** Implementación de normalización Unicode NFKD sin tildes para principios activos y marcas, eliminando fallos en coincidencias parciales ("Bupropión" vs. "bupropion").
-- **Matriz Determinista Previa:** Incorporación de un semáforo interactivo precomputado en Streamlit para citocromos y cascadas, asegurando alertas clínicas inmediatas sin depender de la latencia o disponibilidad del LLM.
-- **Segmentación Semántica Enriquecida (Chunking H2):** División de monografías extensas preservando encabezados temáticos e inyectando metadatos (`[DOC-ID]`, ATC, principio activo), lo que elevó el *Context Recall@3* al 100%.
-- **Grounding Estricto y Regla "No consta":** Prohibición explícita de inventar datos; si un apartado no cuenta con respaldo documental en el contexto, el sistema responde obligatoriamente *"No consta"*.
+A continuación se presentan los **11 gráficos analíticos reales** generados por el pipeline, acompañados de sus conclusiones clínicas y numéricas verificadas:
 
 ---
 
-## 📊 Evaluación Formal del Sistema RAG (Benchmark N=20)
+### 1. Calidad de Datos, Valores Nulos y Tratamiento de Outliers
 
-La evaluación sistemática del motor RAG se ejecuta con [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) sobre un conjunto representativo de **20 escenarios clínicos** estructurados (monografías, citocromos CYP450, cascadas de prescripción, directrices CANMAT, marcas comerciales y casos fuera de cobertura).
+#### 📊 Gráfico 1: Auditoría de Valores Nulos e Integridad Estructural
+<p align="center">
+  <img src="assets/eda_01_mapa_nulos.png" alt="Mapa de Nulos - CANMAT y Corpus RAG" width="850">
+</p>
 
-El informe completo se encuentra versionado en [`data/processed/rag_evaluation_report.json`](data/processed/rag_evaluation_report.json):
+* **Evidencia en datos:** Ausencia absoluta de valores nulos no justificados (0%) en las tablas clínicas estructuradas. Todas las 67 recomendaciones de CANMAT cuentan con sus campos mandatorios (fármaco, patología, fase, línea, recomendación y comentarios) 100% completos.
+* **Corpus RAG:** Los 244 documentos del corpus documental presentan 0% de nulos en identificadores (`id`), títulos, contenidos, tipos y archivos fuente.
 
-### Métricas Agregadas del Benchmark (N=20)
-| Métrica | Resultado | Descripción Metodológica |
+#### 📊 Gráfico 2: Detección de Outliers en Farmacovigilancia (Método IQR sobre Jufe)
+<p align="center">
+  <img src="assets/eda_02_iqr_efectos_adversos.png" alt="Detección de Outliers IQR en Efectos Adversos Jufe" width="750">
+</p>
+
+* **Evidencia en datos:** La mediana es de **8 eventos adversos documentados por fármaco** (Rango Intercuartílico Q1=5, Q3=13).
+* **Decisión clínica honesta:** Moléculas como **Clozapina** (24 efectos adversos) y **Haloperidol** (21 efectos adversos) sobrepasan el límite superior estadístico ($Q3 + 1.5 \times IQR = 25$). Sin embargo, **no son errores de captura ni valores anómalos espurios**, sino fármacos multirreceptoriales con perfiles extrapiramidales y metabólicos complejos. Se mantuvieron intactos para preservar la seguridad de farmacovigilancia.
+
+#### 📊 Gráfico 3: Distribución Textual y Estabilización con `log1p`
+<p align="center">
+  <img src="assets/eda_03_distribucion_longitud_log.png" alt="Distribución de Longitud de Documentos y log1p" width="850">
+</p>
+
+* **Evidencia en datos:** La longitud en caracteres de los documentos presentaba una asimetría positiva muy pronunciada (*skewness* original: 2.22).
+* **Resultado:** La transformación logarítmica $\log(1 + x)$ estabilizó la varianza y redujo el *skewness* a 0.29, normalizando la distribución para modelado analítico y pipelines de Scikit-Learn.
+
+#### 📊 Gráfico 4: Matriz de Correlación de Variables Cuantitativas del Corpus
+<p align="center">
+  <img src="assets/eda_04_matriz_correlacion.png" alt="Matriz de Correlación de Métricas del Corpus" width="650">
+</p>
+
+* **Evidencia en datos:** Correlación casi unitaria ($r = 0.99$) entre longitud en caracteres (`char_count`), recuento de palabras (`word_count`) y estimación de tokens (`estimated_tokens`), validando la heurística computacional ($\approx \text{caracteres} / 4$). La longitud del título no condiciona el volumen informativo del cuerpo clínico ($r \approx 0.12$).
+
+---
+
+### 2. Estructura del Corpus RAG y Ventana de Contexto
+
+#### 📊 Gráfico 5: Composición del Corpus por Fuente Primaria y Tipo Documental
+<p align="center">
+  <img src="assets/eda_05_distribucion_fuentes_tipos.png" alt="Composición del Corpus por Fuente y Tipo" width="850">
+</p>
+
+* **Distribución real (244 documentos totales):**
+  * **CANMAT / ISBD (77 docs, 31.6%):** 67 recomendaciones tabulares + 5 alertas clínicas de seguridad + 5 algoritmos de decisión basados en evidencia.
+  * **Catálogo Canónico de Marcas (66 docs, 27.0%):** Resolución de nombres comerciales y laboratorios de referencia hacia el principio activo oficial OMS.
+  * **Jufe (57 docs, 23.4%):** Monografías clínicas orientadas a la práctica asistencial, posología y semiótica psiquiátrica.
+  * **Stahl (22 docs, 9.0%):** Monografías farmacocinéticas centradas en perfiles enzimáticos CYP450.
+  * **Pre-training Curado (22 docs, 9.0%):** 10 monografías troncales, 4 alertas de caja negra de la FDA/AEMPS, 4 matrices CYP450, 3 cascadas de prescripción y 1 guía de interacciones.
+* **Filtrado por Metadatos en RAG:** Esta tipología balanceada permite al motor aplicar *recuperación dirigida*: dudas de posología acuden a Jufe; interacciones enzimáticas a Stahl; algoritmos de primera línea a CANMAT; y nombres comerciales al Catálogo Canónico.
+
+#### 📊 Gráfico 6: Distribución de Tokens en Documentos Padre vs. Chunks Semánticos
+<p align="center">
+  <img src="assets/eda_06_tokens_chunks_distribucion.png" alt="Distribución de Tokens en Documentos y Chunks" width="850">
+</p>
+
+* **Evidencia en datos (702 chunks enriquecidos):**
+  * La segmentación estructural (`crear_chunks_enriquecidos`) descompone los 244 documentos en **702 fragmentos temáticos**.
+  * **Métricas reales de los fragmentos:** Mínimo = 15 tokens; Percentil 25 (Q1) = 41 tokens; **Mediana = 68 tokens** (~273 caracteres); Percentil 75 (Q3) = 145 tokens; **Máximo absoluto = 590 tokens**.
+  * **Garantía de ingeniería:** El 100% de los fragmentos se sitúa por debajo de los 600 tokens. Modelos de embeddings como `embeddinggemma` o `bge-m3` procesan la totalidad del corpus **sin sufrir truncamiento léxico** ni pérdida de información clínica.
+
+---
+
+### 3. Cobertura Farmacológica y Fusión Multifuente
+
+#### 📊 Gráfico 7: Cobertura por Familia Terapéutica ATC (OMS) y Fuente
+<p align="center">
+  <img src="assets/eda_07_cobertura_atc_familias.png" alt="Cobertura por Familia Terapéutica ATC y Fuente" width="850">
+</p>
+
+* **Jufe (57 principios activos únicos):** Máxima extensión horizontal: 20 antidepresivos (`N06A`), 15 antipsicóticos (`N05A`), 8 antiepilépticos/estabilizadores (`N03A`), 7 ansiolíticos (`N05B`), 4 fármacos para demencia (`N06D`) y 3 otros.
+* **Stahl (22 principios activos únicos):** Enfoque vertical concentrado en alto potencial de interacciones farmacocinéticas (10 antidepresivos, 7 antipsicóticos, 3 estabilizadores, 1 ansiolítico y 1 demencia).
+* **CANMAT / ISBD 2018 (34 principios activos únicos):** Focalizado en trastornos afectivos (14 antidepresivos, 13 antipsicóticos, 6 estabilizadores y 1 coadyuvante psicoestimulante).
+
+#### 📊 Gráfico 8: Solapamiento Interfuente y el "Núcleo Crítico Común" (Venn 3-Way)
+<p align="center">
+  <img src="assets/eda_08_venn_coocurrencia_fuentes.png" alt="Diagrama de Venn 3-Way y Matriz de Coocurrencia" width="850">
+</p>
+
+* **El Núcleo Crítico (19 psicofármacos troncales):** Intersección matemática perfecta entre las 3 fuentes en los fármacos nucleares de la práctica psiquiátrica:
+  * *Estabilizadores del Ánimo:* Litio (`N05AN01`), Ácido Valproico (`N03AG01`), Lamotrigina (`N03AX09`), Carbamazepina (`N03AF01`).
+  * *Antipsicóticos de 2ª Generación:* Quetiapina (`N05AH04`), Olanzapina (`N05AH03`), Risperidona (`N05AX08`), Aripiprazol (`N05AX12`), Clozapina (`N05AH02`).
+  * *Antipsicóticos Típicos:* Haloperidol (`N05AD01`).
+  * *Antidepresivos ISRS:* Sertralina (`N06AB06`), Fluoxetina (`N06AB03`), Paroxetina (`N06AB05`), Escitalopram (`N06AB10`).
+  * *Antidepresivos Duales y Atípicos:* Venlafaxina (`N06AX16`), Duloxetina (`N06AX21`), Bupropión (`N06AX12`), Mirtazapina (`N06AX11`).
+  * *Benzodiazepinas:* Clonazepam (`N03AE01`).
+* **Inclusión 100% de Stahl en Jufe:** `Stahl Exclusivo = 0`. Los 22 códigos ATC de Stahl están 100% contenidos en Jufe. Fármacos compartidos exclusivamente entre Jufe y Stahl (Donepezilo, Memantina, Lorazepam) no figuran en CANMAT por no pertenecer a guías de trastorno bipolar o depresión mayor.
+* **Exclusividad de CANMAT (1 fármaco):** Armodafinilo (`N06BA13`), evaluado como terapia coadyuvante de tercera línea en depresión bipolar.
+
+---
+
+### 4. Evidencia Clínica, Toxicidad y Farmacocinética
+
+#### 📊 Gráfico 9: Severidad de Eventos Adversos con Vocabulario Canónico (Jufe vs. Stahl)
+<p align="center">
+  <img src="assets/eda_09_severidad_eventos_adversos.png" alt="Severidad de Eventos Adversos Jufe vs Stahl" width="850">
+</p>
+
+* **Evidencia en datos:** Aplicando el vocabulario canónico estandarizado (`Común / Moderado` vs `Grave / Riesgo Vital`):
+  * **Jufe:** Registra un **40.0% de eventos graves** (202 de 505 eventos adversos totales).
+  * **Stahl:** Registra un **38.3% de eventos graves** (72 de 188 eventos adversos totales).
+* **Consistencia metodológica:** Ambos autores reflejan una proporción equivalente (~39%) de toxicidad severa frente a síntomas leves/tolerables, confirmando la coherencia clínica de los extractores.
+
+#### 📊 Gráfico 10: Matriz de Interacciones Enzimáticas CYP450 (Stahl)
+<p align="center">
+  <img src="assets/eda_10_matriz_cyp450_stahl.png" alt="Matriz de Interacciones CYP450 Stahl" width="850">
+</p>
+
+* **Evidencia en datos:** Mapeo de 15 variables enzimáticas booleanas (5 inhibidores, 6 sustratos y 4 inductores para CYP1A2, 2C9, 2C19, 2D6 y 3A4) en 22 psicofármacos.
+* **Hallazgo farmacológico:** Confirma la alta concentración de inhibidores potentes en CYP2D6 (Fluoxetina, Paroxetina, Bupropión) que colisionan con sustratos de índice estrecho (Risperidona, Haloperidol), así como el perfil inductor masivo y polivalente de la Carbamazepina.
+
+#### 📊 Gráfico 11: Directrices CANMAT 2018 por Patología, Dirección y Nivel de Evidencia
+<p align="center">
+  <img src="assets/eda_11_directrices_canmat_evidencia.png" alt="Directrices CANMAT 2018 Recomendaciones y Evidencia" width="850">
+</p>
+
+* **Evidencia en datos (67 recomendaciones oficiales tabuladas):**
+  * 38 recomendaciones en Trastorno Bipolar (fases de manía aguda, depresión bipolar y mantenimiento preventivo).
+  * 29 recomendaciones en Trastorno Depresivo Mayor (fase aguda, algoritmos de resistencia y potenciación).
+* **Dirección Clínica y Nivel de Evidencia:** Predominio de Primera Línea con evidencia metodológica Level 1 en fases agudas (monoterapia o terapia combinada con litio/valproato y antipsicóticos atípicos). Se formaliza la evidencia Level 1 en recomendaciones negativas (*No Recomendado*) para antidepresivos en monoterapia en depresión bipolar debido al riesgo crítico de viraje maníaco.
+
+---
+
+## 📊 Evaluación Formal del Sistema RAG (Benchmark N=22)
+
+La evaluación sistemática del motor RAG se ejecuta con [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) sobre un conjunto representativo de **22 escenarios clínicos estructurados** (monografías, citocromos CYP450, cascadas de prescripción, directrices CANMAT, marcas comerciales y casos centinela fuera de cobertura).
+
+El informe completo de la última ejecución se encuentra versionado en [`data/processed/rag_evaluation_report.json`](data/processed/rag_evaluation_report.json):
+
+### Métricas Agregadas del Benchmark (N=22)
+> *Metodología de denominadores:* Las métricas de recuperación y relevancia se calculan sobre los **20 casos clínicos en alcance** para evitar distorsión artificial. La tasa de abstención se evalúa sobre los **2 casos fuera de alcance**.
+
+| Métrica | Resultado | Descripción Metodológica Real |
 | :--- | :---: | :--- |
-| **Context Recall@1** | **94.4%** | El documento principal exacto aparece en el rango #1 de recuperación en 17 de 18 casos clínicos dentro de alcance. |
+| **Context Recall@1** | **100.0%** | El documento principal exacto aparece en el rango #1 de recuperación en los 20 casos dentro de alcance. |
 | **Context Recall@3** | **100.0%** | El documento esperado aparece dentro del top 3 en el 100% de los casos clínicos evaluados. |
 | **Context Recall@5** | **100.0%** | Cobertura total de documentos requeridos en el top 5 de recuperación. |
-| **Mean Reciprocal Rank (MRR)** | **0.9722** | Calidad de ordenación jerárquica del ranking de recuperación híbrida (TF-IDF + BM25). |
-| **Answer Relevance** | **68.0%** | Presencia y alineación de las entidades clínicas clave esperadas en la respuesta. |
-| **Groundedness / Fidelidad** | **91.0%** | Respuestas fundamentadas estrictamente en el contexto sin contradicciones ni alucinaciones. |
-| **Trazabilidad Ética [DOC-ID]** | **100.0%** | Todas las afirmaciones citan identificadores válidos del contexto recuperado. |
-| **Latencia de Recuperación** | **0.51 ms** | Tiempo medio de indexación y búsqueda híbrida TF-IDF + BM25. |
+| **Mean Reciprocal Rank (MRR)** | **1.0000** | Ordenación óptima de la recuperación documental híbrida (TF-IDF + BM25). |
+| **Answer Relevance** | **76.0%** | Presencia y alineación de las entidades clínicas clave esperadas en la respuesta. |
+| **Groundedness / Fidelidad** | **95.5%** | Respuestas fundamentadas estrictamente en el contexto sin contradicciones ni alucinaciones. |
+| **Trazabilidad Ética [DOC-ID]** | **100.0%** | Todas las afirmaciones médicas citan identificadores válidos presentes en el contexto recuperado. |
+| **Tasa de Abstención Correcta** | **100.0%** | 2 de 2 casos fuera de dominio (gastronomía, neumología) declararon falta de cobertura sin alucinar. |
+| **Latencia de Recuperación** | **1.6 ms** | Tiempo medio de indexación y búsqueda híbrida TF-IDF + BM25 por consulta. |
 
-### Detalle por Caso Clínico Evaluado
+### Detalle por Caso Clínico Evaluado (N=22)
 | # | Identificador del Caso | Categoría Clínica | Top Documento Recuperado | R@3 | MRR | Groundedness |
 | :-: | :--- | :--- | :--- | :---: | :---: | :---: |
 | **01** | `CASO_01_POSOLOGIA_Y_MARCAS` | Posología y Marcas (Sertralina) | `[MARCA-SERTRALINA-001]` | 1.0 | 1.00 | 100% |
 | **02** | `CASO_02_INTERACCIONES_CYP450` | Farmacocinética y Citocromos (CYP2D6) | `[MONO-BUPROPION-004]` | 1.0 | 1.00 | 100% |
-| **03** | `CASO_03_DIRECTRICES_CANMAT` | Guías CANMAT (Manía y Viraje Bipolar) | `[ALERTA-ISRS-VIRAJE-004]` | 1.0 | 1.00 | 70% |
+| **03** | `CASO_03_DIRECTRICES_CANMAT` | Guías CANMAT (Manía y Viraje Bipolar) | `[ALERTA-ISRS-VIRAJE-004]` | 1.0 | 1.00 | 100% |
 | **04** | `CASO_04_FARMACOVIGILANCIA_CASCADA` | Farmacovigilancia y Cascada (Haloperidol - Biperideno) | `[MONO-HALOPERIDOL-008]` | 1.0 | 1.00 | 100% |
 | **05** | `CASO_05_LITIO_MONITORIZACION_Y_RANGOS` | Monitorización Estrecha (Carbonato de Litio) | `[MONO-LITIO-005]` | 1.0 | 1.00 | 70% |
-| **06** | `CASO_06_LITIO_INTERACCION_AINES` | Interacciones Renales (Litio y AINEs) | `[INTER-LIT-RENAL-004]` | 1.0 | 1.00 | 100% |
-| **07** | `CASO_07_CLOZAPINA_AGRANULOCITOSIS` | Seguridad Hematológica (Clozapina) | `[ALERTA-CLOZ-AGRAN-001]` | 1.0 | 1.00 | 100% |
+| **06** | `CASO_06_LITIO_INTERACCION_AINES` | Interacciones Críticas Renales (Litio y AINEs) | `[INTER-LIT-RENAL-004]` | 1.0 | 1.00 | 100% |
+| **07** | `CASO_07_CLOZAPINA_AGRANULOCITOSIS` | Seguridad Hematológica (Clozapina) | `[MONO-CLOZAPINA-006]` | 1.0 | 1.00 | 100% |
 | **08** | `CASO_08_CLOZAPINA_TABACO_CYP1A2` | Farmacocinética y Tabaco (CYP1A2) | `[MONO-CLOZAPINA-006]` | 1.0 | 1.00 | 100% |
-| **09** | `CASO_09_LAMOTRIGINA_VALPROATO` | Interacción Crítica (Lamotrigina y Valproato) | `[INTER-LAM-VAL-003]` | 1.0 | 1.00 | 100% |
-| **10** | `CASO_10_LAMOTRIGINA_TITULACION` | Seguridad Cutánea (Titulación de Lamotrigina) | `[INTER-LAM-VAL-003]` | 1.0 | 1.00 | 70% |
+| **09** | `CASO_09_LAMOTRIGINA_VALPROATO` | Interacción Enzimática Crítica (Lamotrigina y Valproato) | `[INTER-LAM-VAL-003]` | 1.0 | 1.00 | 100% |
+| **10** | `CASO_10_LAMOTRIGINA_TITULACION` | Seguridad Cutánea (Titulación de Lamotrigina) | `[MONO-LAMOTRIGINA-009]` | 1.0 | 1.00 | 100% |
 | **11** | `CASO_11_FLUOXETINA_VIDA_MEDIA_LAVADO` | Farmacocinética y Lavado (Fluoxetina) | `[MONO-FLUOXETINA-002]` | 1.0 | 1.00 | 100% |
 | **12** | `CASO_12_RISPERIDONA_HIPERPROLACTINEMIA` | Neuroendocrinología (Risperidona) | `[MONO-RISPERIDONA-007]` | 1.0 | 1.00 | 100% |
-| **13** | `CASO_13_VALPROATO_TERATOGENICIDAD` | Poblaciones Especiales (Ácido Valproico) | `[MONO-VALPROATO-010]` | 1.0 | 1.00 | 70% |
+| **13** | `CASO_13_VALPROATO_TERATOGENICIDAD` | Poblaciones Especiales (Ácido Valproico) | `[ALERTA-CANMAT-003]` | 1.0 | 1.00 | 70% |
 | **14** | `CASO_14_CASCADA_METABOLICA` | Farmacovigilancia (Cascada Metabólica) | `[CASC-METAB-002]` | 1.0 | 1.00 | 100% |
-| **15** | `CASO_15_CANMAT_TDM_RESISTENCIA` | Medicina Basada en Evidencia (Depresión Resistente) | `[GUIA-CANMAT-CSV-011]` | 1.0 | 1.00 | 100% |
+| **15** | `CASO_15_CANMAT_TDM_RESISTENCIA` | Medicina Basada en Evidencia (Depresión Resistente) | `[GUIA-CANMAT-TDM-RESIST-005]` | 1.0 | 1.00 | 100% |
 | **16** | `CASO_16_CANMAT_MANTENIMIENTO_BIPOLAR` | Medicina Basada en Evidencia (Mantenimiento Bipolar) | `[GUIA-CANMAT-MANT-003]` | 1.0 | 1.00 | 100% |
-| **17** | `CASO_17_MARCAS_HALOPERIDOL` | Catálogo Comercial y Formatos (Haloperidol) | `[MARCA-HALOPERIDOL-001]` | 1.0 | 1.00 | 70% |
-| **18** | `CASO_18_MARCAS_BUPROPION` | Catálogo Comercial y Formatos (Bupropión) | `[MARCA-CLOZAPINA-001]` | 1.0 | 0.50 | 70% |
+| **17** | `CASO_17_MARCAS_HALOPERIDOL` | Catálogo Comercial y Formatos (Haloperidol) | `[MARCA-HALOPERIDOL-001]` | 1.0 | 1.00 | 100% |
+| **18** | `CASO_18_MARCAS_BUPROPION` | Catálogo Comercial y Formatos (Bupropión) | `[MARCA-BUPROPION-001]` | 1.0 | 1.00 | 100% |
 | **19** | `CASO_19_FUERA_DE_ALCANCE_GASTRONOMIA` | Guardia de Seguridad (Consulta Fuera de Dominio) | *Abstención Segura* | 1.0 | 1.00 | 100% |
 | **20** | `CASO_20_FUERA_DE_ALCANCE_NO_PSIQUIATRICO` | Guardia de Seguridad (Medicina General No Psiquiátrica) | *Abstención Segura* | 1.0 | 1.00 | 100% |
-
-> *Nota de rigor metodológico:* El *Context Recall@3* (100.0%) y *Recall@5* (100.0%) acreditan que el sistema recupera el documento clave dentro del top 3 para la totalidad de escenarios psiquiátricos curados, con un 94.4% en primer rango (*Recall@1*) y un *MRR* de 0.9722. La métrica *Groundedness* (91.0%) refleja la adherencia estricta a los 4 apartados clínicos y la cobertura de entidades comprobadas sin alucinaciones. Para consultas fuera de dominio (Casos 19 y 20), el sistema se abstiene de forma segura con mensaje de falta de cobertura.
+| **21** | `CASO_21_STAHL_FARMACODINAMIA` | Guía de Prescripción de Stahl (Clozapina) | `[STAHL-MONO-CLOZAPINA]` | 1.0 | 1.00 | 100% |
+| **22** | `CASO_22_JUFE_MONOGRAFIA` | Monografía Canónica de Jufe (Clonazepam) | `[JUFE-MONO-CLONAZEPAM]` | 1.0 | 1.00 | 70% |
 
 
 ---
@@ -236,22 +351,22 @@ Sofia/
 │   ├── 03_cascadas_prescripcion_y_desprescripcion/
 │   ├── 04_guias_clinicas_y_algoritmos_decision/ # Recomendaciones CANMAT
 │   └── 05_alertas_seguridad_y_caja_negra/      # Agranulocitosis, Stevens-Johnson, litemia
-├── tests/                                      # Tests de regresión automatizados (41 tests)
+├── tests/                                      # Tests de regresión automatizados (64 tests)
 │   ├── test_core.py                            # 22 tests unitarios para ATC y motor RAG
 │   ├── test_clinical_consistency.py            # 14 tests de consistencia clínica y metadatos
-│   └── test_streamlit_app.py                   # 5 tests de regresión y schemas para Streamlit
+│   ├── test_cascade_detector.py                # 20 tests para el detector de cascadas y carga anticolinérgica
+│   └── test_streamlit_app.py                   # 8 tests de regresión y schemas para Streamlit
 ├── data/
 │   ├── raw/                                    # Fuentes originales en PDF (Jufe, CANMAT)
 │   ├── processed/                              # CSVs limpios y base de conocimiento (rag_knowledge_base.json)
 │   └── cache/                                  # Caché de embeddings y extracción de PDFs
-├── notebooks/                                  # Pipeline de datos y análisis (00 a 04)
-│   ├── 00_limpieza_y_eda.ipynb                 # Auditoría de calidad y visualizaciones clínicas
-│   ├── 01_preprocesamiento_jufe.ipynb          # Extracción y estructuración de Jufe
-│   ├── 02_preprocesamiento_stahl.ipynb         # Extracción de Stahl y citocromos CYP450
-│   ├── 03_preprocesamiento_canmat.ipynb        # Recomendaciones y niveles de evidencia CANMAT
-│   └── 04_rag_psicofarmacologia.ipynb          # Fusión de base de conocimiento y RAG
-├── scripts/                                    # Scripts de evaluación y mantenimiento
-│   ├── evaluate_rag.py                         # Benchmark formal del sistema RAG (20 casos clínicos N=20)
+├── notebooks/                                  # Pipeline de datos, EDA y RAG (Suite de 3 Cuadernos)
+│   ├── 01_limpieza_y_preprocesamiento.ipynb    # Ingesta multifuente, normalización relacional y SQLite
+│   ├── 02_analisis_exploratorio_eda.ipynb      # Auditoría de calidad, 8 gráficos analíticos y ML sin fuga
+│   └── 03_rag_psicofarmacologia.ipynb          # Motor RAG híbrido, chunking oficial, casos reales y benchmark
+├── scripts/                                    # Scripts de evaluación, mantenimiento y ejecución
+│   ├── evaluate_rag.py                         # Benchmark formal del sistema RAG (22 casos clínicos)
+│   ├── execute_notebooks.py                    # Ejecutor determinista y validación de notebooks
 │   └── rebuild_knowledge_base.py               # Regeneración y sincronización de rag_knowledge_base.json
 ├── src/
 │   ├── downloaders/                            # Descarga y verificación de guías clínicas oficiales
@@ -303,7 +418,7 @@ python scripts/evaluate_rag.py
 # Regenerar la base de conocimiento indexada (59 documentos):
 python scripts/rebuild_knowledge_base.py
 ```
-> ℹ️ *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01 -> 02 -> 03 -> 00 -> 04`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
+> ℹ️ *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01_limpieza_y_preprocesamiento.ipynb -> 02_analisis_exploratorio_eda.ipynb -> 03_rag_psicofarmacologia.ipynb`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
 
 ---
 

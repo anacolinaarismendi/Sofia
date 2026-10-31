@@ -1,189 +1,189 @@
-farmaco,atc_codigo,efecto_adverso,severidad,fuente
-Clozapina,N05AH02,Sedación diurna intensa,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Sialorrea nocturna profusa,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Aumento marcado de peso,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Estreñimiento severo,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Taquicardia sinusal,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Mareos ortostáticos,Común / Moderado,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Agranulocitosis (neutropenia grave potencialmente mortal <1000/µL),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Miocarditis y miocardiopatía dilatada,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Convulsiones dosis-dependiente (>600 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clozapina,N05AH02,Íleo paralítico obstructivo fatal,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Disfunción sexual marcada,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Somnolencia y sedación,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Aumento de peso moderado,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Boca seca por carga antimuscarínica,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Constipación,Común / Moderado,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Síndrome de discontinuación intenso tras suspensión brusca,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Teratogenicidad (defectos septales cardíacos en primer trimestre),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Paroxetina,N06AB05,Retención urinaria aguda,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Insomnio de conciliación,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Agitación psicomotriz,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Temblor fino,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Sudoración,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Disminución del apetito y peso,Común / Moderado,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Convulsiones epilépticas (riesgo dosis-dependiente >450 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Psicosis o exacerbación maníaca en pacientes bipolares,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Bupropión,N06AX12,Crisis hipertensiva con IMAO,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Visión borrosa o diplopía,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Exantema cutáneo maculopapular benigno,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Síndrome de Stevens-Johnson / Necrólisis Epidérmica Tóxica (exantema grave potencialmente mortal),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Reacción DRESS,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lamotrigina,N03AX09,Meningitis aséptica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Temblor fino distal,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Poliuria,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Polidipsia,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Aumento ponderal,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Molestias gastrointestinales leves,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Hipotiroidismo subclínico o bocio,Común / Moderado,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,"Intoxicación por litemia (arritmias cardíacas, ataxia, convulsiones, coma y muerte)",Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Insuficiencia renal crónica tubulointersticial,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbonato de Litio,N05AN01,Diabetes insípida nefrogénica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Diarrea transitoria,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Disfunción sexual,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Temblor fino,Común / Moderado,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Síndrome serotoninérgico con IMAO,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Hiponatremia por SIADH,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Sertralina,N06AB06,Hemorragia digestiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Ansiedad inicial,Común / Moderado,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Anorexia y pérdida de peso,Común / Moderado,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Temblor,Común / Moderado,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Viraje maníaco,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Fluoxetina,N06AB03,Interacciones farmacocinéticas múltiples,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Náuseas leves transitorias,Común / Moderado,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Disfunción sexual,Común / Moderado,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Diaforesis,Común / Moderado,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Prolongación del intervalo QTc a dosis supraterapéuticas (>20 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Escitalopram,N06AB10,Hiponatremia por SIADH,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Sudoración profusa diaforética,Común / Moderado,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Sequedad de boca,Común / Moderado,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Hipertensión arterial diastólica dosis-dependiente,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Síndrome de retirada abrupto intenso,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Venlafaxina,N06AX16,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Astenia,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,"Hepatotoxicidad (ictericia, aumento de transaminasas)",Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Crisis hipertensiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Duloxetina,N06AX21,Retención urinaria,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Sedación marcada,Común / Moderado,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Aumento de apetito,Común / Moderado,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Ganancia de peso significativa,Común / Moderado,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Agranulocitosis (rara),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Convulsiones en sobredosis,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Mirtazapina,N06AX11,Hepatotoxicidad,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Parkinsonismo secundario,Común / Moderado,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Rigidez,Común / Moderado,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Temblor,Común / Moderado,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Acatisia motora,Común / Moderado,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Sedación moderada,Común / Moderado,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Distonía aguda laringofaríngea,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Discinesia tardía irreversible,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Prolongación del intervalo QTc,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Haloperidol,N05AD01,Síndrome neuroléptico maligno,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Risperidona,N05AX08,"Hiperprolactinemia marcada (galactorrea, amenorrea)",Común / Moderado,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Aumento de peso moderado,Común / Moderado,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Sedación,Común / Moderado,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Fatiga,Común / Moderado,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Síntomas extrapiramidales dosis-dependientes (>4-6 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Riesgo cerebrovascular en demencia,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Risperidona,N05AX08,Discinesia tardía,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Aumento masivo de peso,Común / Moderado,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Apetito voraz por carbohidratos,Común / Moderado,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Sedación diurna intensa,Común / Moderado,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Boca seca,Común / Moderado,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Síndrome metabólico acelerado,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Diabetes mellitus tipo 2 de inicio rápido,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Olanzapina,N05AH03,Dislipidemia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Sedación profunda temprana,Común / Moderado,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Hipotensión ortostática,Común / Moderado,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Ganancia ponderal moderada,Común / Moderado,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Boca seca,Común / Moderado,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Cataratas y opacidades del cristalino,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Prolongación moderada de QTc,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Quetiapina,N05AH04,Síndrome metabólico,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Acatisia inicial e inquietud motora,Común / Moderado,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Ansiedad,Común / Moderado,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,"Control de impulsos alterado (ludopatía, hipersexualidad paradójica)",Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Discinesia tardía,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Aripiprazol,N05AX12,Síndrome neuroléptico maligno,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,"Molestias digestivas (náuseas, dispepsia)",Común / Moderado,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Temblor fino postural,Común / Moderado,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Aumento de peso,Común / Moderado,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Alopecia transitoria,Común / Moderado,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Hepatotoxicidad fulminante idiosincrásica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Pancreatitis aguda necrotizante,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Trombocitopenia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Encefalopatía hiperamonémica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Ácido Valproico,N03AG01,Teratogenicidad mayor,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Ataxia,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Sedación,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Diplopía,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Hiponatremia por SIADH,Común / Moderado,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Agranulocitosis y anemia aplásica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Síndrome de Stevens-Johnson,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Hepatitis tóxica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Carbamazepina,N03AF01,Bloqueo auriculoventricular,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Sedación,Común / Moderado,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Somnolencia matinal,Común / Moderado,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Ataxia,Común / Moderado,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Enlentecimiento psicomotor,Común / Moderado,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Amnesia anterógrada,Común / Moderado,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Dependencia física y tolerancia,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Depresión respiratoria severa con opioides o alcohol,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Clonazepam,N03AE01,Síndrome de abstinencia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Sedación,Común / Moderado,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Debilidad muscular,Común / Moderado,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Amnesia anterógrada transitoria,Común / Moderado,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Ataxia,Común / Moderado,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Dependencia farmacológica,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Depresión respiratoria en combinación con depresores del SNC,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Lorazepam,N05BA06,Síndrome de abstinencia,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Náuseas,Común / Moderado,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Diarrea,Común / Moderado,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Calambres musculares nocturnos,Común / Moderado,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Insomnio,Común / Moderado,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Anorexia,Común / Moderado,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Bradicardia sintomática y síncope vagal,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Bloqueo auriculoventricular,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Donepezilo,N06DA02,Úlcera péptica activa con hemorragia,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Memantina,N06DX01,Mareos,Común / Moderado,Stahl - Prescriber's Guide
-Memantina,N06DX01,Cefalea,Común / Moderado,Stahl - Prescriber's Guide
-Memantina,N06DX01,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide
-Memantina,N06DX01,Somnolencia leve,Común / Moderado,Stahl - Prescriber's Guide
-Memantina,N06DX01,Hipertensión arterial,Común / Moderado,Stahl - Prescriber's Guide
-Memantina,N06DX01,Confusión transitoria,Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Memantina,N06DX01,Alucinaciones (muy raras),Grave / Riesgo Vital,Stahl - Prescriber's Guide
-Memantina,N06DX01,Insuficiencia cardíaca congestiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide
+farmaco,atc_codigo,efecto_adverso,severidad,fuente,severidad_cat,severidad_num
+Clozapina,N05AH02,Sedación diurna intensa,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Sialorrea nocturna profusa,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Aumento marcado de peso,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Estreñimiento severo,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Taquicardia sinusal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Mareos ortostáticos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clozapina,N05AH02,Agranulocitosis (neutropenia grave potencialmente mortal <1000/µL),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clozapina,N05AH02,Miocarditis y miocardiopatía dilatada,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clozapina,N05AH02,Convulsiones dosis-dependiente (>600 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clozapina,N05AH02,Íleo paralítico obstructivo fatal,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Paroxetina,N06AB05,Disfunción sexual marcada,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Somnolencia y sedación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Aumento de peso moderado,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Boca seca por carga antimuscarínica,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Constipación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Paroxetina,N06AB05,Síndrome de discontinuación intenso tras suspensión brusca,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Paroxetina,N06AB05,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Paroxetina,N06AB05,Teratogenicidad (defectos septales cardíacos en primer trimestre),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Paroxetina,N06AB05,Retención urinaria aguda,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Bupropión,N06AX12,Insomnio de conciliación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Agitación psicomotriz,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Temblor fino,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Sudoración,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Disminución del apetito y peso,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Bupropión,N06AX12,Convulsiones epilépticas (riesgo dosis-dependiente >450 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Bupropión,N06AX12,Psicosis o exacerbación maníaca en pacientes bipolares,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Bupropión,N06AX12,Crisis hipertensiva con IMAO,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lamotrigina,N03AX09,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Visión borrosa o diplopía,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Exantema cutáneo maculopapular benigno,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lamotrigina,N03AX09,Síndrome de Stevens-Johnson / Necrólisis Epidérmica Tóxica (exantema grave potencialmente mortal),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lamotrigina,N03AX09,Reacción DRESS,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lamotrigina,N03AX09,Meningitis aséptica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbonato de Litio,N05AN01,Temblor fino distal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,Poliuria,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,Polidipsia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,Aumento ponderal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,Molestias gastrointestinales leves,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,Hipotiroidismo subclínico o bocio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbonato de Litio,N05AN01,"Intoxicación por litemia (arritmias cardíacas, ataxia, convulsiones, coma y muerte)",Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbonato de Litio,N05AN01,Insuficiencia renal crónica tubulointersticial,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbonato de Litio,N05AN01,Diabetes insípida nefrogénica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Sertralina,N06AB06,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Diarrea transitoria,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Insomnio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Disfunción sexual,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Temblor fino,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Sertralina,N06AB06,Síndrome serotoninérgico con IMAO,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Sertralina,N06AB06,Hiponatremia por SIADH,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Sertralina,N06AB06,Hemorragia digestiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Fluoxetina,N06AB03,Ansiedad inicial,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Fluoxetina,N06AB03,Anorexia y pérdida de peso,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Fluoxetina,N06AB03,Insomnio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Fluoxetina,N06AB03,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Fluoxetina,N06AB03,Temblor,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Fluoxetina,N06AB03,Viraje maníaco,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Fluoxetina,N06AB03,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Fluoxetina,N06AB03,Interacciones farmacocinéticas múltiples,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Escitalopram,N06AB10,Náuseas leves transitorias,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Escitalopram,N06AB10,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Escitalopram,N06AB10,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Escitalopram,N06AB10,Disfunción sexual,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Escitalopram,N06AB10,Diaforesis,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Escitalopram,N06AB10,Prolongación del intervalo QTc a dosis supraterapéuticas (>20 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Escitalopram,N06AB10,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Escitalopram,N06AB10,Hiponatremia por SIADH,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Venlafaxina,N06AX16,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Venlafaxina,N06AX16,Sudoración profusa diaforética,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Venlafaxina,N06AX16,Sequedad de boca,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Venlafaxina,N06AX16,Insomnio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Venlafaxina,N06AX16,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Venlafaxina,N06AX16,Hipertensión arterial diastólica dosis-dependiente,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Venlafaxina,N06AX16,Síndrome de retirada abrupto intenso,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Venlafaxina,N06AX16,Síndrome serotoninérgico,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Duloxetina,N06AX21,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,Astenia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Duloxetina,N06AX21,"Hepatotoxicidad (ictericia, aumento de transaminasas)",Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Duloxetina,N06AX21,Crisis hipertensiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Duloxetina,N06AX21,Retención urinaria,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Mirtazapina,N06AX11,Sedación marcada,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Mirtazapina,N06AX11,Aumento de apetito,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Mirtazapina,N06AX11,Ganancia de peso significativa,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Mirtazapina,N06AX11,Sequedad bucal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Mirtazapina,N06AX11,Agranulocitosis (rara),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Mirtazapina,N06AX11,Convulsiones en sobredosis,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Mirtazapina,N06AX11,Hepatotoxicidad,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Haloperidol,N05AD01,Parkinsonismo secundario,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Haloperidol,N05AD01,Rigidez,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Haloperidol,N05AD01,Temblor,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Haloperidol,N05AD01,Acatisia motora,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Haloperidol,N05AD01,Sedación moderada,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Haloperidol,N05AD01,Distonía aguda laringofaríngea,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Haloperidol,N05AD01,Discinesia tardía irreversible,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Haloperidol,N05AD01,Prolongación del intervalo QTc,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Haloperidol,N05AD01,Síndrome neuroléptico maligno,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Risperidona,N05AX08,"Hiperprolactinemia marcada (galactorrea, amenorrea)",Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Risperidona,N05AX08,Aumento de peso moderado,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Risperidona,N05AX08,Sedación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Risperidona,N05AX08,Fatiga,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Risperidona,N05AX08,Síntomas extrapiramidales dosis-dependientes (>4-6 mg/día),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Risperidona,N05AX08,Riesgo cerebrovascular en demencia,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Risperidona,N05AX08,Discinesia tardía,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Olanzapina,N05AH03,Aumento masivo de peso,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Olanzapina,N05AH03,Apetito voraz por carbohidratos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Olanzapina,N05AH03,Sedación diurna intensa,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Olanzapina,N05AH03,Boca seca,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Olanzapina,N05AH03,Síndrome metabólico acelerado,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Olanzapina,N05AH03,Diabetes mellitus tipo 2 de inicio rápido,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Olanzapina,N05AH03,Dislipidemia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Quetiapina,N05AH04,Sedación profunda temprana,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Quetiapina,N05AH04,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Quetiapina,N05AH04,Hipotensión ortostática,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Quetiapina,N05AH04,Ganancia ponderal moderada,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Quetiapina,N05AH04,Boca seca,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Quetiapina,N05AH04,Cataratas y opacidades del cristalino,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Quetiapina,N05AH04,Prolongación moderada de QTc,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Quetiapina,N05AH04,Síndrome metabólico,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Aripiprazol,N05AX12,Acatisia inicial e inquietud motora,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Aripiprazol,N05AX12,Insomnio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Aripiprazol,N05AX12,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Aripiprazol,N05AX12,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Aripiprazol,N05AX12,Ansiedad,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Aripiprazol,N05AX12,"Control de impulsos alterado (ludopatía, hipersexualidad paradójica)",Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Aripiprazol,N05AX12,Discinesia tardía,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Aripiprazol,N05AX12,Síndrome neuroléptico maligno,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Ácido Valproico,N03AG01,"Molestias digestivas (náuseas, dispepsia)",Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Ácido Valproico,N03AG01,Temblor fino postural,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Ácido Valproico,N03AG01,Aumento de peso,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Ácido Valproico,N03AG01,Alopecia transitoria,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Ácido Valproico,N03AG01,Somnolencia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Ácido Valproico,N03AG01,Hepatotoxicidad fulminante idiosincrásica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Ácido Valproico,N03AG01,Pancreatitis aguda necrotizante,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Ácido Valproico,N03AG01,Trombocitopenia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Ácido Valproico,N03AG01,Encefalopatía hiperamonémica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Ácido Valproico,N03AG01,Teratogenicidad mayor,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbamazepina,N03AF01,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Ataxia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Sedación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Diplopía,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Hiponatremia por SIADH,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Carbamazepina,N03AF01,Agranulocitosis y anemia aplásica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbamazepina,N03AF01,Síndrome de Stevens-Johnson,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbamazepina,N03AF01,Hepatitis tóxica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Carbamazepina,N03AF01,Bloqueo auriculoventricular,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clonazepam,N03AE01,Sedación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clonazepam,N03AE01,Somnolencia matinal,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clonazepam,N03AE01,Ataxia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clonazepam,N03AE01,Enlentecimiento psicomotor,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clonazepam,N03AE01,Amnesia anterógrada,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Clonazepam,N03AE01,Dependencia física y tolerancia,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clonazepam,N03AE01,Depresión respiratoria severa con opioides o alcohol,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Clonazepam,N03AE01,Síndrome de abstinencia grave,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lorazepam,N05BA06,Sedación,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lorazepam,N05BA06,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lorazepam,N05BA06,Debilidad muscular,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lorazepam,N05BA06,Amnesia anterógrada transitoria,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lorazepam,N05BA06,Ataxia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Lorazepam,N05BA06,Dependencia farmacológica,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lorazepam,N05BA06,Depresión respiratoria en combinación con depresores del SNC,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Lorazepam,N05BA06,Síndrome de abstinencia,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Donepezilo,N06DA02,Náuseas,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Donepezilo,N06DA02,Diarrea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Donepezilo,N06DA02,Calambres musculares nocturnos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Donepezilo,N06DA02,Insomnio,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Donepezilo,N06DA02,Anorexia,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Donepezilo,N06DA02,Bradicardia sintomática y síncope vagal,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Donepezilo,N06DA02,Bloqueo auriculoventricular,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Donepezilo,N06DA02,Úlcera péptica activa con hemorragia,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Memantina,N06DX01,Mareos,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Memantina,N06DX01,Cefalea,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Memantina,N06DX01,Estreñimiento,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Memantina,N06DX01,Somnolencia leve,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Memantina,N06DX01,Hipertensión arterial,Común / Moderado,Stahl - Prescriber's Guide,Común / Moderado,1
+Memantina,N06DX01,Confusión transitoria,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Memantina,N06DX01,Alucinaciones (muy raras),Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
+Memantina,N06DX01,Insuficiencia cardíaca congestiva,Grave / Riesgo Vital,Stahl - Prescriber's Guide,Grave / Riesgo Vital,2
