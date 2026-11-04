@@ -17,7 +17,6 @@ import streamlit as st
 # set_page_config DEBE ser el primer comando ejecutable de Streamlit
 st.set_page_config(
     page_title="Sofia | Asistente de Psicofarmacología Clínica",
-    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -35,7 +34,7 @@ except Exception as _rag_err:
     # El detalle completo va al log del servidor, no a la interfaz pública
     traceback.print_exc(file=sys.stderr)
     st.error(
-        f"⚠️ No se pudo inicializar el motor RAG ({RAG_INIT_ERROR}). "
+        f"No se pudo inicializar el motor RAG ({RAG_INIT_ERROR}). "
         "Consulta los logs del servidor para ver el detalle."
     )
 
@@ -250,23 +249,23 @@ def render_modo_respuesta(modo, proveedor=None):
     """Indica visiblemente cómo se generó la respuesta (LLM, plantilla sin LLM, sin cobertura o error)."""
     if modo == "llm":
         prov_txt = f" [{proveedor}]" if proveedor else ""
-        st.caption(f"🤖 Respuesta generada por el modelo de lenguaje{prov_txt} a partir de los documentos recuperados.")
+        st.caption(f"Respuesta generada por el modelo de lenguaje{prov_txt} a partir de los documentos recuperados.")
     elif modo == "contingencia":
         st.warning(
-            "🟡 **Modo contingencia – sin modelo de lenguaje.** Esto es una plantilla fija rellenada con el documento "
+            "**Modo contingencia – sin modelo de lenguaje.** Esto es una plantilla fija rellenada con el documento "
             "recuperado por coincidencia léxica; no es un razonamiento clínico sobre el caso. Consulta el documento citado."
         )
     elif modo == "sin_cobertura":
-        st.info("⚪ Consulta fuera del alcance del corpus clínico de Sofia.")
+        st.info("Consulta fuera del alcance del corpus clínico de Sofia.")
     elif modo == "error":
-        st.error("🔴 La consulta no pudo procesarse.")
+        st.error("La consulta no pudo procesarse.")
 
 
 def render_fuentes(fuentes):
     """Muestra el desplegable de fuentes recuperadas de manera segura y defensiva."""
     if not fuentes:
         return
-    with st.expander("📚 Fuentes y Documentos Clínicos Recuperados"):
+    with st.expander("Fuentes y Documentos Clínicos Recuperados"):
         for item in fuentes:
             if isinstance(item, (list, tuple)) and len(item) == 2:
                 doc, score = item
@@ -325,18 +324,18 @@ with st.sidebar:
     st.caption("Asistente de Soporte a la Decisión y Farmacovigilancia en Psiquiatría")
 
     st.markdown("---")
-    st.markdown("### 🔌 Estado del motor")
+    st.markdown("### Estado del motor")
 
     if es_groq:
-        st.success(f"⚡ Groq Cloud activo (`{_groq_model}`)")
+        st.success(f"Groq Cloud activo (`{_groq_model}`)")
     elif es_ollama_cloud and key_faltante:
-        st.warning("⚠️ Ollama Cloud sin API Key: operando en modo contingencia.")
+        st.warning("Ollama Cloud sin API Key: operando en modo contingencia.")
     elif es_ollama_cloud:
-        st.success(f"☁️ Ollama Cloud activo (`{_modelo}`)")
+        st.success(f"Ollama Cloud activo (`{_modelo}`)")
     elif _usa_ollama:
-        st.success(f"🟢 Ollama Local activo (`{_modelo}`)")
+        st.success(f"Ollama Local activo (`{_modelo}`)")
     else:
-        st.info("🟡 Inferencia contingencia: TF-IDF + fichas estructuradas")
+        st.info("Inferencia contingencia: TF-IDF + fichas estructuradas")
     st.caption(
         "Recuperación: "
         + ("semántica densa (embeddings)" if _modo_idx == "ollama" else "léxica TF-IDF")
@@ -346,13 +345,13 @@ with st.sidebar:
     num_docs = len(getattr(rag_engine, "docs", []))
     st.metric("Base de Conocimiento", f"{num_docs} Documentos", delta="Jufe + Stahl + CANMAT + Marcas")
     if num_docs == 0:
-        st.error("🔴 La base de conocimiento está vacía: el RAG no puede responder. Revisa rag_knowledge_base.json y los logs.")
+        st.error("La base de conocimiento está vacía: el RAG no puede responder. Revisa rag_knowledge_base.json y los logs.")
     if getattr(rag_engine, "kb_obsoleta", False):
-        st.warning("⚠️ Hay documentos de pre_training/ más recientes que la base de conocimiento indexada. Regenera rag_knowledge_base.json.")
+        st.warning("Hay documentos de pre_training/ más recientes que la base de conocimiento indexada. Regenera rag_knowledge_base.json.")
 
 
     st.markdown("---")
-    st.markdown("### 📚 Corpus Clínico y Trazabilidad")
+    st.markdown("### Corpus Clínico y Trazabilidad")
     st.markdown("""
     - **Corpus propio:** Síntesis estructurada basada en Jufe, Stahl y CANMAT 2018.
     - **Trazabilidad `[DOC-ID]`:** Cero citas apócrifas; respaldo directo por código de evidencia.
@@ -360,27 +359,27 @@ with st.sidebar:
     """)
 
     st.markdown("---")
-    st.markdown("### 📂 Código y Documentación")
-    st.markdown("[🔗 Ver Repositorio y README en GitHub](https://github.com/anacolinaarismendi/Sofia)")
+    st.markdown("### Código y Documentación")
+    st.markdown("[Ver Repositorio y README en GitHub](https://github.com/anacolinaarismendi/Sofia)")
 
     st.markdown("---")
-    st.caption("⚠️ **Aviso de Responsabilidad:** Sofia es una herramienta de soporte asistencial para profesionales de la salud. No sustituye el juicio clínico individual.")
+    st.caption("**Aviso de Responsabilidad:** Sofia es una herramienta de soporte asistencial para profesionales de la salud. No sustituye el juicio clínico individual.")
 
 
 # -----------------------------------------------------------------------------
 # Encabezado Principal y Pestañas
 # -----------------------------------------------------------------------------
-st.markdown('<div class="main-title">🧠 Sofia — Asistente Clínico de Psicofarmacología</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">Sofia — Asistente Clínico de Psicofarmacología</div>', unsafe_allow_html=True)
 st.markdown(
     '<div class="sub-title">Motor RAG especializado en interacciones CYP450, cascadas de prescripción, directrices CANMAT y farmacovigilancia con trazabilidad [DOC-ID].</div>',
     unsafe_allow_html=True
 )
 
 tab_chat, tab_cyp, tab_cascade, tab_canmat = st.tabs([
-    "💬 Asistente RAG Clínico",
-    "⚡ Matriz CYP450 Interactiva",
-    "🛑 Detector de Cascadas",
-    "📖 Guías CANMAT y Catálogo"
+    "Asistente RAG Clínico",
+    "Matriz CYP450 Interactiva",
+    "Detector de Cascadas",
+    "Guías CANMAT y Catálogo"
 ])
 
 
@@ -395,13 +394,13 @@ with tab_chat:
     col1, col2, col3, col4 = st.columns(4)
     query_preset = None
 
-    if col1.button("💊 Sertralina (Posología Jufe)", width="stretch"):
+    if col1.button("Sertralina (Posología Jufe)", width="stretch"):
         query_preset = "¿Qué laboratorios fabrican la Sertralina y cuáles son sus nombres comerciales y posología según Jufe?"
-    if col2.button("⚠️ Paroxetina y Bupropión (CYP2D6)", width="stretch"):
+    if col2.button("Paroxetina y Bupropión (CYP2D6)", width="stretch"):
         query_preset = "¿Qué interacciones y precauciones enzimáticas con CYP2D6 describe Stahl para Paroxetina y Bupropión?"
-    if col3.button("📋 CANMAT Manía y Viraje", width="stretch"):
+    if col3.button("CANMAT Manía y Viraje", width="stretch"):
         query_preset = "¿Qué fármacos recomienda CANMAT en primera línea para manía aguda y por qué desaconseja los antidepresivos solos en depresión bipolar?"
-    if col4.button("🛑 Haloperidol + Biperideno", width="stretch"):
+    if col4.button("Haloperidol + Biperideno", width="stretch"):
         query_preset = "Un paciente en tratamiento con Haloperidol comienza con rigidez y temblor y le indican medicación antiparkinsoniana. ¿Qué dicen Jufe y Stahl sobre este riesgo?"
 
     if "messages" not in st.session_state:
@@ -423,7 +422,7 @@ with tab_chat:
             render_modo_respuesta(msg.get("modo"), proveedor=msg.get("proveedor"))
             if msg.get("voice_snippet"):
                 st.markdown(
-                    f'<div class="voice-card">🔊 <b>Voice Snippet Clínico (&lt; 40s):</b><br>{escape(msg["voice_snippet"])}</div>',
+                    f'<div class="voice-card"><b>Voice Snippet Clínico (&lt; 40s):</b><br>{escape(msg["voice_snippet"])}</div>',
                     unsafe_allow_html=True
                 )
             render_fuentes(msg.get("fuentes"))
@@ -442,7 +441,7 @@ with tab_chat:
                 except Exception as e:
                     traceback.print_exc(file=sys.stderr)
                     resultado = {
-                        "respuesta": f"⚠️ Error al procesar la consulta ({type(e).__name__}). Revisa los logs del servidor.",
+                        "respuesta": f"Error al procesar la consulta ({type(e).__name__}). Revisa los logs del servidor.",
                         "voice_snippet": "",
                         "modo_respuesta": "error",
                         "documentos_recuperados": [],
@@ -460,7 +459,7 @@ with tab_chat:
 
                 if voice_snip:
                     st.markdown(
-                        f'<div class="voice-card">🔊 <b>Voice Snippet Clínico (&lt; 40s):</b><br>{escape(voice_snip)}</div>',
+                        f'<div class="voice-card"><b>Voice Snippet Clínico (&lt; 40s):</b><br>{escape(voice_snip)}</div>',
                         unsafe_allow_html=True
                     )
 
@@ -502,9 +501,9 @@ with tab_cyp:
     )
 
     if len(seleccion) < 2:
-        st.info("💡 Selecciona al menos 2 fármacos para calcular los cruces enzimáticos.")
+        st.info("Selecciona al menos 2 fármacos para calcular los cruces enzimáticos.")
     else:
-        st.markdown("##### 🚦 Diagnóstico Clínico de Interacciones")
+        st.markdown("##### Diagnóstico Clínico de Interacciones")
         interacciones_detectadas = []
 
         # Normalizador de nombres en selección
@@ -549,7 +548,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-CYP2D6-001",
-                "titulo": "🔴 Interacción Severa Farmacocinética y Farmacodinámica (Paroxetina + Bupropión)",
+                "titulo": "Interacción Severa Farmacocinética y Farmacodinámica (Paroxetina + Bupropión)",
                 "descripcion": (
                     "**Mecanismo Enzimático:** Tanto la paroxetina como el bupropión son potentes inhibidores del citocromo CYP2D6. "
                     "Al coadministrarse, se produce una saturación competitiva del aclaramiento de paroxetina (que depende de 2D6 con cinética no lineal), "
@@ -566,7 +565,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": None,
-                "titulo": f"🔴 Duplicidad Terapéutica Inadecuada de ISRS ({' + '.join(sorted(isrs_presentes))})",
+                "titulo": f"Duplicidad Terapéutica Inadecuada de ISRS ({' + '.join(sorted(isrs_presentes))})",
                 "descripcion": (
                     "**Mecanismo:** La prescripción simultánea de dos o más fármacos de la misma familia (ISRS) carece de fundamento clínico "
                     "basado en evidencia y no aporta beneficio sinérgico en depresión mayor o trastornos de ansiedad.\n\n"
@@ -581,7 +580,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "fuente": None,
-                "titulo": f"🟡 Duplicidad Terapéutica de Benzodiazepinas ({' + '.join(sorted(bzd_presentes))})",
+                "titulo": f"Duplicidad Terapéutica de Benzodiazepinas ({' + '.join(sorted(bzd_presentes))})",
                 "descripcion": (
                     "**Mecanismo:** Coadministración de dos o más benzodiazepinas sobre el mismo sitio alostérico del receptor GABA-A.\n\n"
                     "**Riesgo Clínico:** Potenciación de sedación profunda, enlentecimiento psicomotor, deterioro de memoria anterógrada, riesgo elevado de caídas/fracturas y rápida inducción de tolerancia y dependencia farmacológica.\n\n"
@@ -594,7 +593,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-CYP2D6-001",
-                "titulo": f"🔴 Bloqueo Enzimático Potente de CYP2D6 ({', '.join(sorted(inh_2d6_activos))} + {', '.join(sorted(sus_2d6_activos))})",
+                "titulo": f"Bloqueo Enzimático Potente de CYP2D6 ({', '.join(sorted(inh_2d6_activos))} + {', '.join(sorted(sus_2d6_activos))})",
                 "descripcion": (
                     f"**Mecanismo:** {', '.join(sorted(inh_2d6_activos))} inhibe potentemente el CYP2D6, provocando una elevación "
                     f"marcada de las concentraciones plasmáticas de {', '.join(sorted(sus_2d6_activos))}.\n\n"
@@ -608,7 +607,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-CYP1A2-002",
-                "titulo": f"🔴 Bloqueo Crítico de CYP1A2 ({', '.join(sorted(inh_1a2_activos))} + {', '.join(sorted(sus_1a2_activos))})",
+                "titulo": f"Bloqueo Crítico de CYP1A2 ({', '.join(sorted(inh_1a2_activos))} + {', '.join(sorted(sus_1a2_activos))})",
                 "descripcion": (
                     f"**Mecanismo:** Fluvoxamina es un inhibidor extremadamente potente de CYP1A2. Al combinarse con {', '.join(sorted(sus_1a2_activos))}, "
                     f"multiplica su área bajo la curva (AUC) entre 3 y 5 veces.\n\n"
@@ -622,7 +621,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "ALERTA-CLOZ-AGRAN-001",
-                "titulo": "🛑 CONTRAINDICACIÓN ABSOLUTA: Mielosupresión Sinérgica (Clozapina + Carbamazepina)",
+                "titulo": "Contraindicación: Mielosupresión Sinérgica (Clozapina + Carbamazepina)",
                 "descripcion": (
                     "**Mecanismo y Riesgo:** Ambos fármacos poseen toxicidad medular intrínseca y riesgo de inducir agranulocitosis y anemia aplásica. "
                     "Su administración concomitante sinergiza la toxicidad sobre los precursores mieloides, elevando de forma crítica el riesgo de neutropenia letal.\n\n"
@@ -630,14 +629,14 @@ with tab_cyp:
                 )
             })
 
-        # Regla 7: Inducción Enzimática Masiva por Carbamazepina
+        # Regla 7: Inducción Enzimática por Carbamazepina
         if es_carbamazepina:
             farmacos_inducidos = [orig for norm, orig in norm_sel.items() if not ("carbamazepina" in norm)]
             if farmacos_inducidos:
                 interacciones_detectadas.append({
                     "nivel": "ADVERTENCIA",
                     "fuente": None,
-                    "titulo": f"🟡 Inducción Metabólica Masiva por Carbamazepina sobre: {', '.join(sorted(farmacos_inducidos))}",
+                    "titulo": f"Inducción Metabólica por Carbamazepina sobre: {', '.join(sorted(farmacos_inducidos))}",
                     "descripcion": (
                         "**Mecanismo:** La carbamazepina es un inductor enzimático potente de CYP1A2, CYP2C9, CYP2C19, CYP3A4 y UGT glucuronidación. "
                         "Reduce entre un 40% y un 60% las concentraciones plasmáticas de antipsicóticos (Quetiapina, Olanzapina, Aripiprazol, Haloperidol), "
@@ -652,7 +651,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "CRÍTICO",
                 "fuente": "INTER-LAM-VAL-003, ALERTA-LAM-SJS-002",
-                "titulo": "🔴 Inhibición Crítica de Glucuronidación (Valproato + Lamotrigina)",
+                "titulo": "Inhibición Crítica de Glucuronidación (Valproato + Lamotrigina)",
                 "descripcion": (
                     "**Interacción:** El ácido valproico inhibe fuertemente la glucuronidación (UGT1A4/2B7) de la lamotrigina, "
                     "duplicando con creces su semivida plasmática y aumentando drásticamente la incidencia de erupciones cutáneas graves "
@@ -667,7 +666,7 @@ with tab_cyp:
                 interacciones_detectadas.append({
                     "nivel": "CRÍTICO",
                     "fuente": None,
-                    "titulo": "🔴 Riesgo de Neurotoxicidad y Síndrome Encefalopático (Litio + Haloperidol)",
+                    "titulo": "Riesgo de Neurotoxicidad y Síndrome Encefalopático (Litio + Haloperidol)",
                     "descripcion": (
                         "**Hallazgo Clínico:** La combinación puede precipitar un síndrome encefalopático severo (síndrome de Cohen & Cohen), "
                         "cursando con letargia, temblor grosero, debilidad extrema, fiebre y síntomas extrapiramidales severos con riesgo de secuelas neurológicas.\n\n"
@@ -679,7 +678,7 @@ with tab_cyp:
                 interacciones_detectadas.append({
                     "nivel": "ADVERTENCIA",
                     "fuente": None,
-                    "titulo": f"🟡 Potenciación Serotoninérgica y Temblor (Litio + {', '.join(sorted(isrs_presentes))})",
+                    "titulo": f"Potenciación Serotoninérgica y Temblor (Litio + {', '.join(sorted(isrs_presentes))})",
                     "descripcion": (
                         "**Interacción Farmacodinámica:** El litio estimula la neurotransmisión serotoninérgica central. Aunque es una estrategia válida de adición "
                         "en depresión resistente, eleva la frecuencia de temblor postural fino, molestias digestivas y riesgo de toxicidad serotoninérgica.\n\n"
@@ -691,7 +690,7 @@ with tab_cyp:
                 interacciones_detectadas.append({
                     "nivel": "ADVERTENCIA",
                     "fuente": None,
-                    "titulo": "🟡 Monitorización Neurológica Estricta (Litio + Clozapina)",
+                    "titulo": "Monitorización Neurológica Estricta (Litio + Clozapina)",
                     "descripcion": (
                         "**Riesgo:** Ambos agentes disminuyen el umbral convulsivo y aumentan el riesgo de mioclonías, confusión y síndrome neuroléptico maligno. Como ventaja, el litio estimula la granulopoyesis protegiendo frente a neutropenia.\n\n"
                         "**Pauta:** Titulación lenta de clozapina y hemograma seriado habitual."
@@ -702,7 +701,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "fuente": "INTER-LIT-RENAL-004, MONO-LITIO-005",
-                "titulo": "🟡 Vigilancia de Eliminación Renal de Litio",
+                "titulo": "Vigilancia de Eliminación Renal de Litio",
                 "descripcion": (
                     "**Riesgo Renal:** El litio tiene eliminación exclusivamente renal sin metabolismo CYP450. "
                     "La prescripción concomitante de AINEs (ibuprofeno, naproxeno), IECA o diuréticos tiazídicos "
@@ -715,7 +714,7 @@ with tab_cyp:
             interacciones_detectadas.append({
                 "nivel": "ADVERTENCIA",
                 "fuente": "MONO-CLOZAPINA-006, INTER-CYP1A2-002",
-                "titulo": "🟡 Monitorización Estricta de Clozapina (Sustrato Principal CYP1A2)",
+                "titulo": "Monitorización Estricta de Clozapina (Sustrato Principal CYP1A2)",
                 "descripcion": (
                     "**Vía Metabólica:** Clozapina depende en un 70% de CYP1A2. Fármacos inhibidores elevan su nivel hacia el rango convulsivo; "
                     "los hidrocarburos del humo del tabaco inducen CYP1A2 y reducen sus niveles hasta un 50%. Requiere hemograma seriado obligatorio."
@@ -725,7 +724,7 @@ with tab_cyp:
         if not interacciones_detectadas:
             st.markdown(
                 f'<div class="alert-warning" style="background-color: #f8fafc; border-left: 5px solid #64748b; color: #1e293b; padding: 14px 18px; border-radius: 6px;">'
-                f'<h4>⚪ Sin Interacciones Farmacocinéticas Críticas Detectadas</h4>'
+                f'<h4>Sin interacciones farmacocinéticas críticas detectadas</h4>'
                 f'<p>No se evidencian colisiones enzimáticas primarias de citocromos o duplicidades directas para la combinación: <b>{", ".join(seleccion)}</b>.</p>'
                 f'<p style="margin-bottom: 0;"><b>Aviso de seguridad clínica:</b> La ausencia de una alerta automática <u>no garantiza la inocuidad</u> del esquema. '
                 f'Verifique la función renal y hepática del paciente, consulte las monografías de Jufe y Stahl o plantee la consulta a <b>Sofia</b> en el asistente RAG.</p>'
@@ -737,9 +736,13 @@ with tab_cyp:
                 css_class = "alert-critical" if item["nivel"] == "CRÍTICO" else "alert-warning"
                 fuente = item.get("fuente")
                 if fuente:
-                    pie = f'<p><small>📎 Respaldo en el corpus: {", ".join(f"[{f.strip()}]" for f in fuente.split(","))}</small></p>'
+                    pie = f'<p><small>Respaldo en el corpus: {", ".join(f"[{f.strip()}]" for f in fuente.split(","))}</small></p>'
                 else:
-                    pie = '<p><small>⚠️ Regla farmacocinética clínica validada: contrastar con la ficha técnica o literatura antes de actuar.</small></p>'
+                    pie = '<p><small>Regla farmacocinética clínica validada: contrastar con la ficha técnica o literatura antes de actuar.</small></p>'
+                st.markdown(
+                    f'<div class="{css_class}"><h4>{item["titulo"]}</h4>{_md_a_html(item["descripcion"])}{pie}</div>',
+                    unsafe_allow_html=True
+                )
                 st.markdown(
                     f'<div class="{css_class}"><h4>{item["titulo"]}</h4>{_md_a_html(item["descripcion"])}{pie}</div>',
                     unsafe_allow_html=True
@@ -759,9 +762,9 @@ with tab_cascade:
     )
 
     subtab_activa, subtab_preventiva, subtab_guia = st.tabs([
-        "💊 Analizador de Regímenes de Polifarmacia (Detección Activa y Carga ACB)",
-        "🔍 Evaluador de Síntomas Emergentes (Detección Preventiva)",
-        "📋 Algoritmo STOPP/START v3 y Guía de Desprescripción"
+        "Analizador de Regímenes de Polifarmacia (Detección Activa y Carga ACB)",
+        "Evaluador de Síntomas Emergentes (Detección Preventiva)",
+        "Algoritmo STOPP/START v3 y Guía de Desprescripción"
     ])
 
     # -------------------------------------------------------------------------
@@ -821,7 +824,7 @@ with tab_cascade:
             # 1. Alertas de Cascadas Activas
             if resultado_analisis.cascadas_activas:
                 st.markdown("---")
-                st.markdown("##### 🚨 Cascadas de Prescripción Activas Confirmadas")
+                st.markdown("##### Cascadas de Prescripción Activas Confirmadas")
                 for casc in resultado_analisis.cascadas_activas:
                     css_card = "alert-critical" if casc.nivel == "CRÍTICO" else "alert-warning"
                     badge_color = "#dc2626" if casc.nivel == "CRÍTICO" else "#f59e0b"
@@ -834,11 +837,11 @@ with tab_cascade:
                             <span style="color: #64748b; font-size: 0.82rem; font-weight: 600;">Ref: {casc.doc_id}</span>
                         </div>
                         <h4 style="margin: 4px 0 10px 0; font-weight: 700;">{casc.titulo}</h4>
-                        <p style="margin-bottom: 6px;"><b>💊 Fármaco Causal Primario:</b> <code>{escape(casc.farmaco_causal)}</code> &nbsp; ➡️ &nbsp; <b>Fármaco Cascada Iatrogénico:</b> <code>{escape(casc.farmaco_cascada)}</code></p>
-                        <p style="margin-bottom: 6px;"><b>🩺 Mecanismo Fisiopatológico:</b> {escape(casc.mecanismo)}</p>
-                        <p style="margin-bottom: 6px;"><b>⚠️ Daño Iatrogénico Documentado:</b> {escape(casc.riesgo_iatrogenico)}</p>
+                        <p style="margin-bottom: 6px;"><b>Fármaco Causal Primario:</b> <code>{escape(casc.farmaco_causal)}</code> &nbsp; &rarr; &nbsp; <b>Fármaco Cascada Iatrogénico:</b> <code>{escape(casc.farmaco_cascada)}</code></p>
+                        <p style="margin-bottom: 6px;"><b>Mecanismo Fisiopatológico:</b> {escape(casc.mecanismo)}</p>
+                        <p style="margin-bottom: 6px;"><b>Daño Iatrogénico Documentado:</b> {escape(casc.riesgo_iatrogenico)}</p>
                         <hr style="margin: 10px 0; border: none; border-top: 1px solid rgba(0,0,0,0.12);">
-                        <p style="margin-bottom: 6px; font-weight: 700;">📋 Protocolo Sofia de Desprescripción y Retirada Gradual:</p>
+                        <p style="margin-bottom: 6px; font-weight: 700;">Protocolo Sofia de Desprescripción y Retirada Gradual:</p>
                         <ol style="margin-bottom: 2px; padding-left: 20px; line-height: 1.5;">
                             {pasos_html}
                         </ol>
@@ -847,13 +850,13 @@ with tab_cascade:
             else:
                 st.markdown("""
                 <div class="alert-safe" style="padding: 14px 18px; border-radius: 6px; margin: 12px 0;">
-                    <b>✓ Sin Cascadas Activas:</b> No se detectó ninguna interacción de cascada directa catalogada en la lista de fármacos ingresada.
+                    <b>Sin Cascadas Activas:</b> No se detectó ninguna interacción de cascada directa catalogada en la lista de fármacos ingresada.
                 </div>
                 """, unsafe_allow_html=True)
 
             # 2. Panel de Carga Anticolinérgica (ACB)
             st.markdown("---")
-            st.markdown("##### 🧠 Evaluación de Carga Cognitiva Anticolinérgica (ACB Scale)")
+            st.markdown("##### Evaluación de Carga Cognitiva Anticolinérgica (ACB Scale)")
             st.write(acb.descripcion_clinica)
 
             if acb.farmacos_contribuyentes:
@@ -908,14 +911,14 @@ with tab_cascade:
             <div class="{css_class}" style="padding: 16px 20px; border-radius: 8px; margin: 15px 0;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
                     <span style="background-color: {badge_bg}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.5px;">{badge_label}</span>
-                    <span style="color: #64748b; font-size: 0.82rem; font-weight: 600;">📚 {escape(str(regla.get('fuente', '')))}</span>
+                    <span style="color: #64748b; font-size: 0.82rem; font-weight: 600;">{escape(str(regla.get('fuente', '')))}</span>
                 </div>
                 <h3 style="margin-top: 4px; margin-bottom: 12px; font-size: 1.18rem; font-weight: 700;">{escape(regla["titulo"])}</h3>
-                <p style="margin-bottom: 8px;"><b>🩺 Mecanismo Fisiopatológico:</b> {escape(regla["mecanismo"])}</p>
-                <p style="margin-bottom: 8px;"><b>❌ Error Típico de Prescripción (Cascada):</b> {escape(regla["error_tipico"])}</p>
-                <p style="margin-bottom: 8px;"><b>⚠️ Riesgo Iatrogénico Documentado:</b> {escape(regla["riesgo_iatrogenico"])}</p>
+                <p style="margin-bottom: 8px;"><b>Mecanismo Fisiopatológico:</b> {escape(regla["mecanismo"])}</p>
+                <p style="margin-bottom: 8px;"><b>Error Típico de Prescripción (Cascada):</b> {escape(regla["error_tipico"])}</p>
+                <p style="margin-bottom: 8px;"><b>Riesgo Iatrogénico Documentado:</b> {escape(regla["riesgo_iatrogenico"])}</p>
                 <hr style="margin: 12px 0; border: none; border-top: 1px solid rgba(0,0,0,0.12);">
-                <h4 style="margin-bottom: 8px; font-size: 1.0rem; font-weight: 700;">📋 Protocolo Sofia de Desprescripción y Optimización Racional:</h4>
+                <h4 style="margin-bottom: 8px; font-size: 1.0rem; font-weight: 700;">Protocolo Sofia de Desprescripción y Optimización Racional:</h4>
                 <ol style="margin-bottom: 4px; padding-left: 22px; line-height: 1.55;">
                     {protocolo_html}
                 </ol>
@@ -929,11 +932,11 @@ with tab_cascade:
         st.markdown("##### Algoritmo Clínico de Detección y Principios de Desprescripción Segura")
         st.markdown("""
         **Las 3 Preguntas Clave del Algoritmo (Criterios STOPP/START v3 & Sofia):**
-        1. ⏱️ **¿Cuándo comenzó exactamente el síntoma actual?**  
+        1. **¿Cuándo comenzó exactamente el síntoma actual?**  
            Verificar si coincide temporalmente con el inicio o aumento de dosis de un fármaco prescrito en las 8-12 semanas previas.
-        2. 💊 **¿Qué modificaciones se hicieron en la medicación recientemente?**  
+        2. **¿Qué modificaciones se hicieron en la medicación recientemente?**  
            Tener en cuenta el tiempo de latencia, vida media prolongada y acumulación plasmática progresiva.
-        3. 🔬 **¿Puede la farmacología del fármaco explicar el síntoma?**  
+        3. **¿Puede la farmacología del fármaco explicar el síntoma?**  
            Analizar perfiles de afinidad por receptores (D2, H1, 5-HT2C, M1-M4, alfa-1 adrenérgico) antes de etiquetar el síntoma como una nueva patología o prescribir un segundo fármaco.
 
         ---
@@ -978,7 +981,7 @@ with tab_canmat:
         )
 
     st.markdown("---")
-    st.markdown("#### 🔍 Catálogo Rápido de Marcas y Códigos ATC (OMS)")
+    st.markdown("#### Catálogo Rápido de Marcas y Códigos ATC (OMS)")
 
     busqueda_farmaco = st.text_input("Buscar principio activo:", value="Sertralina")
     info_atc = ATCEnricher.get_info(busqueda_farmaco)

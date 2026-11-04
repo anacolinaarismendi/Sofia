@@ -679,7 +679,7 @@ class ClinicalRAGEngine:
                         proveedor_usado = f"Ollama ({self.llm_model})"
                         if datos.get("done_reason") == "length":
                             respuesta_texto += (
-                                "\n\n> ⚠️ **Respuesta truncada** por límite de longitud: revisa las alertas de seguridad "
+                                "\n\n> **Respuesta truncada** por límite de longitud: revisa las alertas de seguridad "
                                 "en los documentos recuperados."
                             )
                 else:
@@ -701,7 +701,7 @@ class ClinicalRAGEngine:
             if citas_no_recuperadas:
                 logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
                 respuesta_texto += (
-                    "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
+                    "\n\n> **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
                     f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
                     "Verifica esas referencias antes de usarlas."
                 )
@@ -713,7 +713,7 @@ class ClinicalRAGEngine:
             if citas_no_recuperadas:
                 logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
                 respuesta_texto += (
-                    "\n\n> ⚠️ **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
+                    "\n\n> **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
                     f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
                     "Verifica esas referencias antes de usarlas."
                 )

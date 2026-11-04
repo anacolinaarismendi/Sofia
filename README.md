@@ -1,15 +1,15 @@
-# Sofia — Asistente Clínico Inteligente y RAG de Psicofarmacología
+# Sofia — Asistente Clínico y RAG de Psicofarmacología
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![RAG Benchmark](https://img.shields.io/badge/RAG%20Benchmark-N%3D22%20(formal)-blue.svg)](data/processed/rag_evaluation_report.json)
 
-> 🚀 **Aplicación Web Desplegada en Streamlit Cloud:** [appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
+> **Aplicación Web Desplegada en Streamlit Cloud:** [appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app](https://appapppy-olzne8ryns9sw9j6dc6rbw.streamlit.app)
 
 ---
 
-## 📌 ¿Qué es Sofia y cuál es el alcance real de su RAG?
+## ¿Qué es Sofia y cuál es el alcance de su RAG?
 
 **Sofia** es un sistema de soporte a la decisión clínica, farmacovigilancia y generación aumentada por recuperación (RAG) especializado en **psicofarmacología basada en la evidencia**.
 
@@ -19,9 +19,9 @@ Para garantizar la seguridad médica y evitar alucinaciones, **Sofia opera bajo 
 
 ---
 
-## 🎯 Capacidades Reales: Qué SÍ puede responder el RAG
+## Capacidades: consultas dentro del alcance del RAG
 
-El motor RAG cuenta con información detallada, validada y estructurada para responder con alto rigor científico a preguntas en las siguientes cinco áreas:
+El motor RAG cuenta con información estructurada para responder a consultas en cinco áreas:
 
 ### 1. Monografías y Posología de 10 Psicofármacos Clave
 Cada una de las siguientes moléculas dispone de una monografía completa (mecanismo neuroquímico, afinidad de receptores, rangos de dosificación según Jufe y Stahl, efectos comunes vs. graves y poblaciones especiales):
@@ -66,22 +66,22 @@ Recomendaciones oficiales tabuladas por líneas de tratamiento y niveles de evid
 
 ---
 
-## ⚠️ Fronteras y Límites: Qué NO puede responder el RAG
+## Límites del sistema: consultas fuera de alcance
 
 Para mantener expectativas realistas sobre el sistema interactivo, el usuario debe tener en cuenta lo siguiente:
 
 | Categoría de Consulta | Capacidad del RAG | Razón / Comportamiento del Sistema |
 | :--- | :---: | :--- |
-| **Psicofármacos no indexados en monografía** *(ej. Clonazepam, Lorazepam, Mirtazapina, Cariprazina, Trazodona)* | ❌ Limitada | Si el principio activo no está en `pre_training/`, el modelo declarará no tener suficiente contexto clínico para emitir una recomendación segura. |
-| **Medicina General / No Psiquiátrica** *(ej. antibióticos, oncología, antihipertensivos generales)* | ❌ Fuera de alcance | El corpus está restringido a psicofármacos y a interacciones directas con ellos (como AINEs/IECA con Litio). |
-| **Diagnóstico Psicopatológico Puro** *(ej. criterios diagnósticos DSM-5/CIE-11 desvinculados de la medicación)* | ❌ No diseñado | Sofia es un asesor psicofarmacológico, no una herramienta de entrevista o diagnóstico clínico formal. |
-| **Psicoterapia y Abordajes no Farmacológicos** | ❌ No disponible | No incluye protocolos de terapia cognitivo-conductual, psicoanálisis o terapias de tercera generación. |
-| **Cálculo de Aclaramiento Dinámico de Creatinina** | ⚠️ Orientativo | Puede indicar la necesidad de ajuste renal según la monografía, pero no calcula ecuaciones dinámicas (Cockcroft-Gault / CKD-EPI) a partir de valores sueltos de laboratorio. |
-| **Consultas Abiertas sin Evidencia en el Corpus** | 🛡️ Grounding Estricto | Umbral de similitud en modo TF-IDF (mensaje de "sin cobertura") y prompt que prohíbe inventar datos ausentes del contexto. La detección léxica es heurística, no infalible. |
+| **Psicofármacos no indexados en monografía** *(ej. Clonazepam, Lorazepam, Mirtazapina, Cariprazina, Trazodona)* | Limitada | Si el principio activo no está en `pre_training/`, el modelo declarará no tener suficiente contexto clínico para emitir una recomendación segura. |
+| **Medicina General / No Psiquiátrica** *(ej. antibióticos, oncología, antihipertensivos generales)* | Fuera de alcance | El corpus está restringido a psicofármacos y a interacciones directas con ellos (como AINEs/IECA con Litio). |
+| **Diagnóstico Psicopatológico Puro** *(ej. criterios diagnósticos DSM-5/CIE-11 desvinculados de la medicación)* | No diseñado | Sofia es un asesor psicofarmacológico, no una herramienta de entrevista o diagnóstico clínico formal. |
+| **Psicoterapia y Abordajes no Farmacológicos** | No disponible | No incluye protocolos de terapia cognitivo-conductual, psicoanálisis o terapias de tercera generación. |
+| **Cálculo de Aclaramiento Dinámico de Creatinina** | Orientativo | Puede indicar la necesidad de ajuste renal según la monografía, pero no calcula ecuaciones dinámicas (Cockcroft-Gault / CKD-EPI) a partir de valores sueltos de laboratorio. |
+| **Consultas Abiertas sin Evidencia en el Corpus** | Grounding Estricto | Umbral de similitud en modo TF-IDF (mensaje de "sin cobertura") y prompt que prohíbe inventar datos ausentes del contexto. La detección léxica es heurística, no infalible. |
 
 ---
 
-## ⚙️ Modos de Inferencia en la App Interactiva
+## Modos de inferencia en la aplicación web
 
 El motor [`ClinicalRAGEngine`](src/rag/engine.py) implementa una arquitectura híbrida con dos vías de ejecución según la disponibilidad de recursos y conectividad:
 
@@ -103,16 +103,16 @@ flowchart TD
 ```
 
 ### 1. Modo Neural Completo (Groq Cloud o Ollama Local)
-- **Generación en Nube (Streamlit Cloud):** Inferencia ultra-rápida vía **Groq Cloud API** con modelos como `qwen/qwen3.8-27b` o `openai/gpt-oss-120b`.
+- **Generación en nube (Streamlit Cloud):** Inferencia vía **Groq Cloud API** con modelos como `qwen/qwen3.8-27b` o `openai/gpt-oss-120b`.
 - **Generación Local:** Ollama local (`qwen3.5:2b-mlx` o `qwen2.5:3b`) en `http://localhost:11434`.
 - **Embeddings:** `embeddinggemma:latest` (Ollama local) o recuperación léxica híbrida optimizada con TF-IDF + BM25 en la nube.
 - **Salida:** Respuesta clínica redactada dinámicamente en 4 apartados estructurados, razonando sobre el caso concreto, citando identificadores `[DOC-ID]` y extrayendo el *Voice Snippet* (<40s).
-- 📱 **Requisito en Streamlit Cloud:**  
+- **Requisito en Streamlit Cloud:**  
   Un servidor web en la nube como Streamlit Community Cloud no cuenta con hardware GPU para correr un LLM localmente. Para activar la generación neural en la nube, basta con configurar una clave gratuita de Groq.
   
-  > 🔐 **Cómo activar el LLM en Streamlit Cloud en 1 minuto (Gratis con Groq):**
+  > **Configuración de Groq en Streamlit Cloud:**
   > 1. Obtén tu API Key gratuita en [console.groq.com/keys](https://console.groq.com/keys).
-  > 2. En tu panel de [Streamlit Community Cloud](https://share.streamlit.io), entra a tu app y pulsa **Settings (⚙️) → Secrets**.
+  > 2. En tu panel de [Streamlit Community Cloud](https://share.streamlit.io), entra a tu app y pulsa **Settings → Secrets**.
   > 3. Pega la configuración basada en [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example):
   >    ```toml
   >    GROQ_API_KEY = "gsk_tu_clave_de_groq_aqui"
@@ -126,68 +126,68 @@ flowchart TD
   En este modo **no hay ningún modelo de lenguaje en ejecución**. La generación neural está completamente inactiva. En su lugar, el sistema recurre a un **algoritmo estadístico clásico de búsqueda de palabras (TF-IDF de Scikit-Learn)** que simplemente busca coincidencias léxicas exactas de términos en los archivos Markdown.
 - **¿Qué responde en contingencia?:**  
   No hay redacción ni razonamiento clínico. El sistema devuelve una **plantilla estática fija de 4 frases predefinidas (hardcoded en el código)** que rellena con el título y el resumen pregrabado del documento recuperado (`"Seguir la dosificación descrita en [DOC-ID]"`). No responderá dudas médicas personalizadas ni interpretará combinaciones farmacológicas que no estén escritas literalmente.
-- **¿Qué significa que "nunca se rompe"?:**  
-  Esta afirmación aplica **exclusivamente a nivel de estabilidad de software:** gracias a los bloques de captura de excepciones (`try...except`), la aplicación web **no lanza una pantalla roja de error de Python** (`ConnectionRefusedError` o `Timeout`) ante la caída del servidor. Sin embargo, a nivel funcional y de experiencia de usuario, **el modelo generativo no está activo** y el chat funciona como un simple visor rígido de fichas.
+- **Tolerancia a fallos:**  
+  La aplicación captura excepciones (`try...except`) para prevenir caídas de servicio ante fallos del LLM o de conectividad. Si el servidor no responde, el sistema conmuta automáticamente a modo contingencia y presenta la ficha documental recuperada.
 
 ---
 
-## 🖥️ Módulos de la Aplicación Web (`streamlit_app.py`)
+## Módulos de la aplicación web (`streamlit_app.py`)
 
 La aplicación interactiva divide sus capacidades en cuatro pestañas especializadas:
 
-### 1. 💬 Asistente RAG Clínico
+### 1. Asistente RAG Clínico
 Chat en lenguaje natural con respuestas médicas estructuradas en 4 secciones obligatorias (*Juicio Clínico, Mecanismo y Cinética, Pauta Operativa, Alertas de Seguridad*), tarjeta de *Voice Snippet* verbalizable (< 40s) y panel desplegable de documentos clínicos recuperados con citación trazable `[DOC-ID]`.
 
 <p align="center">
   <img src="assets/sofia_chat_interface.jpg" alt="Asistente RAG Clínico Sofia" width="850">
 </p>
 
-### 2. ⚡ Matriz Interactiva CYP450
+### 2. Matriz interactiva CYP450
 Selector múltiple de psicofármacos que evalúa combinaciones simultáneas mediante un semáforo clínico determinista de interacciones enzimáticas (bloqueos e inhibición potente de CYP2D6, duplicidad de ISRS, neurotoxicidad lítica, advertencias críticas de Clozapina con tabaco y Lamotrigina con Ácido Valproico).
 
 <p align="center">
   <img src="assets/sofia_cyp450_matrix.jpg" alt="Matriz Interactiva CYP450" width="850">
 </p>
 
-### 3. 🛑 Detector de Cascadas de Prescripción
+### 3. Detector de cascadas de prescripción
 Selector de fármaco primario prescrito más síntoma emergente reportado. Identifica cuándo un efecto adverso es interpretado erróneamente como una nueva patología (ej. haloperidol induciendo parkinsonismo) y despliega el protocolo clínico de desprescripción y desescalada.
 
 <p align="center">
   <img src="assets/sofia_detector_cascadas.jpg" alt="Detector de Cascadas de Prescripción" width="850">
 </p>
 
-### 4. 📖 Guías CANMAT y Catálogo
+### 4. Guías CANMAT y catálogo
 Explorador interactivo de las directrices CANMAT e ISBD con filtros jerárquicos por patología (Trastorno Depresivo Mayor vs. Trastorno Bipolar), líneas de tratamiento y niveles de evidencia científica (Level 1 a Level 4), complementado con un buscador rápido de marcas comerciales y códigos ATC oficiales de la OMS.
 
 ---
 
-## 🔬 Análisis Exploratorio de Datos (EDA) y Hallazgos del Corpus
+## Análisis exploratorio de datos (EDA) y hallazgos del corpus
 
-El análisis exploratorio exhaustivo se desarrolló en el cuaderno [`notebooks/02_analisis_exploratorio_eda.ipynb`](notebooks/02_analisis_exploratorio_eda.ipynb) siguiendo una metodología estricta de preprocesamiento clínico sin fuga de datos (*data leakage*). Abarca tanto los datasets tabulares estructurados (Jufe, Stahl y CANMAT en formato CSV y SQLite [`sofia_clinica.db`](data/processed/sofia_clinica.db)) como los **244 documentos padre y 702 fragmentos temáticos (*chunks*)** de la base de conocimiento RAG.
+El análisis exploratorio se desarrolló en el cuaderno [`notebooks/02_analisis_exploratorio_eda.ipynb`](notebooks/02_analisis_exploratorio_eda.ipynb) mediante preprocesamiento clínico estructurado y sin fuga de datos (*data leakage*). Abarca tanto los datasets tabulares estructurados (Jufe, Stahl y CANMAT en formato CSV y SQLite [`sofia_clinica.db`](data/processed/sofia_clinica.db)) como los **244 documentos padre y 702 fragmentos temáticos (*chunks*)** de la base de conocimiento RAG.
 
-A continuación se presentan los **11 gráficos analíticos reales** generados por el pipeline, acompañados de sus conclusiones clínicas y numéricas verificadas:
+A continuación se presentan los **11 gráficos analíticos** generados por el pipeline, junto con sus observaciones clínicas y estadísticas:
 
 ---
 
 ### 1. Calidad de Datos, Valores Nulos y Tratamiento de Outliers
 
-#### 📊 Gráfico 1: Auditoría de Valores Nulos e Integridad Estructural
+#### Gráfico 1: Auditoría de valores nulos e integridad estructural
 <p align="center">
   <img src="assets/eda_01_mapa_nulos.png" alt="Mapa de Nulos - CANMAT y Corpus RAG" width="850">
 </p>
 
-* **Evidencia en datos:** Ausencia absoluta de valores nulos no justificados (0%) en las tablas clínicas estructuradas. Todas las 67 recomendaciones de CANMAT cuentan con sus campos mandatorios (fármaco, patología, fase, línea, recomendación y comentarios) 100% completos.
+* **Evidencia en datos:** No existen valores nulos en los campos obligatorios (0%) en las tablas clínicas estructuradas. Las 67 recomendaciones de CANMAT cuentan con sus campos requeridos (fármaco, patología, fase, línea, recomendación y comentarios) completos.
 * **Corpus RAG:** Los 244 documentos del corpus documental presentan 0% de nulos en identificadores (`id`), títulos, contenidos, tipos y archivos fuente.
 
-#### 📊 Gráfico 2: Detección de Outliers en Farmacovigilancia (Método IQR sobre Jufe)
+#### Gráfico 2: Detección de outliers en farmacovigilancia (método IQR sobre Jufe)
 <p align="center">
   <img src="assets/eda_02_iqr_efectos_adversos.png" alt="Detección de Outliers IQR en Efectos Adversos Jufe" width="750">
 </p>
 
 * **Evidencia en datos:** La mediana es de **8 eventos adversos documentados por fármaco** (Rango Intercuartílico Q1=5, Q3=13).
-* **Decisión clínica honesta:** Moléculas como **Clozapina** (24 efectos adversos) y **Haloperidol** (21 efectos adversos) sobrepasan el límite superior estadístico ($Q3 + 1.5 \times IQR = 25$). Sin embargo, **no son errores de captura ni valores anómalos espurios**, sino fármacos multirreceptoriales con perfiles extrapiramidales y metabólicos complejos. Se mantuvieron intactos para preservar la seguridad de farmacovigilancia.
+* **Criterio clínico:** Fármacos como **Clozapina** (24 efectos adversos) y **Haloperidol** (21 efectos adversos) sobrepasan el límite superior estadístico ($Q3 + 1.5 \times IQR = 25$). No corresponden a errores de extracción sino a fármacos multirreceptoriales con perfiles extrapiramidales y metabólicos complejos; se mantuvieron completos para preservar la cobertura de farmacovigilancia.
 
-#### 📊 Gráfico 3: Distribución Textual y Estabilización con `log1p`
+#### Gráfico 3: Distribución textual y estabilización con `log1p`
 <p align="center">
   <img src="assets/eda_03_distribucion_longitud_log.png" alt="Distribución de Longitud de Documentos y log1p" width="850">
 </p>
@@ -195,7 +195,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 * **Evidencia en datos:** La longitud en caracteres de los documentos presentaba una asimetría positiva muy pronunciada (*skewness* original: 2.22).
 * **Resultado:** La transformación logarítmica $\log(1 + x)$ estabilizó la varianza y redujo el *skewness* a 0.29, normalizando la distribución para modelado analítico y pipelines de Scikit-Learn.
 
-#### 📊 Gráfico 4: Matriz de Correlación de Variables Cuantitativas del Corpus
+#### Gráfico 4: Matriz de correlación de variables cuantitativas del corpus
 <p align="center">
   <img src="assets/eda_04_matriz_correlacion.png" alt="Matriz de Correlación de Métricas del Corpus" width="650">
 </p>
@@ -206,7 +206,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 
 ### 2. Estructura del Corpus RAG y Ventana de Contexto
 
-#### 📊 Gráfico 5: Composición del Corpus por Fuente Primaria y Tipo Documental
+#### Gráfico 5: Composición del corpus por fuente primaria y tipo documental
 <p align="center">
   <img src="assets/eda_05_distribucion_fuentes_tipos.png" alt="Composición del Corpus por Fuente y Tipo" width="850">
 </p>
@@ -219,7 +219,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
   * **Pre-training Curado (22 docs, 9.0%):** 10 monografías troncales, 4 alertas de caja negra de la FDA/AEMPS, 4 matrices CYP450, 3 cascadas de prescripción y 1 guía de interacciones.
 * **Filtrado por Metadatos en RAG:** Esta tipología balanceada permite al motor aplicar *recuperación dirigida*: dudas de posología acuden a Jufe; interacciones enzimáticas a Stahl; algoritmos de primera línea a CANMAT; y nombres comerciales al Catálogo Canónico.
 
-#### 📊 Gráfico 6: Distribución de Tokens en Documentos Padre vs. Chunks Semánticos
+#### Gráfico 6: Distribución de tokens en documentos padre vs. fragmentos semánticos
 <p align="center">
   <img src="assets/eda_06_tokens_chunks_distribucion.png" alt="Distribución de Tokens en Documentos y Chunks" width="850">
 </p>
@@ -227,13 +227,13 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 * **Evidencia en datos (702 chunks enriquecidos):**
   * La segmentación estructural (`crear_chunks_enriquecidos`) descompone los 244 documentos en **702 fragmentos temáticos**.
   * **Métricas reales de los fragmentos:** Mínimo = 15 tokens; Percentil 25 (Q1) = 41 tokens; **Mediana = 68 tokens** (~273 caracteres); Percentil 75 (Q3) = 145 tokens; **Máximo absoluto = 590 tokens**.
-  * **Garantía de ingeniería:** El 100% de los fragmentos se sitúa por debajo de los 600 tokens. Modelos de embeddings como `embeddinggemma` o `bge-m3` procesan la totalidad del corpus **sin sufrir truncamiento léxico** ni pérdida de información clínica.
+  * **Longitud controlada de fragmentos:** Todos los fragmentos se sitúan por debajo de los 600 tokens. Modelos de embeddings como `embeddinggemma` o `bge-m3` procesan el corpus completo sin truncamiento léxico ni pérdida de información clínica.
 
 ---
 
 ### 3. Cobertura Farmacológica y Fusión Multifuente
 
-#### 📊 Gráfico 7: Cobertura por Familia Terapéutica ATC (OMS) y Fuente
+#### Gráfico 7: Cobertura por familia terapéutica ATC (OMS) y fuente
 <p align="center">
   <img src="assets/eda_07_cobertura_atc_familias.png" alt="Cobertura por Familia Terapéutica ATC y Fuente" width="850">
 </p>
@@ -242,12 +242,12 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 * **Stahl (22 principios activos únicos):** Enfoque vertical concentrado en alto potencial de interacciones farmacocinéticas (10 antidepresivos, 7 antipsicóticos, 3 estabilizadores, 1 ansiolítico y 1 demencia).
 * **CANMAT / ISBD 2018 (34 principios activos únicos):** Focalizado en trastornos afectivos (14 antidepresivos, 13 antipsicóticos, 6 estabilizadores y 1 coadyuvante psicoestimulante).
 
-#### 📊 Gráfico 8: Solapamiento Interfuente y el "Núcleo Crítico Común" (Venn 3-Way)
+#### Gráfico 8: Solapamiento interfuente y núcleo común (Venn 3-Way)
 <p align="center">
   <img src="assets/eda_08_venn_coocurrencia_fuentes.png" alt="Diagrama de Venn 3-Way y Matriz de Coocurrencia" width="850">
 </p>
 
-* **El Núcleo Crítico (19 psicofármacos troncales):** Intersección matemática perfecta entre las 3 fuentes en los fármacos nucleares de la práctica psiquiátrica:
+* **Núcleo común (19 psicofármacos):** Fármacos compartidos por las tres fuentes en la práctica psiquiátrica habitual:
   * *Estabilizadores del Ánimo:* Litio (`N05AN01`), Ácido Valproico (`N03AG01`), Lamotrigina (`N03AX09`), Carbamazepina (`N03AF01`).
   * *Antipsicóticos de 2ª Generación:* Quetiapina (`N05AH04`), Olanzapina (`N05AH03`), Risperidona (`N05AX08`), Aripiprazol (`N05AX12`), Clozapina (`N05AH02`).
   * *Antipsicóticos Típicos:* Haloperidol (`N05AD01`).
@@ -261,7 +261,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 
 ### 4. Evidencia Clínica, Toxicidad y Farmacocinética
 
-#### 📊 Gráfico 9: Severidad de Eventos Adversos con Vocabulario Canónico (Jufe vs. Stahl)
+#### Gráfico 9: Severidad de eventos adversos con vocabulario canónico (Jufe vs. Stahl)
 <p align="center">
   <img src="assets/eda_09_severidad_eventos_adversos.png" alt="Severidad de Eventos Adversos Jufe vs Stahl" width="850">
 </p>
@@ -271,7 +271,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
   * **Stahl:** Registra un **38.3% de eventos graves** (72 de 188 eventos adversos totales).
 * **Consistencia metodológica:** Ambos autores reflejan una proporción equivalente (~39%) de toxicidad severa frente a síntomas leves/tolerables, confirmando la coherencia clínica de los extractores.
 
-#### 📊 Gráfico 10: Matriz de Interacciones Enzimáticas CYP450 (Stahl)
+#### Gráfico 10: Matriz de interacciones enzimáticas CYP450 (Stahl)
 <p align="center">
   <img src="assets/eda_10_matriz_cyp450_stahl.png" alt="Matriz de Interacciones CYP450 Stahl" width="850">
 </p>
@@ -279,7 +279,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 * **Evidencia en datos:** Mapeo de 15 variables enzimáticas booleanas (5 inhibidores, 6 sustratos y 4 inductores para CYP1A2, 2C9, 2C19, 2D6 y 3A4) en 22 psicofármacos.
 * **Hallazgo farmacológico:** Confirma la alta concentración de inhibidores potentes en CYP2D6 (Fluoxetina, Paroxetina, Bupropión) que colisionan con sustratos de índice estrecho (Risperidona, Haloperidol), así como el perfil inductor masivo y polivalente de la Carbamazepina.
 
-#### 📊 Gráfico 11: Directrices CANMAT 2018 por Patología, Dirección y Nivel de Evidencia
+#### Gráfico 11: Directrices CANMAT 2018 por patología, dirección y nivel de evidencia
 <p align="center">
   <img src="assets/eda_11_directrices_canmat_evidencia.png" alt="Directrices CANMAT 2018 Recomendaciones y Evidencia" width="850">
 </p>
@@ -291,7 +291,7 @@ A continuación se presentan los **11 gráficos analíticos reales** generados p
 
 ---
 
-## 📊 Evaluación Formal del Sistema RAG (Benchmark N=22)
+## Evaluación del sistema RAG (Benchmark N=22)
 
 La evaluación sistemática del motor RAG se ejecuta con [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) sobre un conjunto representativo de **22 escenarios clínicos estructurados** (monografías, citocromos CYP450, cascadas de prescripción, directrices CANMAT, marcas comerciales y casos centinela fuera de cobertura).
 
@@ -308,7 +308,7 @@ El informe completo de la última ejecución se encuentra versionado en [`data/p
 | **Mean Reciprocal Rank (MRR)** | **1.0000** | Ordenación óptima de la recuperación documental híbrida (TF-IDF + BM25). |
 | **Answer Relevance** | **76.0%** | Presencia y alineación de las entidades clínicas clave esperadas en la respuesta. |
 | **Groundedness / Fidelidad** | **95.5%** | Respuestas fundamentadas estrictamente en el contexto sin contradicciones ni alucinaciones. |
-| **Trazabilidad Ética [DOC-ID]** | **100.0%** | Todas las afirmaciones médicas citan identificadores válidos presentes en el contexto recuperado. |
+| **Trazabilidad documental [DOC-ID]** | **100.0%** | Todas las afirmaciones médicas citan identificadores válidos presentes en el contexto recuperado. |
 | **Tasa de Abstención Correcta** | **100.0%** | 2 de 2 casos fuera de dominio (gastronomía, neumología) declararon falta de cobertura sin alucinar. |
 | **Latencia de Recuperación** | **1.6 ms** | Tiempo medio de indexación y búsqueda híbrida TF-IDF + BM25 por consulta. |
 
@@ -333,15 +333,15 @@ El informe completo de la última ejecución se encuentra versionado en [`data/p
 | **16** | `CASO_16_CANMAT_MANTENIMIENTO_BIPOLAR` | Medicina Basada en Evidencia (Mantenimiento Bipolar) | `[GUIA-CANMAT-MANT-003]` | 1.0 | 1.00 | 100% |
 | **17** | `CASO_17_MARCAS_HALOPERIDOL` | Catálogo Comercial y Formatos (Haloperidol) | `[MARCA-HALOPERIDOL-001]` | 1.0 | 1.00 | 100% |
 | **18** | `CASO_18_MARCAS_BUPROPION` | Catálogo Comercial y Formatos (Bupropión) | `[MARCA-BUPROPION-001]` | 1.0 | 1.00 | 100% |
-| **19** | `CASO_19_FUERA_DE_ALCANCE_GASTRONOMIA` | Guardia de Seguridad (Consulta Fuera de Dominio) | *Abstención Segura* | 1.0 | 1.00 | 100% |
-| **20** | `CASO_20_FUERA_DE_ALCANCE_NO_PSIQUIATRICO` | Guardia de Seguridad (Medicina General No Psiquiátrica) | *Abstención Segura* | 1.0 | 1.00 | 100% |
+| **19** | `CASO_19_FUERA_DE_ALCANCE_GASTRONOMIA` | Control de alcance (Consulta fuera de dominio) | *Abstención segura* | 1.0 | 1.00 | 100% |
+| **20** | `CASO_20_FUERA_DE_ALCANCE_NO_PSIQUIATRICO` | Control de alcance (Medicina general no psiquiátrica) | *Abstención segura* | 1.0 | 1.00 | 100% |
 | **21** | `CASO_21_STAHL_FARMACODINAMIA` | Guía de Prescripción de Stahl (Clozapina) | `[STAHL-MONO-CLOZAPINA]` | 1.0 | 1.00 | 100% |
 | **22** | `CASO_22_JUFE_MONOGRAFIA` | Monografía Canónica de Jufe (Clonazepam) | `[JUFE-MONO-CLONAZEPAM]` | 1.0 | 1.00 | 70% |
 
 
 ---
 
-## 📁 Estructura del Repositorio
+## Estructura del Repositorio
 
 ```text
 Sofia/
@@ -382,7 +382,7 @@ Sofia/
 
 ---
 
-## 🚀 Instalación y Puesta en Marcha Local
+## Instalación y Puesta en Marcha Local
 
 ### 1. Clonar el repositorio e instalar dependencias
 ```bash
@@ -399,7 +399,7 @@ pip install -r requirements.txt
 ollama pull embeddinggemma:latest
 ollama pull qwen2.5:3b
 ```
-> 💡 *Nota de modelos:* Sofia utiliza por defecto `embeddinggemma:latest` para embeddings semánticos densos. Para la generación neural con LLM se recomienda un modelo ligero como `qwen2.5:3b` o `qwen2.5:1.5b`. Si cuentas con un modelo personalizado o cuantizado (como `qwen3.5:2b-mlx` en Mac), puedes configurarlo fácilmente en la barra lateral de la app o mediante la variable de entorno `export OLLAMA_MODEL="tu-modelo"`.
+> *Nota de modelos:* Sofia utiliza por defecto `embeddinggemma:latest` para embeddings semánticos densos. Para la generación neural con LLM se recomienda un modelo ligero como `qwen2.5:3b` o `qwen2.5:1.5b`. Si cuentas con un modelo personalizado o cuantizado (como `qwen3.5:2b-mlx` en Mac), puedes configurarlo fácilmente en la barra lateral de la app o mediante la variable de entorno `export OLLAMA_MODEL="tu-modelo"`.
 
 ### 3. Ejecutar la aplicación interactiva
 ```bash
@@ -418,11 +418,11 @@ python scripts/evaluate_rag.py
 # Regenerar la base de conocimiento indexada (244 documentos clínicos):
 python scripts/rebuild_knowledge_base.py
 ```
-> ℹ️ *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01_limpieza_y_preprocesamiento.ipynb -> 02_analisis_exploratorio_eda.ipynb -> 03_rag_psicofarmacologia.ipynb`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
+> *Pipeline de datos y scripts:* El motor RAG se evalúa mediante [`scripts/evaluate_rag.py`](scripts/evaluate_rag.py) y la base [`rag_knowledge_base.json`](data/processed/rag_knowledge_base.json) se sincroniza directamente con [`scripts/rebuild_knowledge_base.py`](scripts/rebuild_knowledge_base.py) o a través de los cuadernos en [`notebooks/`](notebooks/) (`01_limpieza_y_preprocesamiento.ipynb -> 02_analisis_exploratorio_eda.ipynb -> 03_rag_psicofarmacologia.ipynb`), que pueden ejecutarse secuencialmente en cualquier entorno Jupyter estándar.
 
 ---
 
-## 🔮 Roadmap de Expansión
+## Líneas futuras de desarrollo
 
 Para ampliar el alcance de Sofia hacia un vademécum psiquiátrico de cobertura extendida:
 1. **Ampliación del Vademécum:** Redacción de monografías para antipsicóticos atípicos de última generación (Cariprazina, Brexpiprazol, Lurasidona) y otros estabilizadores/moduladores de segunda línea (Carbamazepina, Oxcarbazepina, Topiramato).
@@ -431,7 +431,7 @@ Para ampliar el alcance de Sofia hacia un vademécum psiquiátrico de cobertura 
 
 ---
 
-## ⚖️ Aviso Legal y de Responsabilidad Médica
+## Aviso legal y de responsabilidad médica
 
 **Sofia es una herramienta de soporte a la decisión clínica con fines formativos, de investigación y de farmacovigilancia.**  
 No sustituye el juicio clínico independiente del médico especialista, quien mantiene en todo momento la responsabilidad última sobre el diagnóstico, la prescripción y el seguimiento individualizado de cada paciente.

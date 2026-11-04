@@ -162,7 +162,7 @@ class PrescriptionCascadeDetector:
             estratificacion = "Alto / Crítico (ACB ≥ 3)"
             nivel_alerta = "CRÍTICO"
             desc = (
-                "⚠️ ALERTA DE CARGA ANTICOLINÉRGICA ELEVADA (Score ≥ 3): Riesgo sustancialmente aumentado "
+                "ALERTA DE CARGA ANTICOLINÉRGICA ELEVADA (Score ≥ 3): Riesgo sustancialmente aumentado "
                 "de deterioro cognitivo acelerado, síndrome confusional agudo (delirio), caídas con fractura, "
                 "estreñimiento severo con riesgo de íleo paralítico y aumento de mortalidad global en adultos mayores."
             )
@@ -286,16 +286,16 @@ class PrescriptionCascadeDetector:
         recomendaciones: List[str] = []
         if cascadas_activas:
             for c in cascadas_activas:
-                recomendaciones.append(f"🛑 <b>Desescalar {c.farmaco_cascada}:</b> Trata el efecto de {c.farmaco_causal}. Optimizar dosis o rotar el fármaco primario.")
+                recomendaciones.append(f"<b>Desescalar {c.farmaco_cascada}:</b> Trata el efecto de {c.farmaco_causal}. Optimizar dosis o rotar el fármaco primario.")
 
         if carga_acb.score_total >= 3:
             recomendaciones.append(
-                f"🧠 <b>Auditar carga anticolinérgica (Score ACB = {carga_acb.score_total}):</b> "
+                f"<b>Auditar carga anticolinérgica (Score ACB = {carga_acb.score_total}):</b> "
                 f"Retirar o rotar fármacos con puntaje 3 para evitar delirio y deterioro de memoria en adultos mayores."
             )
 
         if not recomendaciones:
-            recomendaciones.append("✓ No se detectaron cascadas de prescripción activas ni carga anticolinérgica crítica en la combinación analizada.")
+            recomendaciones.append("No se detectaron cascadas de prescripción activas ni carga anticolinérgica crítica en la combinación analizada.")
 
         resumen = (
             f"Análisis de {len(todos_farmacos)} fármacos: "

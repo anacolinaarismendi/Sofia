@@ -83,7 +83,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Haloperidol (Antipsicótico Típico)": {
         "Rigidez muscular, lentitud motora o temblor de reposo (Parkinsonismo secundario)": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 ALERTA ROJA: CASCADA DE PRESCRIPCIÓN CLÁSICA (PARKINSONISMO → BIPERIDENO)",
+            "titulo": "ALERTA: CASCADA DE PRESCRIPCIÓN CLÁSICA (PARKINSONISMO → BIPERIDENO)",
             "farmaco_causal": "Haloperidol",
             "farmaco_cascada": "Biperideno / Trihexifenidilo",
             "doc_id": "CASC-HAL-BIP-001",
@@ -99,7 +99,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Inquietud motora imperiosa e incapacidad para permanecer sentado (Acatisia)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ SOSPECHA DE ACATISIA FARMACOLÓGICA VS. AGITACIÓN PSICÓTICA",
+            "titulo": "SOSPECHA DE ACATISIA FARMACOLÓGICA VS. AGITACIÓN PSICÓTICA",
             "farmaco_causal": "Haloperidol",
             "farmaco_cascada": "Aumento de antipsicótico o Benzodiacepinas crónicas",
             "doc_id": "CASC-PROT-003",
@@ -115,7 +115,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Contracciones espasmódicas agudas en cuello, mandíbula u ojos (Distonía aguda)": {
             "nivel": "CRÍTICO",
-            "titulo": "🛑 EMERGENCIA EXTRAPIRAMIDAL AGUDA (DISTONÍA AGUDA O CRISIS OCULÓGIRA)",
+            "titulo": "EMERGENCIA EXTRAPIRAMIDAL AGUDA (DISTONÍA AGUDA O CRISIS OCULÓGIRA)",
             "farmaco_causal": "Haloperidol",
             "farmaco_cascada": "Biperideno crónico",
             "doc_id": "CASC-HAL-BIP-001",
@@ -133,7 +133,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Risperidona (Antipsicótico Atípico)": {
         "Rigidez, lentitud motora o temblor dosis-dependiente": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 CASCADA EXTRAPIRAMIDAL POR PÉRDIDA DE ATIPICIDAD (DOSIS-DEPENDIENTE)",
+            "titulo": "CASCADA EXTRAPIRAMIDAL POR PÉRDIDA DE ATIPICIDAD (DOSIS-DEPENDIENTE)",
             "farmaco_causal": "Risperidona",
             "farmaco_cascada": "Biperideno / Trihexifenidilo",
             "doc_id": "CASC-HAL-BIP-001",
@@ -149,7 +149,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Galactorrea, amenorrea o ginecomastia (Hiperprolactinemia marcada)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA ENDOCRINA: HIPERPROLACTINEMIA Y RIESGO DE AGONISTAS DOPAMINÉRGICOS",
+            "titulo": "CASCADA ENDOCRINA: HIPERPROLACTINEMIA Y RIESGO DE AGONISTAS DOPAMINÉRGICOS",
             "farmaco_causal": "Risperidona",
             "farmaco_cascada": "Cabergolina / Bromocriptina",
             "doc_id": "MONO-RISPERIDONA-007",
@@ -165,7 +165,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Aumento de peso progresivo y resistencia a la insulina": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ ALTERACIÓN METABÓLICA Y GANANCIA PONDERAL",
+            "titulo": "ALTERACIÓN METABÓLICA Y GANANCIA PONDERAL",
             "farmaco_causal": "Risperidona",
             "farmaco_cascada": "Hipolipemiantes / Antidiabéticos automáticos",
             "doc_id": "CASC-METAB-002",
@@ -183,7 +183,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Olanzapina (Antipsicótico Atípico)": {
         "Aumento de peso masivo (>5% basal), hiperfagia y dislipidemia": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 CASCADA METABÓLICA: DE OLANZAPINA A POLIFARMACIA CARDIOMETABÓLICA",
+            "titulo": "CASCADA METABÓLICA: DE OLANZAPINA A POLIFARMACIA CARDIOMETABÓLICA",
             "farmaco_causal": "Olanzapina",
             "farmaco_cascada": "Metformina / Estatinas / Fibratos",
             "doc_id": "CASC-METAB-002",
@@ -199,7 +199,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Hiperglucemia en ayunas o elevación de HbA1c (Resistencia a la insulina)": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 DISMETABOLISMO GRAVE: RESISTENCIA A LA INSULINA POR BLOQUEO M3 PANCREÁTICO",
+            "titulo": "DISMETABOLISMO GRAVE: RESISTENCIA A LA INSULINA POR BLOQUEO M3 PANCREÁTICO",
             "farmaco_causal": "Olanzapina",
             "farmaco_cascada": "Antidiabéticos orales / Insulina",
             "doc_id": "CASC-METAB-002",
@@ -215,7 +215,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Sedación diurna profunda y somnolencia matutina": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ SEDACIÓN CENTRAL POR BLOQUEO HISTAMINÉRGICO H1",
+            "titulo": "SEDACIÓN CENTRAL POR BLOQUEO HISTAMINÉRGICO H1",
             "farmaco_causal": "Olanzapina",
             "farmaco_cascada": "Psicoestimulantes / Cafeína abusiva",
             "doc_id": "CASC-PROT-003",
@@ -233,7 +233,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Clozapina (Antipsicótico Atípico)": {
         "Sialorrea nocturna profusa (hipersalivación y babeo en almohada)": {
             "nivel": "CRÍTICO",
-            "titulo": "⚠️ SIALORREA PARADÓJICA POR AGONISMO MUSCARÍNICO M4",
+            "titulo": "SIALORREA PARADÓJICA POR AGONISMO MUSCARÍNICO M4",
             "farmaco_causal": "Clozapina",
             "farmaco_cascada": "Biperideno / Trihexifenidilo oral",
             "doc_id": "MONO-CLOZAPINA-006",
@@ -249,7 +249,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Estreñimiento severo / hipomotilidad colónica (Riesgo de íleo paralítico)": {
             "nivel": "CRÍTICO",
-            "titulo": "🛑 ALERTA MÁXIMA DE FARMACOVIGILANCIA: HIPOMOTILIDAD GASTROINTESTINAL GRAVE",
+            "titulo": "ALERTA MÁXIMA DE FARMACOVIGILANCIA: HIPOMOTILIDAD GASTROINTESTINAL GRAVE",
             "farmaco_causal": "Clozapina",
             "farmaco_cascada": "Laxantes no supervisados / Anticolinérgicos añadidos",
             "doc_id": "MONO-CLOZAPINA-006",
@@ -265,7 +265,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Aumento ponderal severo y resistencia insulínica en esquizofrenia refractaria": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 RIESGO CARDIOMETABÓLICO EN PACIENTE REFRACTARIO",
+            "titulo": "RIESGO CARDIOMETABÓLICO EN PACIENTE REFRACTARIO",
             "farmaco_causal": "Clozapina",
             "farmaco_cascada": "Suspensión brusca vs. polifarmacia no guiada",
             "doc_id": "CASC-METAB-002",
@@ -283,7 +283,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Litio (Carbonato de Litio)": {
         "Poliuria marcada (>3 L/día) y polidipsia intensa (Diabetes insípida nefrogénica)": {
             "nivel": "CRÍTICO",
-            "titulo": "🛑 ALERTA ROJA: DIABETES INSÍPIDA NEFROGÉNICA Y RIESGO LETAL DE TIAZIDAS",
+            "titulo": "ALERTA: DIABETES INSÍPIDA NEFROGÉNICA Y RIESGO LETAL DE TIAZIDAS",
             "farmaco_causal": "Litio (Carbonato de Litio)",
             "farmaco_cascada": "Diuréticos Tiazídicos (Hidroclorotiazida / Clortalidona)",
             "doc_id": "INTER-LIT-RENAL-004",
@@ -299,7 +299,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Temblor fino postural de manos (persistente o agravado)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA: TEMBLOR POR LITIO → PROPRANOLOL SIN MEDIR LITEMIA",
+            "titulo": "CASCADA: TEMBLOR POR LITIO → PROPRANOLOL SIN MEDIR LITEMIA",
             "farmaco_causal": "Litio (Carbonato de Litio)",
             "farmaco_cascada": "Propranolol sin litemia",
             "doc_id": "MONO-LITIO-005",
@@ -334,7 +334,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Paroxetina (ISRS)": {
         "Disfunción sexual (anorgasmia, retardo eyaculatorio o caída de la libido)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA: DISFUNCIÓN SEXUAL POR ISRS → SILDENAFILO / TADALAFILO",
+            "titulo": "CASCADA: DISFUNCIÓN SEXUAL POR ISRS → SILDENAFILO / TADALAFILO",
             "farmaco_causal": "Paroxetina",
             "farmaco_cascada": "Sildenafilo / Tadalafilo",
             "doc_id": "MONO-PAROXETINA-003",
@@ -350,7 +350,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Mareos, descargas eléctricas cefálicas ('brain zaps') y náuseas por olvido de dosis": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ SÍNDROME DE DISCONTINUACIÓN INTENSO POR VIDA MEDIA CORTA",
+            "titulo": "SÍNDROME DE DISCONTINUACIÓN INTENSO POR VIDA MEDIA CORTA",
             "farmaco_causal": "Paroxetina",
             "farmaco_cascada": "Escalada de dosis o Benzodiacepinas",
             "doc_id": "MONO-PAROXETINA-003",
@@ -367,7 +367,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Fluoxetina (ISRS)": {
         "Inquietud interna, ansiedad de inicio, insomnio y temblor en las primeras 2 semanas": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA DE ANSIEDAD INICIAL → BENZODIACEPINAS CRÓNICAS",
+            "titulo": "CASCADA DE ANSIEDAD INICIAL → BENZODIACEPINAS CRÓNICAS",
             "farmaco_causal": "Fluoxetina",
             "farmaco_cascada": "Benzodiacepinas a largo plazo",
             "doc_id": "MONO-FLUOXETINA-002",
@@ -383,7 +383,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Pérdida marcada de apetito y náuseas tempranas": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ ACTIVACIÓN SEROTONINÉRGICA GASTROINTESTINAL TEMPRANA",
+            "titulo": "ACTIVACIÓN SEROTONINÉRGICA GASTROINTESTINAL TEMPRANA",
             "farmaco_causal": "Fluoxetina",
             "farmaco_cascada": "Procinéticos / Inhibidores de bomba de protones innecesarios",
             "doc_id": "MONO-FLUOXETINA-002",
@@ -401,7 +401,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Donepezilo (Inhibidor de Acetilcolinesterasa)": {
         "Incontinencia urinaria de urgencia y polaquiuria": {
             "nivel": "CRÍTICO",
-            "titulo": "🚨 CASCADA FARMACOLÓGICA NEFRO-UROLÓGICA: DONEPEZILO → OXIBUTININA",
+            "titulo": "CASCADA FARMACOLÓGICA NEFRO-UROLÓGICA: DONEPEZILO → OXIBUTININA",
             "farmaco_causal": "Donepezilo",
             "farmaco_cascada": "Oxibutinina / Tolterodina / Solifenacina",
             "doc_id": "CASC-PROT-003",
@@ -418,7 +418,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
         },
         "Bradicardia sintomática, mareos ortostáticos o síncope": {
             "nivel": "CRÍTICO",
-            "titulo": "🛑 RIESGO CARDIOLÓGICO: BRADICARDIA COLINÉRGICA Y SÍNCOPE VAGAL",
+            "titulo": "RIESGO CARDIOLÓGICO: BRADICARDIA COLINÉRGICA Y SÍNCOPE VAGAL",
             "farmaco_causal": "Donepezilo",
             "farmaco_cascada": "Antiagregantes / Implante de marcapasos sin retirar fármaco",
             "doc_id": "CASC-PROT-003",
@@ -436,7 +436,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Venlafaxina (IRSN)": {
         "Elevación de la presión arterial (hipertensión arterial diastólica dosis-dependiente)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA CARDIOVASCULAR: HIPERTENSIÓN POR IRSN → ANTIHIPERTENSIVOS",
+            "titulo": "CASCADA CARDIOVASCULAR: HIPERTENSIÓN POR IRSN → ANTIHIPERTENSIVOS",
             "farmaco_causal": "Venlafaxina",
             "farmaco_cascada": "Antihipertensivos automáticos (Enalapril / Amlodipino)",
             "doc_id": "CASC-PROT-003",
@@ -454,7 +454,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Quetiapina (Antipsicótico Atípico)": {
         "Hipotensión ortostática, mareos posturales y taquicardia refleja": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ CASCADA HEMODINÁMICA: HIPOTENSIÓN ALFA-1 ADRENÉRGICA",
+            "titulo": "CASCADA HEMODINÁMICA: HIPOTENSIÓN ALFA-1 ADRENÉRGICA",
             "farmaco_causal": "Quetiapina",
             "farmaco_cascada": "Midodrina / Fludrocortisona / Descartar síncope",
             "doc_id": "CASC-PROT-003",
@@ -472,7 +472,7 @@ CASCADAS_CLINICAS_EXPANDIDAS: Dict[str, Dict[str, Dict[str, Any]]] = {
     "Ácido Valproico (Estabilizador del Ánimo)": {
         "Temblor postural fino de manos (frecuente y dosis-dependiente)": {
             "nivel": "ADVERTENCIA",
-            "titulo": "⚠️ TEMBLOR POR VALPROATO → BIPERIDENO (ERROR GRAVE)",
+            "titulo": "TEMBLOR POR VALPROATO → BIPERIDENO (ERROR GRAVE)",
             "farmaco_causal": "Ácido Valproico / Divalproato",
             "farmaco_cascada": "Biperideno (ineficaz para temblor de valproato)",
             "doc_id": "CASC-PROT-003",
@@ -501,7 +501,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Antipsicótico Típico (Haloperidol / Similares)",
         "farmaco_cascada_nombre": "Anticolinérgico (Biperideno / Trihexifenidilo)",
         "nivel": "CRÍTICO",
-        "titulo": "🚨 CASCADA ACTIVA DETECTADA: PARKINSONISMO TRATADO CON ANTICOLINÉRGICO CRÓNICO",
+        "titulo": "CASCADA ACTIVA DETECTADA: PARKINSONISMO TRATADO CON ANTICOLINÉRGICO CRÓNICO",
         "mecanismo": "El antipsicótico típico bloquea masivamente los receptores D2 estriatales; el anticolinérgico enmascara el temblor pero añade toxicidad cognitiva severa.",
         "riesgo_iatrogenico": "Carga anticolinérgica crítica (ACB +3), deterioro de memoria, constipación grave / íleo paralítico y riesgo de discinesia tardía irreversible.",
         "protocolo_desprescripcion": [
@@ -518,7 +518,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Inhibidor de Colinesterasa (Donepezilo / Rivastigmina)",
         "farmaco_cascada_nombre": "Anticolinérgico Urológico (Oxibutinina / Tolterodina / Solifenacina)",
         "nivel": "CRÍTICO",
-        "titulo": "🛑 CASCADA ACTIVA DE ANTAGONISMO FRONTAL: INHIBIDOR DE COLINESTERASA + ANTICOLINÉRGICO UROLÓGICO",
+        "titulo": "CASCADA ACTIVA DE ANTAGONISMO FRONTAL: INHIBIDOR DE COLINESTERASA + ANTICOLINÉRGICO UROLÓGICO",
         "mecanismo": "Donepezilo eleva la acetilcolina cerebral para frenar la demencia; Oxibutinina bloquea la acetilcolina en todo el organismo, anulando el beneficio neurológico y precipitando delirio.",
         "riesgo_iatrogenico": "Aceleración catastrófica del deterioro cognitivo, delirio, riesgo de caídas y fracturas.",
         "protocolo_desprescripcion": [
@@ -535,7 +535,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Clozapina",
         "farmaco_cascada_nombre": "Anticolinérgico Sistémico (Biperideno)",
         "nivel": "CRÍTICO",
-        "titulo": "🛑 CASCADA DE MÁXIMO RIESGO: CLOZAPINA + ANTICOLINÉRGICO ORAL (RIESGO DE ÍLEO PARALÍTICO FATAL)",
+        "titulo": "CASCADA DE MÁXIMO RIESGO: CLOZAPINA + ANTICOLINÉRGICO ORAL (RIESGO DE ÍLEO PARALÍTICO FATAL)",
         "mecanismo": "La clozapina ralentiza severamente el tránsito gastrointestinal. La adición de anticolinérgicos orales paraliza por completo la motilidad colónica.",
         "riesgo_iatrogenico": "Megacolon tóxico, fecaloma obstructivo, perforación intestinal, sepsis y muerte (mortalidad >30%).",
         "protocolo_desprescripcion": [
@@ -552,7 +552,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Carbonato de Litio",
         "farmaco_cascada_nombre": "Diurético Tiazídico (Hidroclorotiazida / Clortalidona)",
         "nivel": "CRÍTICO",
-        "titulo": "🛑 INTERACCIÓN FARMACOLÓGICA LETAL: LITIO + TIAZIDA (INTOXICACIÓN AGUDA POR LITEMIA)",
+        "titulo": "INTERACCIÓN FARMACOLÓGICA LETAL: LITIO + TIAZIDA (INTOXICACIÓN AGUDA POR LITEMIA)",
         "mecanismo": "Las tiazidas inducen pérdida distal de sodio; el riñón compensa reabsorbiendo masivamente sodio y LITIO en el túbulo proximal, elevando la litemia un 40-70%.",
         "riesgo_iatrogenico": "Intoxicación aguda por litio (litemia >1.5-2.0 mEq/L): arritmias cardíacas, ataxia, convulsiones, coma y fracaso renal agudo irreversible.",
         "protocolo_desprescripcion": [
@@ -569,7 +569,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Antipsicótico Atípico Pro-Metabólico (Olanzapina / Clozapina)",
         "farmaco_cascada_nombre": "Metformina / Hipolipemiantes (Coadyuvancia o Cascada)",
         "nivel": "ADVERTENCIA",
-        "titulo": "⚠️ CASCADA METABÓLICA O COADYUVANCIA CARDIOMETABÓLICA",
+        "titulo": "CASCADA METABÓLICA O COADYUVANCIA CARDIOMETABÓLICA",
         "mecanismo": "Bloqueo H1 y 5-HT2C con activación de AMPK hipotalámica y bloqueo M3 pancreático que inducen ganancia de peso masiva y resistencia a la insulina.",
         "riesgo_iatrogenico": "Polifarmacia cardiometabólica progresiva; riesgo de atribuir la diabetes o dislipidemia a causas idiopáticas sin optimizar el antipsicótico.",
         "protocolo_desprescripcion": [
@@ -586,7 +586,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Antidepresivo Serotoninérgico (ISRS / IRSN)",
         "farmaco_cascada_nombre": "Inhibidor PDE-5 (Sildenafilo / Tadalafilo)",
         "nivel": "ADVERTENCIA",
-        "titulo": "⚠️ CASCADA DE DISFUNCIÓN SEXUAL: ISRS → INHIBIDOR PDE-5",
+        "titulo": "CASCADA DE DISFUNCIÓN SEXUAL: ISRS → INHIBIDOR PDE-5",
         "mecanismo": "La hiperactivación 5-HT2A/5-HT2C inhibe la dopamina mesolímbica y el reflejo eyaculatorio/orgásmico. Los inhibidores PDE-5 solo actúan sobre la erección periférica.",
         "riesgo_iatrogenico": "Gasto económico, persistencia de anorgasmia o pérdida de deseo sin abordar la causa farmacológica.",
         "protocolo_desprescripcion": [
@@ -603,7 +603,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Carbonato de Litio",
         "farmaco_cascada_nombre": "Propranolol (Beta-bloqueante)",
         "nivel": "ADVERTENCIA",
-        "titulo": "⚠️ CASCADA ACTIVA: TEMBLOR POR LITIO TRATADO CON PROPRANOLOL SIN MEDIR LITEMIA",
+        "titulo": "CASCADA ACTIVA: TEMBLOR POR LITIO TRATADO CON PROPRANOLOL SIN MEDIR LITEMIA",
         "mecanismo": "El litio produce temblor postural; prescribir betabloqueantes sin medir litemia puede enmascarar una intoxicación progresiva en curso.",
         "riesgo_iatrogenico": "Enmascaramiento de toxicidad sistémica por sobredosis de litio, riesgo de bradicardia y broncoespasmo.",
         "protocolo_desprescripcion": [
@@ -620,7 +620,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Antidepresivo de Inicio (ISRS / IRSN)",
         "farmaco_cascada_nombre": "Benzodiacepina Crónica",
         "nivel": "ADVERTENCIA",
-        "titulo": "⚠️ CASCADA DE ANSIEDAD INICIAL TRATADA CON BENZODIACEPINA CRÓNICA",
+        "titulo": "CASCADA DE ANSIEDAD INICIAL TRATADA CON BENZODIACEPINA CRÓNICA",
         "mecanismo": "La activación serotoninérgica inicial provoca ansiedad transitoria (7-14 días). Pautar benzodiacepinas sin plan de desescalada genera dependencia crónica inadvertida.",
         "riesgo_iatrogenico": "Dependencia física a BZD, tolerancia, sedación diurna, riesgo de caídas y fracturas en personas mayores.",
         "protocolo_desprescripcion": [
@@ -637,7 +637,7 @@ PAREJAS_CASCADA_POLIFARMACIA: List[Dict[str, Any]] = [
         "farmaco_causal_nombre": "Inhibidor de Colinesterasa (Donepezilo / Rivastigmina)",
         "farmaco_cascada_nombre": "Bradicardizante Cardíaco (Beta-bloqueante / Calcioantagonista)",
         "nivel": "CRÍTICO",
-        "titulo": "🛑 RIESGO CARDIOVASCULAR SEVERO: SINERGIA BRADICARDIZANTE Y SÍNCOPE VAGAL",
+        "titulo": "RIESGO CARDIOVASCULAR SEVERO: SINERGIA BRADICARDIZANTE Y SÍNCOPE VAGAL",
         "mecanismo": "La estimulación colinérgica vagal de Donepezilo combinada con el bloqueo beta-adrenérgico o de canales de calcio frena sinérgicamente el nódulo sinoauricular y AV.",
         "riesgo_iatrogenico": "Bradicardia extrema (<45 lpm), bloqueo AV completo, asistolia, síncope y traumatismos craneoencefálicos graves por caída.",
         "protocolo_desprescripcion": [
