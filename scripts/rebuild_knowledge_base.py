@@ -60,7 +60,11 @@ def compilar_stahl() -> Tuple[pd.DataFrame, pd.DataFrame]:
 
 def exportar_sqlite(datos_df: Dict[str, pd.DataFrame], db_path: Path):
     """Crea una base de datos relacional SQLite con todas las tablas indexadas."""
-    print(f"Compilando base de datos relacional SQLite en: {db_path}")
+    try:
+        rel_db = db_path.relative_to(WORKSPACE_ROOT)
+    except ValueError:
+        rel_db = db_path.name
+    print(f"Compilando base de datos relacional SQLite en: {rel_db}")
     conn = sqlite3.connect(str(db_path))
     cursor = conn.cursor()
 
@@ -330,7 +334,11 @@ def regenerar_knowledge_base():
     with open(kb_path, "w", encoding="utf-8") as f:
         json.dump(documentos_rag, f, indent=2, ensure_ascii=False)
 
-    print(f"✓ Guardado exitoso de {len(documentos_rag)} documentos en: {kb_path}")
+    try:
+        rel_kb = kb_path.relative_to(WORKSPACE_ROOT)
+    except ValueError:
+        rel_kb = kb_path.name
+    print(f"✓ Guardado exitoso de {len(documentos_rag)} documentos en: {rel_kb}")
 
     # Verificar que kb_obsoleta sea False
     rag = ClinicalRAGEngine()
