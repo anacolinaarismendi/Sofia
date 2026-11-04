@@ -34,7 +34,7 @@ class ATCEnricher:
             "atc_nivel3": "Antidepresivos",
             "atc_nivel4": "Inhibidores selectivos de la recaptación de serotonina (ISRS)",
             "marcas_comerciales": ["Zoloft", "Serlift", "Aremis", "Besitran", "Altruline", "Aserin"],
-            "laboratorios": ["Pfizer", "Roemmers", "Almirall", "Ranbaxy"],
+            "laboratorios": ["Pfizer", "Roemmers", "Esteve", "Ranbaxy"],
             "presentaciones": ["Comprimidos recubiertos ranurados (50 mg y 100 mg)", "Concentrado para solución oral (20 mg/ml)"]
         },
         "fluoxetina": {

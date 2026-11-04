@@ -6,10 +6,13 @@ y de la base de conocimiento compilada data/processed/rag_knowledge_base.json.
 """
 
 import json
+import sys
 from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 DIR_PRETRAINING = ROOT / "pre_training"
 KB_PATH = ROOT / "data" / "processed" / "rag_knowledge_base.json"
 
@@ -166,3 +169,35 @@ def test_cascada_haloperidol_biperideno_mermaid_rama_no():
     casc_path = DIR_PRETRAINING / "03_cascadas_prescripcion_y_desprescripcion" / "cascada_haloperidol_biperideno_parkinsonismo.md"
     texto = casc_path.read_text(encoding="utf-8")
     assert "Duda diagnóstica" in texto or "No / Duda diagnóstica" in texto
+
+
+def test_aremis_es_de_esteve_no_de_almirall():
+    """Verifica que Aremis esté atribuido a Esteve y no a Almirall en monografía, ATC enricher y KB."""
+    from src.enrichers.atc_enricher import ATCEnricher
+
+    # 1. Monografía Markdown
+    sert_path = DIR_PRETRAINING / "01_monografias_farmacologicas" / "sertralina.md"
+    texto_sert = sert_path.read_text(encoding="utf-8")
+    assert "Aremis (Esteve)" in texto_sert, "Falta 'Aremis (Esteve)' en marcas_principales de sertralina.md"
+    assert "Aremis de Esteve" in texto_sert, "Falta 'Aremis de Esteve' en voice snippet de sertralina.md"
+    assert "almirall" not in texto_sert.lower(), "Almirall no debe figurar en sertralina.md"
+
+    # 2. Catálogo ATC
+    sert_atc = ATCEnricher.CATALOGO_ATC["sertralina"]
+    assert "Esteve" in sert_atc["laboratorios"], "Falta 'Esteve' en laboratorios de sertralina en ATCEnricher"
+    assert "Almirall" not in sert_atc["laboratorios"], "Almirall no debe ser laboratorio de sertralina en ATCEnricher"
+
+    # 3. Base de conocimiento RAG compilada
+    assert KB_PATH.exists(), "No existe rag_knowledge_base.json"
+    kb_data = json.loads(KB_PATH.read_text(encoding="utf-8"))
+    mono_doc = next((d for d in kb_data if d["id"] == "MONO-SERTRALINA-001"), None)
+    marca_doc = next((d for d in kb_data if d["id"] == "MARCA-SERTRALINA-001"), None)
+
+    assert mono_doc is not None, "No se encontró MONO-SERTRALINA-001 en rag_knowledge_base.json"
+    assert "Aremis de Esteve" in mono_doc["contenido"], "MONO-SERTRALINA-001 debe contener 'Aremis de Esteve'"
+    assert "Almirall" not in mono_doc["contenido"], "MONO-SERTRALINA-001 no debe contener 'Almirall'"
+
+    assert marca_doc is not None, "No se encontró MARCA-SERTRALINA-001 en rag_knowledge_base.json"
+    assert "Esteve" in marca_doc["contenido"], "MARCA-SERTRALINA-001 debe contener 'Esteve'"
+    assert "Almirall" not in marca_doc["contenido"], "MARCA-SERTRALINA-001 no debe contener 'Almirall'"
+

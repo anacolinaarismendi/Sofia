@@ -5,19 +5,19 @@ farmaco: "Sertralina"
 atc_codigo: "N06AB06"
 atc_grupo: "Antidepresivos / Inhibidores Selectivos de la Recaptación de Serotonina (ISRS)"
 enzimas_cyp: ["CYP2D6 (inhibición leve/moderada a dosis altas)", "CYP2B6", "CYP3A4"]
-marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Almirall)", "Besitran (Pfizer)", "Altruline"]
+marcas_principales: ["Zoloft (Pfizer)", "Serlift (Roemmers)", "Aremis (Esteve)", "Besitran (Pfizer)", "Altruline"]
 fuentes_primarias: ["Jufe - Psicofarmacología Práctica", "Stahl - Prescriber's Guide"]
 revisado_por: "Auditoría Farmacología Clínica"
 fecha_revision: "2026-10-26"
 version_contenido: "2.1.0"
 nivel_riesgo: "Moderado"
-palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular", "aremis", "almirall"]
+palabras_clave: ["sertralina", "zoloft", "isrs", "depresion", "ansiedad", "cyp2d6", "embarazo", "seguridad cardiovascular", "aremis", "esteve"]
 ---
 
 # Ficha Clínica y Conversacional: Sertralina (N06AB06)
 
 ## 1. Resumen Ejecutivo Verbalizable (Voice Snippet)
-> "La sertralina es un antidepresivo inhibidor selectivo de la recaptación de serotonina, fármaco de primera línea para el trastorno depresivo mayor y cuadros de ansiedad como el pánico y el trastorno obsesivo-compulsivo. Su dosis inicial típica es de 25 a 50 miligramos diarios por la mañana, titulable hasta un máximo de 200 miligramos al día. Destaca por su seguridad cardiovascular comprobada y porque interfiere significativamente menos con el citocromo CYP2D6 que la paroxetina o la fluoxetina, lo que la convierte en una opción idónea en pacientes polimedicados. Comercialmente se encuentra como Zoloft o Besitran de Pfizer, Serlift de Roemmers y Aremis de Almirall."
+> "La sertralina es un antidepresivo inhibidor selectivo de la recaptación de serotonina, fármaco de primera línea para el trastorno depresivo mayor y cuadros de ansiedad como el pánico y el trastorno obsesivo-compulsivo. Su dosis inicial típica es de 25 a 50 miligramos diarios por la mañana, titulable hasta un máximo de 200 miligramos al día. Destaca por su seguridad cardiovascular comprobada y porque interfiere significativamente menos con el citocromo CYP2D6 que la paroxetina o la fluoxetina, lo que la convierte en una opción idónea en pacientes polimedicados. Comercialmente se encuentra como Zoloft o Besitran de Pfizer, Serlift de Roemmers y Aremis de Esteve."
 
 ## 2. Perfil Neurofarmacológico y Mecanismo de Acción
 La sertralina actúa como un potente inhibidor del transportador de serotonina (SERT). A diferencia de otros ISRS, presenta una característica farmacodinámica complementaria: un bloqueo débil in vitro del transportador de dopamina (DAT) y afinidad por receptores sigma-1. Si bien este mecanismo ha sido postulado teóricamente para favorecer la motivación o la energía, la evidencia clínica de un impacto diferencial significativo sobre la anhedonia respecto a otros ISRS es débil o controvertida debido a la baja ocupación del DAT a dosis terapéuticas habituales (<10-20%).
