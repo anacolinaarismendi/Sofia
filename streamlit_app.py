@@ -375,12 +375,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-tab_chat, tab_cyp, tab_cascade, tab_canmat = st.tabs([
+from src.presentation_tab import render_presentation_tab
+
+tab_pres, tab_chat, tab_cyp, tab_cascade, tab_canmat = st.tabs([
+    "📊 Presentación Ejecutiva y EDA",
     "Asistente RAG Clínico",
     "Matriz CYP450 Interactiva",
     "Detector de Cascadas",
     "Guías CANMAT y Catálogo"
 ])
+
+
+# =============================================================================
+# PESTAÑA 0: Presentación Ejecutiva y Hallazgos EDA
+# =============================================================================
+with tab_pres:
+    render_presentation_tab()
 
 
 # =============================================================================
