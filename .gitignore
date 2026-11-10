@@ -36,7 +36,3 @@ secrets.toml
 # Logs y tests
 *.log
 .pytest_cache/
-
-# Módulos ETL y extractores (no requeridos para Streamlit en producción)
-src/downloaders/
-src/extractors/

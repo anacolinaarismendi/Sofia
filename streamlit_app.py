@@ -38,6 +38,18 @@ except Exception as _rag_err:
         "Consulta los logs del servidor para ver el detalle."
     )
 
+# Importación del módulo clínico determinista de cálculos y ajustes
+try:
+    from src.clinical.calculators import (
+        calcular_cockcroft_gault,
+        calcular_ckd_epi_2021,
+        evaluar_ajuste_renal_farmaco,
+    )
+    CALCULATORS_AVAILABLE = True
+except Exception as _calc_err:
+    CALCULATORS_AVAILABLE = False
+    traceback.print_exc(file=sys.stderr)
+
     class ClinicalRAGEngine:  # type: ignore
         def __init__(self, *args, **kwargs):
             class DummyStore:
@@ -596,12 +608,13 @@ def render_presentation_tab():
         > En conclusión: Sofia no es un chat improvisado; es un sistema robusto de soporte clínico donde cada número, cada chunk y cada interacción ha sido auditado desde la ciencia de datos y la medicina basada en la evidencia. Muchas gracias."*
         """)
 
-tab_pres, tab_chat, tab_cyp, tab_cascade, tab_canmat = st.tabs([
+tab_pres, tab_chat, tab_cyp, tab_cascade, tab_canmat, tab_calc = st.tabs([
     "Presentación y Hallazgos de EDA",
     "Asistente RAG Clínico",
     "Matriz CYP450 Interactiva",
     "Detector de Cascadas",
-    "Guías CANMAT y Catálogo"
+    "Guías CANMAT y Catálogo",
+    "Calculadora Renal y Ajustes (Litio)"
 ])
 
 
@@ -666,7 +679,8 @@ with tab_chat:
         with st.chat_message("assistant"):
             with st.spinner("Consultando literatura clínica y analizando interacciones..."):
                 try:
-                    resultado = rag_engine.consultar(user_query, top_k=3)
+                    historial_previo = [m for m in st.session_state.messages if m.get("role") in {"user", "assistant"}][:-1]
+                    resultado = rag_engine.consultar(user_query, top_k=3, historial=historial_previo)
                 except Exception as e:
                     traceback.print_exc(file=sys.stderr)
                     resultado = {
@@ -682,6 +696,10 @@ with tab_chat:
                 fuentes = resultado.get("documentos_recuperados", [])
                 modo = resultado.get("modo_respuesta") or ("llm" if resultado.get("generado_con_llm") else "contingencia")
                 proveedor_llm = resultado.get("proveedor_llm")
+                pregunta_efectiva = resultado.get("pregunta_efectiva")
+
+                if pregunta_efectiva and pregunta_efectiva != user_query:
+                    st.caption(f"💡 *Consulta contextualizada en el diálogo:* {pregunta_efectiva}")
 
                 st.markdown(respuesta_texto)
                 render_modo_respuesta(modo, proveedor=proveedor_llm)
@@ -1229,3 +1247,84 @@ with tab_canmat:
         )
     else:
         st.warning(f"No se encontró información en el catálogo base para '{busqueda_farmaco}'.")
+
+
+# =============================================================================
+# PESTAÑA 5: Calculadora Renal y Ajustes Posológicos (Litio / Psicofármacos)
+# =============================================================================
+with tab_calc:
+    st.markdown("#### Calculadora Clínica de Función Renal y Ajuste de Psicofármacos")
+    st.caption(
+        "Herramienta determinista basada en ecuaciones oficiales (CKD-EPI 2021 y Cockcroft-Gault) "
+        "para la monitorización y dosificación segura de psicofármacos de estrecho margen terapéutico."
+    )
+
+    if not CALCULATORS_AVAILABLE:
+        st.error("El módulo de cálculo clínico no está disponible. Revisa la instalación.")
+    else:
+        col_c1, col_c2 = st.columns([1, 1.2])
+
+        with col_c1:
+            st.markdown("##### Parámetros del Paciente")
+            edad = st.number_input("Edad (años):", min_value=18, max_value=110, value=58, step=1)
+            sexo_str = st.radio("Sexo biológico:", options=["Hombre", "Mujer"], horizontal=True)
+            es_mujer = (sexo_str == "Mujer")
+            peso = st.number_input("Peso corporal (kg):", min_value=30.0, max_value=250.0, value=74.0, step=0.5)
+            creatinina = st.number_input("Creatinina sérica (mg/dL):", min_value=0.2, max_value=15.0, value=1.3, step=0.05, format="%.2f")
+
+            st.markdown("---")
+            st.markdown("##### Fármaco a Evaluar")
+            farmaco_sel = st.selectbox(
+                "Seleccionar psicofármaco:",
+                options=[
+                    "Carbonato de Litio (Plenur)",
+                    "Ácido Valproico / Divalproato (Depakine)",
+                    "Lamotrigina (Lamictal)",
+                    "Risperidona (Risperdal)"
+                ]
+            )
+
+            litemia_val = None
+            if "Litio" in farmaco_sel:
+                medir_litemia = st.checkbox("¿Dispone de valor reciente de Litemia (mEq/L)?", value=True)
+                if medir_litemia:
+                    litemia_val = st.number_input(
+                        "Litemia sérica (mEq/L, muestra a las 12h post-dosis):",
+                        min_value=0.1, max_value=4.0, value=0.75, step=0.05, format="%.2f"
+                    )
+
+        with col_c2:
+            st.markdown("##### Estimación de Función Renal")
+            res_ckd = calcular_ckd_epi_2021(edad_anos=edad, creatinina_mg_dl=creatinina, es_mujer=es_mujer)
+            res_cg = calcular_cockcroft_gault(edad_anos=edad, peso_kg=peso, creatinina_mg_dl=creatinina, es_mujer=es_mujer)
+
+            kpi_e1, kpi_e2, kpi_e3 = st.columns(3)
+            kpi_e1.metric("eGFR (CKD-EPI 2021)", f"{res_ckd['egfr_ml_min_173m2']}", "mL/min/1.73m²")
+            kpi_e2.metric("Estadio KDIGO", res_ckd["estadio_kdigo"], res_ckd["descripcion_estadio"])
+            kpi_e3.metric("CrCl (Cockcroft-Gault)", f"{res_cg['crcl_ml_min']}", "mL/min")
+
+            # Evaluación clínica del fármaco
+            res_ajuste = evaluar_ajuste_renal_farmaco(
+                farmaco=farmaco_sel,
+                egfr_o_crcl=res_ckd["egfr_ml_min_173m2"],
+                litemia_actual_meq_l=litemia_val
+            )
+
+            st.markdown("##### Conducta Clínica y Pauta de Dosificación")
+            nivel = res_ajuste["nivel_alerta"]
+            if nivel in {"CRÍTICO", "CONTRAINDICADO"}:
+                st.error(f"**Nivel de Alerta: {nivel}** — {res_ajuste['recomendacion_clinica']}")
+            elif nivel == "ALERTA":
+                st.warning(f"**Nivel de Alerta: {nivel}** — {res_ajuste['recomendacion_clinica']}")
+            elif nivel == "PRECAUCIÓN":
+                st.info(f"**Nivel de Alerta: {nivel}** — {res_ajuste['recomendacion_clinica']}")
+            else:
+                st.success(f"**Nivel: {nivel}** — {res_ajuste['recomendacion_clinica']}")
+
+            st.markdown(f"- **Pauta de Dosificación Sugerida:** `{res_ajuste['ajuste_dosis']}`")
+            st.markdown(f"- **Frecuencia de Monitorización Analítica:** `{res_ajuste['frecuencia_monitorizacion']}`")
+            st.markdown(f"- **Interacciones Renales Críticas:** `{res_ajuste['interacciones_renales_criticas']}`")
+
+            if res_ajuste.get("analisis_litemia"):
+                al_lit = res_ajuste["analisis_litemia"]
+                st.markdown(f"- **Evaluación de Litemia ({al_lit['litemia_registrada']} mEq/L):** {al_lit['estado_clinico']}")

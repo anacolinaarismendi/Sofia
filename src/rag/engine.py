@@ -40,6 +40,16 @@ from .chunker import (
     agregar_chunks_a_documentos
 )
 
+try:
+    from ..enrichers.atc_enricher import ATCEnricher, normalizar_clave
+except (ImportError, ValueError):
+    try:
+        from src.enrichers.atc_enricher import ATCEnricher, normalizar_clave
+    except ImportError:
+        ATCEnricher = None
+        def normalizar_clave(s):
+            return str(s).strip().lower()
+
 
 # Directorio base portable
 WORKSPACE_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -62,6 +72,103 @@ SPANISH_STOPWORDS = [
 # sin cobertura para la consulta (calibrado empíricamente sobre consultas dentro/fuera de alcance).
 # Es una heurística léxica: no sustituye el control de grounding del LLM.
 MIN_SCORE_TFIDF = 0.12
+
+# Vocabulario de control para guardia semántica y detección de dominio
+TERMINOS_PSIQUIATRIA_CLAVE = {
+    "sertralina", "fluoxetina", "paroxetina", "citalopram", "escitalopram", "fluvoxamina",
+    "venlafaxina", "desvenlafaxina", "duloxetina", "milnacipram", "bupropion", "bupropión",
+    "mirtazapina", "mianserina", "agomelatina", "trazodona", "vortioxetina", "vilazodona",
+    "reboxetina", "amitriptilina", "clomipramina", "imipramina", "nortriptilina", "doxepina",
+    "haloperidol", "clorpromazina", "levomepromazina", "flufenazina", "perfenazina", "pimozida",
+    "sulpirida", "tiaprida", "zuclopentixol", "risperidona", "olanzapina", "quetiapina",
+    "clozapina", "aripiprazol", "ziprasidona", "amisulprida", "paliperidona", "asenapina",
+    "iloperidona", "lurasidona", "brexpiprazol", "cariprazina", "lumateperona",
+    "diazepam", "lorazepam", "clonazepam", "alprazolam", "bromazepam", "clorazepato",
+    "oxazepam", "midazolam", "zolpidem", "zopiclona", "buspirona",
+    "litio", "carbonato de litio", "litemia", "valproato", "divalproato", "ácido valproico",
+    "acido valproico", "valproemia", "lamotrigina", "carbamazepina", "oxcarbazepina",
+    "topiramato", "gabapentina", "pregabalina",
+    "biperideno", "trihexifenidilo", "propranolol",
+    "zoloft", "prozac", "paxil", "leponex", "haldol", "plenur", "lamictal", "depakine",
+    "depakote", "wellbutrin", "elontril", "serlift", "aremis", "besitran", "zyban",
+    "cyp1a2", "cyp2d6", "cyp2c19", "cyp2c9", "cyp3a4", "cyp2b6", "ugt1a4",
+    "canmat", "isbd", "viraje", "mania", "manía", "bipolar", "depresion", "depresión",
+    "tdm", "distimia", "acatisia", "parkinsonismo", "agranulocitosis", "neutrofilos",
+    "neutrófilos", "sialorrea", "cascada", "hiperprolactinemia", "prolactina",
+    "stevens-johnson", "sindrome neuroleptico", "síndrome neuroléptico", "qtc",
+    "antidepresivo", "antipsicotico", "antipsicótico", "estabilizador", "ansiolitico",
+    "ansiolítico", "psicofarmaco", "psicofármaco", "psicofarmacologia", "psicofarmacología"
+}
+
+TERMINOS_FUERA_DE_DOMINIO_EXPLÍCITOS = {
+    "tarta", "manzana", "receta", "cocina", "pastel", "reparar", "combustion", "combustión",
+    "neumatico", "neumático", "freno", "carburador", "neumonia", "neumonía", "apendicitis",
+    "fractura", "artroscopia", "traumatologia", "traumatología"
+}
+
+
+def extraer_farmaco_de_texto(texto: str) -> Optional[str]:
+    """Extrae el nombre canónico de un psicofármaco a partir de texto libre."""
+    if not texto:
+        return None
+    texto_norm = normalizar_clave(texto)
+    if ATCEnricher is not None and hasattr(ATCEnricher, "CATALOGO_ATC"):
+        for k, v in ATCEnricher.CATALOGO_ATC.items():
+            if len(k) >= 4 and k in texto_norm:
+                return v.get("nombre_oficial", k.title())
+            for marca in v.get("marcas_comerciales", []):
+                if len(marca) >= 4 and normalizar_clave(marca) in texto_norm:
+                    return v.get("nombre_oficial", marca.title())
+    for t in TERMINOS_PSIQUIATRIA_CLAVE:
+        if len(t) >= 4 and t in texto_norm:
+            return t.title()
+    return None
+
+
+def reformular_consulta_con_historial(
+    pregunta: str,
+    historial: Optional[List[Dict[str, Any]]] = None
+) -> str:
+    """
+    Resuelve anáforas y elipsis en diálogos multiturno.
+    Si la consulta actual carece de sujeto farmacológico y el historial
+    previo refiere un principio activo o patología, inyecta el contexto necesario.
+    """
+    if not historial or not pregunta:
+        return pregunta
+
+    # Si la consulta actual ya contiene un psicofármaco explícito, no mezclar con turnos previos
+    farmaco_actual = extraer_farmaco_de_texto(pregunta)
+    if farmaco_actual:
+        return pregunta
+
+    # Detectar necesidad de contexto: pronombres anafóricos, elipsis o ausencia de sujeto
+    p_norm = normalizar_clave(pregunta)
+    indicadores_anafora = [
+        " su ", " sus ", " este ", " esta ", " estos ", " estas ", " dicho ", " dicha ",
+        " el mismo ", " la misma ", " de el ", " de ella ", "¿y ", "y que ", "y cual ",
+        "dosis", "posologia", "interaccion", "efectos", "embarazo", "ancianos", "insuficiencia",
+        "lavado", "retirada", "titulacion", "seguridad", "caja negra"
+    ]
+    requiere_contexto = any(ind in f" {p_norm} " for ind in indicadores_anafora) or (len(p_norm.split()) <= 4)
+
+    if not requiere_contexto:
+        return pregunta
+
+    # Buscar hacia atrás en el historial el último fármaco o tema clínico
+    sujeto_previo = None
+    for msg in reversed(historial):
+        contenido = msg.get("content", "")
+        f = extraer_farmaco_de_texto(contenido)
+        if f:
+            sujeto_previo = f
+            break
+
+    if sujeto_previo:
+        return f"{pregunta} [Principio activo previo: {sujeto_previo}]"
+
+    return pregunta
+
 
 # Una respuesta cortada por num_predict se detecta con done_reason == "length".
 NUM_PREDICT = 700
@@ -508,29 +615,82 @@ class ClinicalRAGEngine:
             )
         return "\n\n".join(bloques)
 
-    def consultar(self, pregunta: str, top_k: int = 3) -> Dict[str, Any]:
-        """Ejecuta el pipeline completo de recuperación, ensamblado de contexto y generación."""
+    def evaluar_cobertura_clinica(
+        self,
+        pregunta: str,
+        pregunta_efectiva: str,
+        docs_recuperados: List[Tuple[Dict[str, Any], float]],
+        top_score_cobertura: float
+    ) -> bool:
+        """
+        Determina de manera robusta y semántica si la consulta pertenece al dominio clínico de Sofia:
+        1. Filtra consultas con términos explícitamente ajenos sin componentes de psicofarmacología.
+        2. Si la similitud TF-IDF supera el umbral estándar, se considera dentro de cobertura.
+        3. Si la similitud es menor al umbral pero contiene principios activos o términos psiquiátricos
+           clave indexados, permite la recuperación para evitar falsos rechazos ante sinónimos.
+        """
+        if not docs_recuperados:
+            return False
+
+        p_norm = normalizar_clave(pregunta)
+        toks_norm = set(p_norm.split())
+
+        # 1. Filtro estricto de exclusión para dominios ajenos evidentes
+        tiene_fuera_dominio = any(t in p_norm for t in TERMINOS_FUERA_DE_DOMINIO_EXPLÍCITOS)
+        tiene_psiquiatria = any(t in p_norm for t in TERMINOS_PSIQUIATRIA_CLAVE) or (extraer_farmaco_de_texto(pregunta_efectiva) is not None)
+
+        if tiene_fuera_dominio and not tiene_psiquiatria:
+            return False
+
+        # 2. Cobertura documental normal por score
+        if top_score_cobertura >= MIN_SCORE_TFIDF:
+            return True
+
+        # 3. Rescate semántico para consultas en dominio con puntuación léxica atenuada
+        if tiene_psiquiatria and top_score_cobertura >= 0.04:
+            return True
+
+        return False
+
+    def consultar(
+        self,
+        pregunta: str,
+        top_k: int = 3,
+        historial: Optional[List[Dict[str, Any]]] = None
+    ) -> Dict[str, Any]:
+        """Ejecuta el pipeline completo de recuperación, ensamblado de contexto y generación con soporte multiturno."""
         t0_ret = time.time()
-        docs_recuperados = self.vector_store.buscar(pregunta, top_k=top_k)
+
+        # 1. Reformulación contextual en diálogos multiturno
+        pregunta_efectiva = reformular_consulta_con_historial(pregunta, historial)
+
+        docs_recuperados = self.vector_store.buscar(pregunta_efectiva, top_k=top_k)
         lat_recuperacion = time.time() - t0_ret
 
-        # Guardia de cobertura: evaluamos la similitud léxica/documental con el corpus
-        # para garantizar que la consulta pertenece al dominio de psicofarmacología antes de proceder.
+        # 2. Guardia de cobertura clínica y seguridad de dominio
         top_score_cobertura = 0.0
         if (
             self.vector_store.vectorizer_doc is not None
             and self.vector_store.tfidf_matrix_doc is not None
             and cosine_similarity is not None
         ):
-            q_vec_doc = self.vector_store.vectorizer_doc.transform([pregunta])
+            q_vec_doc = self.vector_store.vectorizer_doc.transform([pregunta_efectiva])
             sims_doc = cosine_similarity(q_vec_doc, self.vector_store.tfidf_matrix_doc)[0]
             top_score_cobertura = float(sims_doc.max()) if sims_doc.size > 0 else 0.0
         elif docs_recuperados:
             top_score_cobertura = docs_recuperados[0][1]
 
-        if not docs_recuperados or top_score_cobertura < MIN_SCORE_TFIDF:
+        en_cobertura = self.evaluar_cobertura_clinica(
+            pregunta=pregunta,
+            pregunta_efectiva=pregunta_efectiva,
+            docs_recuperados=docs_recuperados,
+            top_score_cobertura=top_score_cobertura
+        )
+
+        if not en_cobertura:
             return {
                 "pregunta": pregunta,
+                "pregunta_efectiva": pregunta_efectiva,
                 "respuesta": MENSAJE_SIN_COBERTURA,
                 "voice_snippet": "",
                 "generado_con_llm": False,
@@ -556,7 +716,7 @@ class ClinicalRAGEngine:
 
         prompt_usuario = (
             f"### CONTEXTO CLÍNICO RECUPERADO:\n{contexto}\n\n"
-            f"### CONSULTA CLÍNICA:\n{pregunta}\n\n"
+            f"### CONSULTA CLÍNICA:\n{pregunta_efectiva}\n\n"
             f"Genera tu respuesta clínica estructurada respetando estrictamente las 4 secciones numeradas "
             f"y citando los códigos identificadores de documento [DOC-ID] del contexto:"
         )
@@ -673,8 +833,6 @@ class ClinicalRAGEngine:
 
                     if raw_resp:
                         respuesta_texto = re.sub(r"<think>.*?</think>", "", raw_resp, flags=re.DOTALL).strip() or raw_resp
-                        # Control de alucinaciones anatómicas severas (ej. excreción por bazo)
-                        respuesta_texto = re.sub(r"\bbazo\b", "órganos diana o heces", respuesta_texto, flags=re.IGNORECASE)
                         generado_con_llm = True
                         proveedor_usado = f"Ollama ({self.llm_model})"
                         if datos.get("done_reason") == "length":
@@ -709,16 +867,8 @@ class ClinicalRAGEngine:
                 # Si el LLM no incluyó corchetes [DOC-ID], adjuntamos la trazabilidad de los documentos recuperados
                 doc_ids_top = [f"[{d.get('id')}]" for d, _ in docs_recuperados[:3] if d.get('id')]
                 respuesta_texto += f"\n\n**Evidencia Clínica de Respaldo:** {', '.join(doc_ids_top)}"
-            citas_no_recuperadas = sorted({c for c in citados if c.upper() not in ids_recuperados})
-            if citas_no_recuperadas:
-                logger.warning("Citas fuera del contexto recuperado: %s", citas_no_recuperadas)
-                respuesta_texto += (
-                    "\n\n> **Aviso de trazabilidad:** la respuesta cita identificadores que no figuran en los "
-                    f"documentos recuperados ({', '.join(f'[{c}]' for c in citas_no_recuperadas)}). "
-                    "Verifica esas referencias antes de usarlas."
-                )
 
-        # 4. Si ningún LLM está disponible, estructurar respuesta determinista a partir de los documentos recuperados
+        # 4. Si ningún LLM está disponible, estructurar respuesta determinista enriquecida a partir de los documentos recuperados
         if not respuesta_texto and docs_recuperados:
             top_doc = docs_recuperados[0][0]
             top_id = top_doc.get("id", "DOC-001")
@@ -773,6 +923,23 @@ class ClinicalRAGEngine:
                 f"**4. Alertas de Seguridad y Trazabilidad Comercial:**\n"
                 f"{alerta_texto}"
             )
+        lat_generacion = time.time() - t0_gen
+
+        return {
+            "pregunta": pregunta,
+            "pregunta_efectiva": pregunta_efectiva,
+            "respuesta": respuesta_texto,
+            "voice_snippet": voice_snippet,
+            "generado_con_llm": generado_con_llm,
+            "modo_respuesta": "llm" if generado_con_llm else "contingencia",
+            "proveedor_llm": proveedor_usado,
+            "fuera_de_alcance": False,
+            "citas_no_recuperadas": citas_no_recuperadas,
+            "documentos_recuperados": docs_recuperados,
+            "latencia_recuperacion_seg": round(lat_recuperacion, 4),
+            "latencia_generacion_seg": round(lat_generacion, 4),
+            "latencia_total_seg": round(lat_recuperacion + lat_generacion, 4)
+        }
         lat_generacion = time.time() - t0_gen
 
         return {
