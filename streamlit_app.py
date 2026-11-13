@@ -425,8 +425,7 @@ def render_presentation_tab():
         "2. Cobertura Farmacológica y Fusión ATC",
         "3. Seguridad Médica y Citocromos CYP450",
         "4. Directrices CANMAT y Normalización",
-        "5. Evaluación Formal del RAG (N=22)",
-        "Speech de Exposición (5 Minutos)"
+        "5. Evaluación Formal del RAG (N=22)"
     ]
 
     col_nav, _ = st.columns([4, 1])
@@ -560,53 +559,6 @@ def render_presentation_tab():
             st.dataframe(df_bench, use_container_width=True, hide_index=True)
         else:
             st.info("El reporte completo de benchmark está disponible en data/processed/rag_evaluation_report.json.")
-
-    # Pestaña Extra: Speech Completo de Exposición
-    elif diapositiva_sel == diapositivas[5]:
-        st.markdown("#### Guion Completo de Exposición Oral (5 Minutos)")
-        st.caption("Guion con acotaciones visuales, tiempos y énfasis para ensayar o leer en tu presentación.")
-
-        st.markdown("""
-        ### Minuto 0:00 – 0:45 | Introducción y el Problema
-        > *"Buenos días a todos. En psiquiatría y salud mental, una decisión farmacológica errónea puede provocar una urgencia médica o una complicación iatrogénica grave. Sin embargo, cuando los clínicos intentan consultar modelos de inteligencia artificial comercial, se enfrentan a un riesgo inaceptable: **las alucinaciones médicas**.
-        > Para resolver este problema creamos **Sofia: un asistente clínico y sistema RAG especializado en psicofarmacología basada en la evidencia**. Sofia no improvisa: opera bajo una política estricta de Grounding, respondiendo únicamente a partir de fuentes canónicas consolidadas y trazando cada afirmación con identificadores documentales auditables."*
-
-        ---
-
-        ### Minuto 0:45 – 1:45 | Diapositiva 1: Corpus e Integridad
-        > *"El primer mandamiento de Sofia es el rigor: auditamos el 100% de las tablas con **cero valores nulos**. Consolidamos **244 documentos padre** balanceados entre las guías CANMAT (31.6%), el catálogo de equivalencias comerciales (27%), las monografías clínicas de Jufe (23.4%) y la farmacocinética de Stahl.
-        > A nivel de procesamiento de lenguaje natural, descompusimos estos documentos en **702 fragmentos semánticos o chunks**. Como muestra la distribución, la mediana se sitúa en apenas **68 tokens** y el valor máximo absoluto en **590 tokens**. Esto significa que el 100% de los fragmentos caben holgadamente dentro de la ventana de contexto de los modelos de embeddings, eliminando por completo cualquier truncamiento léxico."*
-
-        ---
-
-        ### Minuto 1:45 – 2:45 | Diapositiva 2: Cobertura ATC y Fusión Multifuente
-        > *"Estandarizamos toda la base farmacológica mediante la clasificación oficial **ATC de la Organización Mundial de la Salud**. En nuestro gráfico observamos cobertura de 20 antidepresivos, 15 antipsicóticos y 8 estabilizadores del ánimo.
-        > Mediante análisis de solapamiento trifásico identificamos un **núcleo común de 19 psicofármacos esenciales** —como Litio, Clozapina, Haloperidol o Sertralina— compartidos por Jufe, Stahl y CANMAT. Además, el 100% de los fármacos con perfil cinético de Stahl están contenidos en Jufe.
-        > En la detección de valores atípicos mediante el método IQR, observamos una mediana de 8 eventos por fármaco. Aunque Clozapina y Haloperidol superaron el límite estadístico con más de 20 eventos, aplicamos un **criterio clínico estricto de no exclusión**: en farmacovigilancia, un dato atípico no es basura estadística, es un perfil toxicológico que el médico necesita conocer."*
-
-        ---
-
-        ### Minuto 2:45 – 3:45 | Diapositiva 3: Seguridad y Citocromos CYP450
-        > *"Clasificamos más de 690 eventos adversos bajo vocabulario canónico. Tanto Jufe como Stahl coinciden de forma consistente en que aproximadamente un **40% de los eventos reportados corresponden a toxicidad severa o de riesgo vital**, lo que valida la coherencia metodológica de los extractores.
-        > A la derecha observamos la **Matriz Enzimática del Citocromo P450**: Sofia cruza 15 variables enzimáticas para prevenir colisiones críticas en urgencias: por ejemplo, la potente inhibición de CYP2D6 por Fluoxetina o Paroxetina cuando se coadministra con Risperidona, o el riesgo de duplicación plasmática de Lamotrigina al interactuar con Ácido Valproico. Además, Sofia incorpora un detector determinista de **cascadas de prescripción** para alertar cuando un síntoma nuevo es en realidad un efecto adverso mal manejado."*
-
-        ---
-
-        ### Minuto 3:45 – 4:30 | Diapositiva 4: Guías CANMAT y Normalización
-        > *"Tabulamos **67 directrices de las guías CANMAT e ISBD 2018**. Observamos el predominio de evidencia de **Nivel 1** en primeras líneas, así como alertas de daño de máximo nivel que prohíben, por ejemplo, el uso de antidepresivos en monoterapia en depresión bipolar por riesgo inminente de viraje maníaco.
-        > A nivel estadístico, la longitud de documentos presentaba un sesgo pronunciado de 2.22 que estabilizamos a 0.29 con la transformación log1p, confirmando una correlación lineal casi perfecta (r=0.99) entre longitud y tokens sin colinealidades espurias."*
-
-        ---
-
-        ### Minuto 4:30 – 5:00 | Diapositiva 5: Benchmark RAG y Cierre
-        > *"Todo este pipeline de datos se sometió a un **benchmark formal sobre 22 escenarios clínicos estructurados**:
-        > - **100% de Context Recall@3**: en todos los casos el documento médico exacto se recuperó en el top 3.
-        > - **MRR de 1.0**: ordenación óptima de búsqueda.
-        > - **95.5% de Fidelidad factual**: garantizando respuestas sin alucinaciones.
-        > - **100% de Tasa de Abstención**: declarando su límite ante consultas fuera de dominio médico.
-        > 
-        > En conclusión: Sofia no es un chat improvisado; es un sistema robusto de soporte clínico donde cada número, cada chunk y cada interacción ha sido auditado desde la ciencia de datos y la medicina basada en la evidencia. Muchas gracias."*
-        """)
 
 tab_pres, tab_chat, tab_cyp, tab_cascade, tab_canmat, tab_calc = st.tabs([
     "Presentación y Hallazgos de EDA",
